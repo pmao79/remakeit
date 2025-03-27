@@ -1,11 +1,11 @@
 
 import React from 'react';
-import RevealSection from './ui/reveal-section';
-import { Check, Shield } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Check, Shield } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { RevealSection } from '@/components/ui/reveal-section';
 
 const Pricing: React.FC = () => {
   const { t, language } = useLanguage();
@@ -33,7 +33,7 @@ const Pricing: React.FC = () => {
               <CardHeader className="pb-4">
                 <CardTitle className="text-xl text-white">{t('pricing.basicTitle')}</CardTitle>
                 <div className="mt-2">
-                  <span className="text-4xl font-bold text-brand-teal">{t('pricing.basicPrice')}</span>
+                  <span className="text-4xl font-bold text-brand-teal whitespace-nowrap">{t('pricing.basicPrice')}</span>
                   <span className="text-gray-400 ml-2 text-sm">{t('pricing.onetime')}</span>
                 </div>
               </CardHeader>
@@ -76,13 +76,13 @@ const Pricing: React.FC = () => {
           {/* Premium Plan */}
           <RevealSection delay={200} className="h-full">
             <Card className="h-full bg-background/50 border-brand-teal/40 shadow-lg shadow-brand-teal/5 relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-brand-teal text-black text-xs font-bold px-3 py-1">
+              <div className="absolute top-0 right-0 bg-brand-teal text-black px-3 py-1 text-xs font-bold">
                 {language === 'sv' ? 'Populärast' : 'Most Popular'}
               </div>
               <CardHeader className="pb-4">
                 <CardTitle className="text-xl text-white">{t('pricing.premiumTitle')}</CardTitle>
                 <div className="mt-2">
-                  <span className="text-4xl font-bold text-brand-teal">{t('pricing.premiumPrice')}</span>
+                  <span className="text-4xl font-bold text-brand-teal whitespace-nowrap">{t('pricing.premiumPrice')}</span>
                   <span className="text-gray-400 ml-2 text-sm">{t('pricing.onetime')}</span>
                 </div>
               </CardHeader>
@@ -140,7 +140,7 @@ const Pricing: React.FC = () => {
               <CardHeader className="pb-4">
                 <CardTitle className="text-xl text-white">{t('pricing.enterpriseTitle')}</CardTitle>
                 <div className="mt-2">
-                  <span className="text-4xl font-bold text-brand-teal">{t('pricing.enterprisePrice')}</span>
+                  <span className="text-4xl font-bold text-brand-teal whitespace-nowrap">{t('pricing.enterprisePrice')}</span>
                   <span className="text-gray-400 ml-2 text-sm">{t('pricing.onetime')}</span>
                 </div>
               </CardHeader>

@@ -4,8 +4,24 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Footer: React.FC = () => {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const currentYear = new Date().getFullYear();
+  
+  // Contact information based on language
+  const contactInfo = {
+    sv: {
+      phone: '0708-62 52 53',
+      email: 'info@remakeit.se',
+      hours: 'Måndag - Fredag: 9:00 - 17:00'
+    },
+    en: {
+      phone: '(+46) 708-62 52 53',
+      email: 'hello@remakeit.com',
+      hours: 'Monday - Friday: 9am - 5pm'
+    }
+  };
+
+  const current = contactInfo[language];
   
   return (
     <footer className="bg-secondary/50 border-t border-white/5">
@@ -79,19 +95,19 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li className="text-gray-400">
                 <span className="block">{t('footer.phone')}</span>
-                <a href="tel:5551234567" className="text-brand-teal hover:text-brand-teal/80 transition-colors">
-                  (555) 123-4567
+                <a href={`tel:${current.phone.replace(/[^0-9+]/g, '')}`} className="text-brand-teal hover:text-brand-teal/80 transition-colors">
+                  {current.phone}
                 </a>
               </li>
               <li className="text-gray-400">
                 <span className="block">{t('footer.email')}</span>
-                <a href="mailto:hello@remakeit.com" className="text-brand-teal hover:text-brand-teal/80 transition-colors">
-                  hello@remakeit.com
+                <a href={`mailto:${current.email}`} className="text-brand-teal hover:text-brand-teal/80 transition-colors">
+                  {current.email}
                 </a>
               </li>
               <li className="text-gray-400">
                 <span className="block">{t('footer.hours')}</span>
-                {t('footer.hours.value')}
+                {current.hours}
               </li>
             </ul>
           </div>
@@ -116,3 +132,4 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
+

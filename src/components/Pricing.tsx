@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -130,7 +129,7 @@ const Pricing: React.FC = () => {
                 <div className="mt-1 flex items-center">
                   <Star className="text-yellow-400 h-4 w-4 mr-1" />
                   <p className="text-sm text-yellow-400 font-medium">
-                    {language === 'sv' ? 'Begränsat erbjudande!' : 'Limited offer!'}
+                    {language === 'sv' ? 'Tidsbegränsat erbjudande!' : 'Limited time offer!'}
                   </p>
                 </div>
               </CardHeader>

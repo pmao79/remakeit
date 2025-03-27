@@ -3,8 +3,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Hero: React.FC = () => {
+  const { t } = useLanguage();
+  
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-20">
       {/* Background elements */}
@@ -20,23 +23,23 @@ const Hero: React.FC = () => {
           <div className="flex flex-col space-y-8 text-center lg:text-left">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-tight tracking-tight">
-                Your Business Deserves a Website That <span className="text-brand-teal">Works</span> – Let's <span className="text-brand-teal">Remake</span> It!
+                {t('hero.title')}
               </h1>
               
               <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto lg:mx-0">
-                Outdated website? Or none at all? We build modern, SEO-optimized websites that convert visitors into customers.
+                {t('hero.subtitle')}
               </p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button asChild size="lg" className="bg-brand-teal text-black hover:bg-brand-teal/90 text-lg font-medium">
                 <Link to="/contact">
-                  Get a Free Website Mockup
+                  {t('hero.cta.primary')}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="border-white/20 hover:bg-white/5 text-lg font-medium">
-                <Link to="/portfolio">View Our Work</Link>
+                <Link to="/portfolio">{t('hero.cta.secondary')}</Link>
               </Button>
             </div>
           </div>
@@ -53,9 +56,9 @@ const Hero: React.FC = () => {
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center mt-8">
                   <div className="text-center">
-                    <p className="text-gray-400 text-sm mb-2">Before</p>
+                    <p className="text-gray-400 text-sm mb-2">Före</p>
                     <div className="w-64 h-20 bg-gray-800 flex items-center justify-center">
-                      <p className="text-gray-500">Outdated Website</p>
+                      <p className="text-gray-500">Föråldrad webbplats</p>
                     </div>
                   </div>
                 </div>
@@ -69,9 +72,9 @@ const Hero: React.FC = () => {
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center mt-8">
                     <div className="text-center">
-                      <p className="text-brand-teal text-sm mb-2">After</p>
+                      <p className="text-brand-teal text-sm mb-2">Efter</p>
                       <div className="w-64 h-20 bg-gray-800/60 border border-brand-teal/30 rounded flex items-center justify-center">
-                        <p className="text-brand-teal">Modern Website</p>
+                        <p className="text-brand-teal">Modern webbplats</p>
                       </div>
                     </div>
                   </div>

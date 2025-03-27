@@ -1,13 +1,16 @@
 
 import React from 'react';
 import RevealSection from './ui/reveal-section';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const ProcessStep: React.FC<{
   number: number;
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
   delay: number;
-}> = ({ number, title, description, delay }) => {
+}> = ({ number, titleKey, descriptionKey, delay }) => {
+  const { t } = useLanguage();
+  
   return (
     <RevealSection delay={delay} className="relative">
       <div className="relative z-10 glass-panel rounded-lg p-8 h-full">
@@ -15,8 +18,8 @@ const ProcessStep: React.FC<{
           {number}
         </div>
         <div className="pt-4">
-          <h3 className="text-xl font-semibold font-display mb-4 text-white">{title}</h3>
-          <p className="text-gray-300">{description}</p>
+          <h3 className="text-xl font-semibold font-display mb-4 text-white">{t(titleKey)}</h3>
+          <p className="text-gray-300">{t(descriptionKey)}</p>
         </div>
       </div>
       {number < 4 && (
@@ -31,6 +34,8 @@ const ProcessStep: React.FC<{
 };
 
 const Process: React.FC = () => {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-20 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/3 w-96 h-96 bg-brand-purple/20 blur-[150px] rounded-full pointer-events-none"></div>
@@ -39,10 +44,10 @@ const Process: React.FC = () => {
         <RevealSection>
           <div className="text-center mb-20">
             <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
-              How It <span className="text-brand-teal">Works</span>
+              {t('process.title')}
             </h2>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Our transparent process is designed to give you confidence at every step. Here's what to expect:
+              {t('process.subtitle')}
             </p>
           </div>
         </RevealSection>
@@ -50,26 +55,26 @@ const Process: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8 relative">
           <ProcessStep
             number={1}
-            title="Discovery"
-            description="We find businesses that need a website upgrade and understand your specific needs and goals."
+            titleKey="process.step1"
+            descriptionKey="process.step1.description"
             delay={100}
           />
           <ProcessStep
             number={2}
-            title="Free Mockup"
-            description="We create a free mockup that's approximately 70% complete so you can see exactly what you're getting."
+            titleKey="process.step2"
+            descriptionKey="process.step2.description"
             delay={200}
           />
           <ProcessStep
             number={3}
-            title="Approval & Content"
-            description="You approve the design and provide any additional content needed to complete the website."
+            titleKey="process.step3"
+            descriptionKey="process.step3.description"
             delay={300}
           />
           <ProcessStep
             number={4}
-            title="Launch"
-            description="We finalize the website, optimize it for search engines, and launch it to the world!"
+            titleKey="process.step4"
+            descriptionKey="process.step4.description"
             delay={400}
           />
         </div>

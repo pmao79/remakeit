@@ -3,11 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import LanguageSwitcher from '@/components/ui/language-switcher';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Nav: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -53,7 +56,7 @@ const Nav: React.FC = () => {
                 isActive('/') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
-              Home
+              {t('nav.home')}
             </Link>
             <Link 
               to="/about" 
@@ -61,7 +64,7 @@ const Nav: React.FC = () => {
                 isActive('/about') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
-              About
+              {t('nav.about')}
             </Link>
             <Link 
               to="/portfolio" 
@@ -69,7 +72,7 @@ const Nav: React.FC = () => {
                 isActive('/portfolio') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
-              Portfolio
+              {t('nav.portfolio')}
             </Link>
             <Link 
               to="/contact" 
@@ -77,22 +80,26 @@ const Nav: React.FC = () => {
                 isActive('/contact') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
-              Contact
+              {t('nav.contact')}
             </Link>
           </div>
+          <LanguageSwitcher />
           <Button asChild className="bg-brand-teal text-black hover:bg-brand-teal/90 transition-all">
-            <Link to="/contact">Get Free Mockup</Link>
+            <Link to="/contact">{t('nav.cta')}</Link>
           </Button>
         </div>
 
         {/* Mobile Menu Button */}
-        <button 
-          onClick={toggleMenu} 
-          className="md:hidden text-white"
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="md:hidden flex items-center">
+          <LanguageSwitcher />
+          <button 
+            onClick={toggleMenu} 
+            className="ml-4 text-white"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu Dropdown */}
@@ -106,28 +113,28 @@ const Nav: React.FC = () => {
             to="/"
             className={`text-lg font-medium py-2 ${isActive('/') ? 'text-brand-teal' : 'text-white'}`}
           >
-            Home
+            {t('nav.home')}
           </Link>
           <Link 
             to="/about"
             className={`text-lg font-medium py-2 ${isActive('/about') ? 'text-brand-teal' : 'text-white'}`}
           >
-            About
+            {t('nav.about')}
           </Link>
           <Link 
             to="/portfolio"
             className={`text-lg font-medium py-2 ${isActive('/portfolio') ? 'text-brand-teal' : 'text-white'}`}
           >
-            Portfolio
+            {t('nav.portfolio')}
           </Link>
           <Link 
             to="/contact"
             className={`text-lg font-medium py-2 ${isActive('/contact') ? 'text-brand-teal' : 'text-white'}`}
           >
-            Contact
+            {t('nav.contact')}
           </Link>
           <Button asChild className="mt-4 w-full bg-brand-teal text-black hover:bg-brand-teal/90">
-            <Link to="/contact">Get Free Mockup</Link>
+            <Link to="/contact">{t('nav.cta')}</Link>
           </Button>
         </div>
       </div>

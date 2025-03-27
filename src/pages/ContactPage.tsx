@@ -4,8 +4,11 @@ import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
 import RevealSection from '@/components/ui/reveal-section';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const ContactPage: React.FC = () => {
+  const { t } = useLanguage();
+  
   // Scroll to top when the page loads
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -22,10 +25,10 @@ const ContactPage: React.FC = () => {
           <RevealSection>
             <div className="text-center mb-16">
               <h1 className="text-4xl md:text-5xl font-bold font-display mb-6">
-                Get in <span className="text-brand-teal">Touch</span>
+                {t('contact.title')}
               </h1>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Ready to transform your online presence? Fill out the form below to get started with a free website mockup.
+                {t('contact.subtitle')}
               </p>
             </div>
           </RevealSection>

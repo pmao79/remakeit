@@ -5,14 +5,17 @@ import RevealSection from './ui/reveal-section';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const BeforeAfter: React.FC = () => {
+  const { t } = useLanguage();
+  
   // We're using placeholder images here. In a real implementation, you'd use actual before/after images
   const examples = [
     {
       id: 1,
-      title: "Local Restaurant",
-      description: "Transformed an outdated static site into a modern, mobile-friendly experience with online ordering.",
+      titleKey: "before-after.example.title",
+      descriptionKey: "before-after.example.description",
       before: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&q=80",
       after: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=800&q=80"
     }
@@ -26,10 +29,10 @@ const BeforeAfter: React.FC = () => {
         <RevealSection>
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
-              Before & After <span className="text-brand-teal">Showcase</span>
+              {t('before-after.title')}
             </h2>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              See the difference a modern, optimized website can make. Drag the slider to compare the transformation.
+              {t('before-after.subtitle')}
             </p>
           </div>
         </RevealSection>
@@ -37,15 +40,15 @@ const BeforeAfter: React.FC = () => {
         <div className="max-w-4xl mx-auto mb-16">
           <RevealSection delay={100}>
             <div className="glass-panel p-6 rounded-lg">
-              <h3 className="text-xl font-semibold font-display mb-4 text-white">{examples[0].title}</h3>
+              <h3 className="text-xl font-semibold font-display mb-4 text-white">{t(examples[0].titleKey)}</h3>
               <div className="mb-4">
                 <ComparisonSlider 
                   beforeImage={examples[0].before} 
                   afterImage={examples[0].after}
-                  alt={`Before and after comparison for ${examples[0].title}`}
+                  alt={`Före och efter jämförelse för ${t(examples[0].titleKey)}`}
                 />
               </div>
-              <p className="text-gray-300 mb-4">{examples[0].description}</p>
+              <p className="text-gray-300 mb-4">{t(examples[0].descriptionKey)}</p>
             </div>
           </RevealSection>
         </div>
@@ -53,7 +56,7 @@ const BeforeAfter: React.FC = () => {
         <RevealSection delay={200} className="text-center">
           <Button asChild size="lg" className="bg-brand-teal text-black hover:bg-brand-teal/90">
             <Link to="/portfolio">
-              View More Examples
+              {t('before-after.cta')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>

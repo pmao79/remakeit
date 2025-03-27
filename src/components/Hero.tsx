@@ -31,22 +31,24 @@ const Hero: React.FC = () => {
               </p>
 
               <div className="bg-white/5 border border-white/10 rounded-lg p-4 mt-6">
-                <div className="flex flex-col sm:flex-row gap-3 items-center justify-center lg:justify-start">
-                  <div className="flex items-center gap-2">
-                    <span className="text-brand-teal font-bold">
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
+                  <div className="flex flex-col items-center sm:items-start">
+                    <span className="text-brand-teal font-bold mb-1">
                       {t('hero.traditional')}:
                     </span>
-                    <span className="line-through text-gray-400">25 000 - 100 000 SEK</span>
+                    <span className="line-through text-gray-400 whitespace-nowrap">25 000 - 100 000 SEK</span>
                   </div>
+                  
                   <div className="hidden sm:block text-gray-400">|</div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-brand-teal font-bold">RemakeiT:</span>
-                    <span className="text-white font-bold">
+                  
+                  <div className="flex flex-col items-center sm:items-start">
+                    <span className="text-brand-teal font-bold mb-1">RemakeiT:</span>
+                    <span className="text-white font-bold whitespace-nowrap">
                       {t('hero.ourPrice')}
                     </span>
                   </div>
                 </div>
-                <p className="text-sm text-brand-teal mt-2 text-center">
+                <p className="text-sm text-brand-teal mt-3 text-center">
                   {t('hero.pricingClaim')}
                 </p>
               </div>

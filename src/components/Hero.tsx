@@ -29,6 +29,27 @@ const Hero: React.FC = () => {
               <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto lg:mx-0">
                 {t('hero.subtitle')}
               </p>
+
+              <div className="bg-white/5 border border-white/10 rounded-lg p-4 mt-6">
+                <div className="flex flex-col sm:flex-row gap-3 items-center justify-center lg:justify-start">
+                  <div className="flex items-center gap-2">
+                    <span className="text-brand-teal font-bold">
+                      {t('hero.traditional')}:
+                    </span>
+                    <span className="line-through text-gray-400">25 000 - 100 000 SEK</span>
+                  </div>
+                  <div className="hidden sm:block text-gray-400">|</div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-brand-teal font-bold">RemakeiT:</span>
+                    <span className="text-white font-bold">
+                      {t('hero.ourPrice')}
+                    </span>
+                  </div>
+                </div>
+                <p className="text-sm text-brand-teal mt-2 text-center">
+                  {t('hero.pricingClaim')}
+                </p>
+              </div>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">

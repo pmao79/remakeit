@@ -65,30 +65,36 @@ const ComparisonSlider: React.FC<ComparisonSliderProps> = ({
   return (
     <div 
       ref={containerRef} 
-      className="before-after-container aspect-video"
+      className="before-after-container aspect-video relative border border-white/10 rounded-lg overflow-hidden shadow-xl"
       aria-label={alt}
     >
       <div className="after-container relative w-full h-full">
         <img 
           src={afterImage} 
           alt="After" 
-          className="after-image" 
+          className="after-image w-full h-full object-cover" 
         />
+        <div className="absolute bottom-4 right-4 bg-brand-teal/90 text-black font-medium px-3 py-1 rounded text-sm">
+          Efter
+        </div>
       </div>
       
       <div 
-        className="before-container" 
+        className="before-container absolute top-0 left-0 h-full overflow-hidden border-r-2 border-brand-teal" 
         style={{ width: `${sliderPosition}%` }}
       >
         <img 
           src={beforeImage} 
           alt="Before" 
-          className="before-image" 
+          className="before-image w-full h-full object-cover" 
         />
+        <div className="absolute bottom-4 left-4 bg-white/20 text-white font-medium px-3 py-1 rounded text-sm backdrop-blur-sm">
+          Före
+        </div>
       </div>
       
       <div 
-        className="comparison-slider"
+        className="comparison-slider absolute top-0 bottom-0 w-8 cursor-ew-resize z-10 flex items-center justify-center transform -translate-x-1/2"
         style={{ left: `${sliderPosition}%` }}
         onMouseDown={handleMouseDown}
         onTouchStart={handleMouseDown}
@@ -97,7 +103,25 @@ const ComparisonSlider: React.FC<ComparisonSliderProps> = ({
         aria-valuemin={0}
         aria-valuemax={100}
         tabIndex={0}
-      />
+      >
+        <div className="w-8 h-8 bg-brand-teal rounded-full flex items-center justify-center shadow-lg">
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="16" 
+            height="16" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="3" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            className="text-black"
+          >
+            <path d="m9 18 6-6-6-6"></path>
+            <path d="m15 18-6-6 6-6"></path>
+          </svg>
+        </div>
+      </div>
     </div>
   );
 };

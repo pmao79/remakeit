@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Mail, Phone } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Contact: React.FC = () => {
+  const { language, t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,7 +27,7 @@ const Contact: React.FC = () => {
     
     // Simulate form submission
     setTimeout(() => {
-      toast.success('Form submitted successfully! We\'ll contact you soon.', {
+      toast.success(language === 'sv' ? 'Formuläret har skickats! Vi kontaktar dig snart.' : 'Form submitted successfully! We\'ll contact you soon.', {
         position: 'top-center',
       });
       setFormData({
@@ -39,6 +41,32 @@ const Contact: React.FC = () => {
     }, 1500);
   };
 
+  // Kontaktinformation baserat på språk
+  const contactInfo = {
+    sv: {
+      phoneNumber: '0708-62 52 53',
+      email: 'info@remakeit.se',
+      title: 'Uppgradera din webbplats – Få en gratis mockup!',
+      subtitle: 'Redo att förbättra din online-närvaro? Fyll i formuläret så skapar vi en gratis mockup av hur din nya webbplats kan se ut – utan förpliktelser.',
+      callUs: 'Ring oss',
+      emailUs: 'Maila oss',
+      formTitle: 'Få min gratis webbplats-mockup',
+      noObligation: 'Ingen förpliktelse. Vi kontaktar dig inom 1 arbetsdag.'
+    },
+    en: {
+      phoneNumber: '(+46) 708-62 52 53',
+      email: 'hello@remakeit.com',
+      title: 'Let\'s Upgrade Your Website – Get a Free Mockup!',
+      subtitle: 'Ready to transform your online presence? Fill out the form and we\'ll create a free mockup of what your new website could look like – no obligation.',
+      callUs: 'Call Us',
+      emailUs: 'Email Us',
+      formTitle: 'Get My Free Website Mockup',
+      noObligation: 'No obligation. We\'ll contact you within 1 business day.'
+    }
+  };
+
+  const current = contactInfo[language];
+
   return (
     <section className="py-20 relative overflow-hidden" id="contact">
       <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-brand-teal/20 blur-[150px] rounded-full pointer-events-none"></div>
@@ -47,25 +75,25 @@ const Contact: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">
-              Let's Upgrade Your Website – <span className="text-brand-teal">Get a Free Mockup!</span>
+              {current.title} <span className="text-brand-teal">{language === 'sv' ? 'Få en gratis mockup!' : 'Get a Free Mockup!'}</span>
             </h2>
             <p className="text-xl text-gray-300 mb-8">
-              Ready to transform your online presence? Fill out the form and we'll create a free mockup of what your new website could look like – no obligation.
+              {current.subtitle}
             </p>
             
             <div className="glass-panel p-6 rounded-lg mb-8">
               <div className="flex items-start mb-4">
                 <Phone className="w-6 h-6 text-brand-teal mr-3 mt-1" />
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-1">Call Us</h3>
-                  <p className="text-gray-300">(555) 123-4567</p>
+                  <h3 className="text-lg font-semibold text-white mb-1">{current.callUs}</h3>
+                  <p className="text-gray-300">{current.phoneNumber}</p>
                 </div>
               </div>
               <div className="flex items-start">
                 <Mail className="w-6 h-6 text-brand-teal mr-3 mt-1" />
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-1">Email Us</h3>
-                  <p className="text-gray-300">hello@remakeit.com</p>
+                  <h3 className="text-lg font-semibold text-white mb-1">{current.emailUs}</h3>
+                  <p className="text-gray-300">{current.email}</p>
                 </div>
               </div>
             </div>
@@ -75,7 +103,7 @@ const Contact: React.FC = () => {
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">Name *</label>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">{language === 'sv' ? 'Namn *' : 'Name *'}</label>
                   <input
                     type="text"
                     id="name"
@@ -83,12 +111,12 @@ const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
-                    placeholder="Your name"
+                    placeholder={language === 'sv' ? 'Ditt namn' : 'Your name'}
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Email *</label>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">{language === 'sv' ? 'E-post *' : 'Email *'}</label>
                   <input
                     type="email"
                     id="email"
@@ -96,7 +124,7 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
-                    placeholder="Your email"
+                    placeholder={language === 'sv' ? 'Din e-post' : 'Your email'}
                     required
                   />
                 </div>
@@ -104,7 +132,7 @@ const Contact: React.FC = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">{language === 'sv' ? 'Telefon' : 'Phone'}</label>
                   <input
                     type="tel"
                     id="phone"
@@ -112,11 +140,13 @@ const Contact: React.FC = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
-                    placeholder="Your phone number"
+                    placeholder={language === 'sv' ? 'Ditt telefonnummer' : 'Your phone number'}
                   />
                 </div>
                 <div>
-                  <label htmlFor="website" className="block text-sm font-medium text-gray-300 mb-2">Current Website (if any)</label>
+                  <label htmlFor="website" className="block text-sm font-medium text-gray-300 mb-2">
+                    {language === 'sv' ? 'Nuvarande webbplats (om du har)' : 'Current Website (if any)'}
+                  </label>
                   <input
                     type="url"
                     id="website"
@@ -124,13 +154,15 @@ const Contact: React.FC = () => {
                     value={formData.website}
                     onChange={handleChange}
                     className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
-                    placeholder="https://yourwebsite.com"
+                    placeholder="https://dinwebbplats.se"
                   />
                 </div>
               </div>
               
               <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">Tell us about your business *</label>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                  {language === 'sv' ? 'Berätta om ditt företag *' : 'Tell us about your business *'}
+                </label>
                 <textarea
                   id="message"
                   name="message"
@@ -138,7 +170,7 @@ const Contact: React.FC = () => {
                   onChange={handleChange}
                   rows={4}
                   className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
-                  placeholder="What does your business do? What are your goals for the new website?"
+                  placeholder={language === 'sv' ? 'Vad gör ditt företag? Vad är dina mål med den nya webbplatsen?' : 'What does your business do? What are your goals for the new website?'}
                   required
                 />
               </div>
@@ -148,10 +180,12 @@ const Contact: React.FC = () => {
                 className="w-full bg-brand-teal text-black hover:bg-brand-teal/90 py-3 text-lg font-medium"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Submitting...' : 'Get My Free Website Mockup'}
+                {isSubmitting 
+                  ? (language === 'sv' ? 'Skickar...' : 'Submitting...') 
+                  : current.formTitle}
               </Button>
               <p className="mt-4 text-sm text-gray-400 text-center">
-                No obligation. We'll contact you within 1 business day.
+                {current.noObligation}
               </p>
             </form>
           </div>

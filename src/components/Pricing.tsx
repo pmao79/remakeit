@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Check, Shield } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { RevealSection } from '@/components/ui/reveal-section';
+import RevealSection from '@/components/ui/reveal-section';
 
 const Pricing: React.FC = () => {
   const { t, language } = useLanguage();

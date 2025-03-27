@@ -34,7 +34,6 @@ const Pricing: React.FC = () => {
                 <CardTitle className="text-xl text-white">{t('pricing.basicTitle')}</CardTitle>
                 <div className="mt-2">
                   <span className="text-4xl font-bold text-brand-teal whitespace-nowrap">{t('pricing.basicPrice')}</span>
-                  <span className="text-gray-400 ml-2 text-sm">{t('pricing.onetime')}</span>
                 </div>
               </CardHeader>
               <CardContent className="pb-6">
@@ -83,7 +82,6 @@ const Pricing: React.FC = () => {
                 <CardTitle className="text-xl text-white">{t('pricing.premiumTitle')}</CardTitle>
                 <div className="mt-2">
                   <span className="text-4xl font-bold text-brand-teal whitespace-nowrap">{t('pricing.premiumPrice')}</span>
-                  <span className="text-gray-400 ml-2 text-sm">{t('pricing.onetime')}</span>
                 </div>
               </CardHeader>
               <CardContent className="pb-6">
@@ -141,7 +139,6 @@ const Pricing: React.FC = () => {
                 <CardTitle className="text-xl text-white">{t('pricing.enterpriseTitle')}</CardTitle>
                 <div className="mt-2">
                   <span className="text-4xl font-bold text-brand-teal whitespace-nowrap">{t('pricing.enterprisePrice')}</span>
-                  <span className="text-gray-400 ml-2 text-sm">{t('pricing.onetime')}</span>
                 </div>
               </CardHeader>
               <CardContent className="pb-6">

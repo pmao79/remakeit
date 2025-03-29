@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 type Language = 'sv' | 'en';
@@ -16,6 +15,7 @@ const translations: Record<Language, Record<string, string>> = {
   sv: {
     // Navigation
     'nav.home': 'Hem',
+    'nav.services': 'Tjänster',
     'nav.about': 'Om oss',
     'nav.portfolio': 'Portfolio',
     'nav.contact': 'Kontakt',
@@ -107,6 +107,7 @@ const translations: Record<Language, Record<string, string>> = {
   en: {
     // Navigation
     'nav.home': 'Home',
+    'nav.services': 'Services',
     'nav.about': 'About',
     'nav.portfolio': 'Portfolio',
     'nav.contact': 'Contact',

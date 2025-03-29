@@ -48,7 +48,14 @@ const Nav: React.FC = () => {
 
   const services = [
     { path: '/services/web-design', name: { sv: 'Webbdesign', en: 'Web Design' } },
-    { path: '/services/web-redesign', name: { sv: 'Webbplatsomdesign', en: 'Web Redesign' } },
+    { 
+      path: '/services/web-redesign', 
+      name: { 
+        sv: 'Webbplats<span class="text-brand-teal">Remake</span>iT', 
+        en: 'Website<span class="text-brand-teal">Remake</span>iT'
+      },
+      isHTML: true
+    },
     { path: '/services/seo-optimization', name: { sv: 'SEO-optimering', en: 'SEO Optimization' } },
     { path: '/services/conversion-optimization', name: { sv: 'Konverteringsoptimering', en: 'Conversion Optimization' } },
   ];
@@ -97,7 +104,11 @@ const Nav: React.FC = () => {
                           location.pathname === service.path ? 'text-brand-teal' : 'text-foreground'
                         }`}
                       >
-                        {service.name[language]}
+                        {service.isHTML ? (
+                          <span dangerouslySetInnerHTML={{ __html: service.name[language] }} />
+                        ) : (
+                          service.name[language]
+                        )}
                       </Link>
                     </DropdownMenuItem>
                   ))}
@@ -175,7 +186,11 @@ const Nav: React.FC = () => {
                     location.pathname === service.path ? 'text-brand-teal' : 'text-gray-300'
                   }`}
                 >
-                  {service.name[language]}
+                  {service.isHTML ? (
+                    <span dangerouslySetInnerHTML={{ __html: service.name[language] }} />
+                  ) : (
+                    service.name[language]
+                  )}
                 </Link>
               ))}
             </div>

@@ -50,8 +50,10 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
         </div>
         <div className="container relative z-10 max-w-7xl mx-auto px-4">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight text-white mb-6">
-              {title[language]}
+            <h1 
+              className="text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight text-white mb-6"
+              dangerouslySetInnerHTML={{ __html: title[language] }}
+            >
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-8">
               {subtitle[language]}

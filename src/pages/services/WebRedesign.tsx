@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ServicePageLayout from '@/components/ServicePageLayout';
 import ServiceBenefits from '@/components/ServiceBenefits';
@@ -143,8 +142,8 @@ const WebRedesign = () => {
   return (
     <ServicePageLayout
       title={{
-        sv: "Webbplatsomdesign som ger nytt liv till din digitala närvaro",
-        en: "Website redesign that gives new life to your digital presence"
+        sv: "Webbplats<span class=\"text-brand-teal\">Remake</span>iT som ger nytt liv till din digitala närvaro",
+        en: "Website<span class=\"text-brand-teal\">Remake</span>iT that gives new life to your digital presence"
       }}
       subtitle={{
         sv: "Förvandla din föråldrade webbplats till en modern, effektiv och konverterande digital tillgång.",
@@ -466,7 +465,7 @@ const WebRedesign = () => {
                 </div>
                 <blockquote className="border-l-4 border-brand-teal pl-4 italic text-gray-300">
                   {language === 'sv'
-                    ? "RemakeiT förstod exakt vad vi behövde - en design som både ser fantastisk ut och driver affärsresultat. Efter omdesignen såg vi omedelbara förbättringar i alla viktiga mätvärden."
+                    ? "RemakeiT förstod exakt vad vi behövde - en design som både ser fantastisk ut och driver affärsresultat. Efter omdesignen såg vi omedelbart förbättringar i alla viktiga mätvärden."
                     : "RemakeiT understood exactly what we needed - a design that both looks amazing and drives business results. After the redesign, we saw immediate improvements in all key metrics."}
                   <footer className="mt-2 text-sm text-gray-400 not-italic">
                     — Marcus Eklund, Digital Chef, Bostadsportalen

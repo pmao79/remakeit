@@ -416,59 +416,59 @@ const WebRedesign = () => {
         </div>
       </RevealSection>
       
-      {/* Case Study/Testimonial */}
+      {/* Case Study/Testimonial - Updated for small business focus */}
       <RevealSection className="py-16 md:py-24">
         <div className="container max-w-7xl mx-auto px-4">
           <div className="bg-gradient-to-r from-secondary via-secondary/80 to-secondary/50 rounded-2xl overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2">
               <div className="relative h-64 lg:h-auto">
                 <img 
-                  src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?q=80&w=1000&auto=format&fit=crop" 
-                  alt="Case Study" 
+                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop" 
+                  alt="Small Business Case Study" 
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
               <div className="p-8 md:p-12">
                 <h3 className="text-2xl font-bold font-display mb-4">
-                  {language === 'sv' ? "Case: Bostadsportalen.se" : "Case: Bostadsportalen.se"}
+                  {language === 'sv' ? "Case: Lokal designbyrå" : "Case: Local design agency"}
                 </h3>
                 <p className="text-gray-300 mb-6">
                   {language === 'sv'
-                    ? "Efter att ha använt samma webbdesign i över 7 år genomförde vi en fullständig omdesign av Bostadsportalen.se, Sveriges tredje största bostadssajt."
-                    : "After using the same web design for over 7 years, we conducted a complete redesign of Bostadsportalen.se, Sweden's third-largest housing site."}
+                    ? "En mindre designbyrå med fem anställda kom till oss eftersom deras webbplats från 2018 inte längre representerade deras moderna portfölj eller attraherade rätt kunder."
+                    : "A small design agency with five employees came to us because their website from 2018 no longer represented their modern portfolio or attracted the right clients."}
                 </p>
                 <div className="grid grid-cols-2 gap-6 mb-6">
                   <div>
                     <p className="text-sm text-gray-400 mb-1">
-                      {language === 'sv' ? "Ökad trafik" : "Increased traffic"}
+                      {language === 'sv' ? "Nya kundförfrågningar" : "New client inquiries"}
                     </p>
-                    <p className="text-3xl font-bold text-brand-teal">+43%</p>
+                    <p className="text-3xl font-bold text-brand-teal">+156%</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-400 mb-1">
-                      {language === 'sv' ? "Ökad konvertering" : "Increased conversion"}
+                      {language === 'sv' ? "Kvalificerade leads" : "Qualified leads"}
                     </p>
-                    <p className="text-3xl font-bold text-brand-teal">+67%</p>
+                    <p className="text-3xl font-bold text-brand-teal">+89%</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-400 mb-1">
-                      {language === 'sv' ? "Minskad avvisningsfrekvens" : "Decreased bounce rate"}
+                      {language === 'sv' ? "Besökstid på sidan" : "Time on site"}
                     </p>
-                    <p className="text-3xl font-bold text-brand-teal">-28%</p>
+                    <p className="text-3xl font-bold text-brand-teal">+118%</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-400 mb-1">
                       {language === 'sv' ? "Sidladdningstid" : "Page load time"}
                     </p>
-                    <p className="text-3xl font-bold text-brand-teal">1.8s</p>
+                    <p className="text-3xl font-bold text-brand-teal">0.9s</p>
                   </div>
                 </div>
                 <blockquote className="border-l-4 border-brand-teal pl-4 italic text-gray-300">
                   {language === 'sv'
-                    ? "RemakeiT förstod exakt vad vi behövde - en design som både ser fantastisk ut och driver affärsresultat. Efter omdesignen såg vi omedelbart förbättringar i alla viktiga mätvärden."
-                    : "RemakeiT understood exactly what we needed - a design that both looks amazing and drives business results. After the redesign, we saw immediate improvements in all key metrics."}
+                    ? "Som ett mindre företag var vi oroliga för att en omdesign skulle vara utom vår budget. RemakeiT anpassade processen för våra behov och levererade en webbplats som direkt började generera fler och bättre kundförfrågningar. ROI blev tydlig redan efter första månaden."
+                    : "As a small business, we were worried a redesign would be out of our budget. RemakeiT tailored the process to our needs and delivered a website that immediately started generating more and better client inquiries. The ROI became clear after just the first month."}
                   <footer className="mt-2 text-sm text-gray-400 not-italic">
-                    — Marcus Eklund, Digital Chef, Bostadsportalen
+                    — {language === 'sv' ? "Ägare" : "Owner"}, {language === 'sv' ? "Designbyrå i Göteborg" : "Design Agency in Gothenburg"}
                   </footer>
                 </blockquote>
               </div>

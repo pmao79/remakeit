@@ -68,22 +68,22 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold text-white mb-4">{t('footer.services')}</h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/" className="text-gray-400 hover:text-brand-teal transition-colors">
+                <Link to="/services/web-design" className="text-gray-400 hover:text-brand-teal transition-colors">
                   {t('footer.service1')}
                 </Link>
               </li>
               <li>
-                <Link to="/" className="text-gray-400 hover:text-brand-teal transition-colors">
+                <Link to="/services/web-redesign" className="text-gray-400 hover:text-brand-teal transition-colors">
                   {t('footer.service2')}
                 </Link>
               </li>
               <li>
-                <Link to="/" className="text-gray-400 hover:text-brand-teal transition-colors">
+                <Link to="/services/seo-optimization" className="text-gray-400 hover:text-brand-teal transition-colors">
                   {t('footer.service3')}
                 </Link>
               </li>
               <li>
-                <Link to="/" className="text-gray-400 hover:text-brand-teal transition-colors">
+                <Link to="/services/conversion-optimization" className="text-gray-400 hover:text-brand-teal transition-colors">
                   {t('footer.service4')}
                 </Link>
               </li>
@@ -132,4 +132,3 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
-

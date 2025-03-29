@@ -11,6 +11,10 @@ import Portfolio from "./pages/Portfolio";
 import ContactPage from "./pages/ContactPage";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import WebDesign from "./pages/services/WebDesign";
+import WebRedesign from "./pages/services/WebRedesign";
+import SeoOptimization from "./pages/services/SeoOptimization";
+import ConversionOptimization from "./pages/services/ConversionOptimization";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +30,10 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/services/web-design" element={<WebDesign />} />
+            <Route path="/services/web-redesign" element={<WebRedesign />} />
+            <Route path="/services/seo-optimization" element={<SeoOptimization />} />
+            <Route path="/services/conversion-optimization" element={<ConversionOptimization />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/login" element={<Admin />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

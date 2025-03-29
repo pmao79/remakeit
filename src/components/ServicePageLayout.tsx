@@ -41,9 +41,9 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/40 z-10" />
           <img
-            src={heroImage}
+            src="/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png"
             alt={title[language]}
             className="w-full h-full object-cover object-center"
           />

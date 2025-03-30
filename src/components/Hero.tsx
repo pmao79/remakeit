@@ -9,7 +9,7 @@ const Hero: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <section className="relative min-h-[100svh] flex items-center overflow-hidden pt-20 w-full">
+    <section className="relative min-h-[90svh] flex items-center overflow-visible pt-20 pb-12 w-full">
       {/* Background elements */}
       <div className="absolute inset-0 bg-gradient-radial from-[#1a1d29] to-background z-0"></div>
       <div className="absolute inset-0 bg-grid-pattern bg-[length:30px_30px] opacity-20 z-0"></div>

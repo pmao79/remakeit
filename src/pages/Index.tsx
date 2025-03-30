@@ -16,14 +16,16 @@ const Index: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground w-full overflow-x-hidden">
       <Nav />
-      <Hero />
-      <Benefits />
-      <Process />
-      <BeforeAfter />
-      <Pricing />
-      <Contact />
+      <main className="w-full">
+        <Hero />
+        <Benefits />
+        <Process />
+        <BeforeAfter />
+        <Pricing />
+        <Contact />
+      </main>
       <Footer />
     </div>
   );

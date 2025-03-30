@@ -166,7 +166,16 @@ const Nav: React.FC = () => {
           isMenuOpen ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        <div className="container mx-auto px-4 py-24 flex flex-col items-center gap-8">
+        <div className="container mx-auto px-4 py-24 flex flex-col items-center gap-8 relative">
+          {/* Close button positioned in the top right */}
+          <button 
+            onClick={toggleMenu}
+            className="absolute top-6 right-6 text-white p-2 rounded-full hover:bg-muted"
+            aria-label="Close menu"
+          >
+            <X size={24} />
+          </button>
+          
           <Link 
             to="/"
             className={`text-lg font-medium py-2 ${isActive('/') ? 'text-brand-teal' : 'text-white'}`}

@@ -6,19 +6,23 @@ import { Button } from '@/components/ui/button';
 import LanguageSwitcher from '@/components/ui/language-switcher';
 import { useLanguage } from '@/contexts/LanguageContext';
 import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Nav: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const { t, language } = useLanguage();
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,11 +36,6 @@ const Nav: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Close menu when route changes
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [location]);
 
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -147,86 +146,76 @@ const Nav: React.FC = () => {
           </Button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center">
-          <LanguageSwitcher />
-          <button 
-            onClick={toggleMenu} 
-            className="ml-4 text-white"
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu Dropdown */}
-      <div 
-        className={`md:hidden fixed inset-0 z-40 bg-background/95 backdrop-blur-lg transition-transform duration-300 ${
-          isMenuOpen ? 'translate-y-0' : '-translate-y-full'
-        }`}
-      >
-        <div className="container mx-auto px-4 py-24 flex flex-col items-center gap-8 relative">
-          {/* Close button positioned in the top right */}
-          <button 
-            onClick={toggleMenu}
-            className="absolute top-6 right-6 text-white p-2 rounded-full hover:bg-muted"
-            aria-label="Close menu"
-          >
-            <X size={24} />
-          </button>
-          
-          <Link 
-            to="/"
-            className={`text-lg font-medium py-2 ${isActive('/') ? 'text-brand-teal' : 'text-white'}`}
-          >
-            {t('nav.home')}
-          </Link>
-          
-          {/* Services section in mobile menu */}
-          <div className="flex flex-col items-center gap-4">
-            <span className="text-lg font-medium text-white">{t('nav.services')}</span>
-            <div className="flex flex-col items-center gap-3 pl-4">
-              {services.map((service) => (
-                <Link 
-                  key={service.path}
-                  to={service.path}
-                  className={`text-base py-1 ${
-                    location.pathname === service.path ? 'text-brand-teal' : 'text-gray-300'
-                  }`}
+        {/* Mobile Menu */}
+        {isMobile && (
+          <div className="md:hidden flex items-center">
+            <LanguageSwitcher />
+            <Sheet>
+              <SheetTrigger asChild>
+                <button 
+                  className="ml-4 text-white p-2"
+                  aria-label="Open menu"
                 >
-                  {service.isHTML ? (
-                    <span dangerouslySetInnerHTML={{ __html: service.name[language] }} />
-                  ) : (
-                    service.name[language]
-                  )}
-                </Link>
-              ))}
-            </div>
+                  <Menu size={24} />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-full bg-background border-r border-white/10 p-0">
+                <div className="container mx-auto px-4 py-16 flex flex-col items-center gap-8">
+                  <Link 
+                    to="/"
+                    className={`text-lg font-medium py-2 ${isActive('/') ? 'text-brand-teal' : 'text-white'}`}
+                  >
+                    {t('nav.home')}
+                  </Link>
+                  
+                  {/* Services section in mobile menu */}
+                  <div className="flex flex-col items-center gap-4">
+                    <span className="text-lg font-medium text-white">{t('nav.services')}</span>
+                    <div className="flex flex-col items-center gap-3 pl-4">
+                      {services.map((service) => (
+                        <Link 
+                          key={service.path}
+                          to={service.path}
+                          className={`text-base py-1 ${
+                            location.pathname === service.path ? 'text-brand-teal' : 'text-gray-300'
+                          }`}
+                        >
+                          {service.isHTML ? (
+                            <span dangerouslySetInnerHTML={{ __html: service.name[language] }} />
+                          ) : (
+                            service.name[language]
+                          )}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <Link 
+                    to="/about"
+                    className={`text-lg font-medium py-2 ${isActive('/about') ? 'text-brand-teal' : 'text-white'}`}
+                  >
+                    {t('nav.about')}
+                  </Link>
+                  <Link 
+                    to="/portfolio"
+                    className={`text-lg font-medium py-2 ${isActive('/portfolio') ? 'text-brand-teal' : 'text-white'}`}
+                  >
+                    {t('nav.portfolio')}
+                  </Link>
+                  <Link 
+                    to="/contact"
+                    className={`text-lg font-medium py-2 ${isActive('/contact') ? 'text-brand-teal' : 'text-white'}`}
+                  >
+                    {t('nav.contact')}
+                  </Link>
+                  <Button asChild className="mt-4 w-full bg-brand-teal text-black hover:bg-brand-teal/90">
+                    <Link to="/contact">{t('nav.cta')}</Link>
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
-          
-          <Link 
-            to="/about"
-            className={`text-lg font-medium py-2 ${isActive('/about') ? 'text-brand-teal' : 'text-white'}`}
-          >
-            {t('nav.about')}
-          </Link>
-          <Link 
-            to="/portfolio"
-            className={`text-lg font-medium py-2 ${isActive('/portfolio') ? 'text-brand-teal' : 'text-white'}`}
-          >
-            {t('nav.portfolio')}
-          </Link>
-          <Link 
-            to="/contact"
-            className={`text-lg font-medium py-2 ${isActive('/contact') ? 'text-brand-teal' : 'text-white'}`}
-          >
-            {t('nav.contact')}
-          </Link>
-          <Button asChild className="mt-4 w-full bg-brand-teal text-black hover:bg-brand-teal/90">
-            <Link to="/contact">{t('nav.cta')}</Link>
-          </Button>
-        </div>
+        )}
       </div>
     </nav>
   );

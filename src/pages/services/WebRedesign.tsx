@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ServicePageLayout from '@/components/ServicePageLayout';
 import ServiceBenefits from '@/components/ServiceBenefits';
@@ -7,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Check, RefreshCw, TrendingUp, Search, Clock, Shield, ArrowRight, BarChart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import ComparisonSlider from '@/components/ui/comparison-slider';
 
 const WebRedesign = () => {
   const { language } = useLanguage();
@@ -200,7 +202,7 @@ const WebRedesign = () => {
         </div>
       </section>
       
-      {/* Before & After Comparison */}
+      {/* Before & After Comparison - Updated for mobile */}
       <RevealSection className="py-16 md:py-24 bg-gradient-to-b from-background to-secondary/30">
         <div className="container max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
@@ -214,18 +216,18 @@ const WebRedesign = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="relative h-[400px] rounded-lg overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            <div className="relative h-[300px] sm:h-[400px] rounded-lg overflow-hidden">
               <img 
                 src="https://placehold.co/800x800/111827/CCCCCC?text=Old+Website+Design" 
                 alt="Before Redesign" 
                 className="absolute inset-0 w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black/60 flex flex-col justify-end p-8">
-                <h3 className="text-2xl font-semibold mb-4 text-white">
+              <div className="absolute inset-0 bg-black/60 flex flex-col justify-end p-4 sm:p-8">
+                <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-white">
                   {language === 'sv' ? "FÖRE" : "BEFORE"}
                 </h3>
-                <ul className="space-y-2">
+                <ul className="space-y-1 sm:space-y-2">
                   {[
                     language === 'sv' ? "Föråldrad design från 2010" : "Outdated design from 2010",
                     language === 'sv' ? "Långsam laddningstid (8+ sekunder)" : "Slow loading time (8+ seconds)",
@@ -234,24 +236,24 @@ const WebRedesign = () => {
                   ].map((item, index) => (
                     <li key={index} className="flex items-center text-gray-300">
                       <span className="mr-2">•</span>
-                      <span>{item}</span>
+                      <span className="text-sm sm:text-base">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
             
-            <div className="relative h-[400px] rounded-lg overflow-hidden">
+            <div className="relative h-[300px] sm:h-[400px] rounded-lg overflow-hidden">
               <img 
                 src="https://placehold.co/800x800/0a2540/0CFAE8?text=New+Website+Design" 
                 alt="After Redesign" 
                 className="absolute inset-0 w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-8">
-                <h3 className="text-2xl font-semibold mb-4 text-brand-teal">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-4 sm:p-8">
+                <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-brand-teal">
                   {language === 'sv' ? "EFTER" : "AFTER"}
                 </h3>
-                <ul className="space-y-2">
+                <ul className="space-y-1 sm:space-y-2">
                   {[
                     language === 'sv' ? "Modern, varumärkesanpassad design" : "Modern, brand-aligned design",
                     language === 'sv' ? "Snabb laddningstid (under 2 sekunder)" : "Fast loading time (under 2 seconds)",
@@ -259,8 +261,8 @@ const WebRedesign = () => {
                     language === 'sv' ? "Konverteringsgrad: 3.5% (337% ökning)" : "Conversion rate: 3.5% (337% increase)"
                   ].map((item, index) => (
                     <li key={index} className="flex items-center text-white">
-                      <Check className="h-4 w-4 mr-2 text-brand-teal" />
-                      <span>{item}</span>
+                      <Check className="h-4 w-4 mr-2 text-brand-teal flex-shrink-0" />
+                      <span className="text-sm sm:text-base">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -283,48 +285,48 @@ const WebRedesign = () => {
         }}
       />
       
-      {/* Before/After Details */}
+      {/* Before/After Details - Improved for mobile */}
       <RevealSection className="py-16 md:py-24">
         <div className="container max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">
               {language === 'sv' ? "Vad förändrar vi?" : "What do we change?"}
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
               {language === 'sv' 
                 ? "Vi fokuserar på nyckelområden som skapar störst impact" 
                 : "We focus on key areas that create the biggest impact"}
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {beforeAfter.map((item, index) => (
               <Card key={index} className="bg-secondary/50 border-white/5">
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-semibold font-display mb-5">{item.title[language]}</h3>
-                  <div className="grid grid-cols-1 gap-4">
+                <CardContent className="p-6 md:p-8">
+                  <h3 className="text-lg md:text-xl font-semibold font-display mb-4 md:mb-5">{item.title[language]}</h3>
+                  <div className="grid grid-cols-1 gap-3 md:gap-4">
                     <div className="flex items-start">
-                      <div className="mr-4 p-1 bg-red-900/30 rounded-full">
+                      <div className="mr-3 md:mr-4 p-1 bg-red-900/30 rounded-full flex-shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                         </svg>
                       </div>
                       <div>
-                        <p className="font-semibold text-red-400">
+                        <p className="font-semibold text-red-400 text-sm md:text-base">
                           {language === 'sv' ? "FÖRE:" : "BEFORE:"}
                         </p>
-                        <p className="text-gray-400">{item.before[language]}</p>
+                        <p className="text-gray-400 text-sm md:text-base">{item.before[language]}</p>
                       </div>
                     </div>
                     <div className="flex items-start">
-                      <div className="mr-4 p-1 bg-brand-teal/30 rounded-full">
+                      <div className="mr-3 md:mr-4 p-1 bg-brand-teal/30 rounded-full flex-shrink-0">
                         <Check className="h-5 w-5 text-brand-teal" />
                       </div>
                       <div>
-                        <p className="font-semibold text-brand-teal">
+                        <p className="font-semibold text-brand-teal text-sm md:text-base">
                           {language === 'sv' ? "EFTER:" : "AFTER:"}
                         </p>
-                        <p className="text-gray-300">{item.after[language]}</p>
+                        <p className="text-gray-300 text-sm md:text-base">{item.after[language]}</p>
                       </div>
                     </div>
                   </div>
@@ -335,20 +337,21 @@ const WebRedesign = () => {
         </div>
       </RevealSection>
       
-      {/* Our Process */}
+      {/* Our Process - Completely reworked for mobile */}
       <RevealSection className="py-16 md:py-24 bg-gradient-to-b from-secondary/30 to-background">
         <div className="container max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">
               {language === 'sv' ? "Vår omdesignprocess" : "Our redesign process"}
             </h2>
           </div>
           
+          {/* Mobile-first timeline with responsive design */}
           <div className="relative max-w-5xl mx-auto">
-            {/* Timeline line */}
-            <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-brand-teal/80 to-brand-teal/20 transform md:translate-x-[-50%]"></div>
+            {/* Timeline line - hidden on mobile, shown on larger screens */}
+            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-brand-teal/80 to-brand-teal/20 transform translate-x-[-50%]"></div>
             
-            {/* Timeline items */}
+            {/* Timeline items - stack vertically on mobile */}
             {[
               {
                 title: { sv: "Analys & Utvärdering", en: "Analysis & Evaluation" },
@@ -356,7 +359,7 @@ const WebRedesign = () => {
                   sv: "Vi gör en djupgående analys av din nuvarande webbplats för att identifiera styrkor, svagheter och möjligheter till förbättring.", 
                   en: "We conduct an in-depth analysis of your current website to identify strengths, weaknesses, and opportunities for improvement." 
                 },
-                icon: <Search className="h-8 w-8" />
+                icon: <Search className="h-6 w-6 md:h-8 md:w-8" />
               },
               {
                 title: { sv: "Strategi & Planering", en: "Strategy & Planning" },
@@ -364,7 +367,7 @@ const WebRedesign = () => {
                   sv: "Baserat på analysen utvecklar vi en omfattande omdesignstrategi som fokuserar på dina affärsmål och användarnas behov.", 
                   en: "Based on the analysis, we develop a comprehensive redesign strategy that focuses on your business goals and users' needs." 
                 },
-                icon: <ArrowRight className="h-8 w-8" />
+                icon: <ArrowRight className="h-6 w-6 md:h-8 md:w-8" />
               },
               {
                 title: { sv: "Design & Prototyp", en: "Design & Prototype" },
@@ -372,7 +375,7 @@ const WebRedesign = () => {
                   sv: "Vi skapar moderna designkoncept och interaktiva prototyper för att visualisera den nya webbplatsen innan utveckling.", 
                   en: "We create modern design concepts and interactive prototypes to visualize the new website before development." 
                 },
-                icon: <ArrowRight className="h-8 w-8" />
+                icon: <ArrowRight className="h-6 w-6 md:h-8 md:w-8" />
               },
               {
                 title: { sv: "Utveckling & Optimering", en: "Development & Optimization" },
@@ -380,7 +383,7 @@ const WebRedesign = () => {
                   sv: "Vårt utvecklingsteam bygger din nya webbplats med fokus på prestanda, säkerhet och SEO-optimering.", 
                   en: "Our development team builds your new website with a focus on performance, security, and SEO optimization." 
                 },
-                icon: <ArrowRight className="h-8 w-8" />
+                icon: <ArrowRight className="h-6 w-6 md:h-8 md:w-8" />
               },
               {
                 title: { sv: "Lansering & Uppföljning", en: "Launch & Follow-up" },
@@ -388,86 +391,109 @@ const WebRedesign = () => {
                   sv: "Efter noggrann testning lanseras din nya webbplats, och vi fortsätter att övervaka och finjustera för att säkerställa optimal prestanda.", 
                   en: "After thorough testing, your new website is launched, and we continue to monitor and fine-tune to ensure optimal performance." 
                 },
-                icon: <ArrowRight className="h-8 w-8" />
+                icon: <ArrowRight className="h-6 w-6 md:h-8 md:w-8" />
               }
             ].map((item, index) => (
-              <div key={index} className={`relative flex items-center mb-12 ${
-                index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-              }`}>
-                <div className={`w-full md:w-1/2 ${
-                  index % 2 === 0 ? 'md:pr-12 text-right' : 'md:pl-12 text-left'
+              <div key={index} className="relative mb-8 md:mb-12">
+                {/* Mobile layout - vertical stack */}
+                <div className="md:hidden flex">
+                  <div className="mr-4 mt-1">
+                    <div className="bg-background border-4 border-brand-teal rounded-full p-1">
+                      <div className="bg-brand-teal/20 rounded-full p-1">
+                        {item.icon}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold mb-2">{item.title[language]}</h3>
+                    <p className="text-gray-400 text-sm">{item.description[language]}</p>
+                  </div>
+                </div>
+
+                {/* Desktop layout - horizontal alternating */}
+                <div className={`hidden md:flex items-center ${
+                  index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
                 }`}>
-                  <div className={`${index % 2 === 0 ? 'md:ml-auto' : ''}`}>
-                    <h3 className="text-xl font-semibold font-display mb-3">{item.title[language]}</h3>
-                    <p className="text-gray-400">{item.description[language]}</p>
+                  <div className={`w-1/2 ${
+                    index % 2 === 0 ? 'pr-12 text-right' : 'pl-12 text-left'
+                  }`}>
+                    <div className={`${index % 2 === 0 ? 'ml-auto' : ''}`}>
+                      <h3 className="text-xl font-semibold font-display mb-3">{item.title[language]}</h3>
+                      <p className="text-gray-400">{item.description[language]}</p>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="absolute left-[-12px] md:left-1/2 transform md:translate-x-[-50%] bg-background border-4 border-brand-teal rounded-full p-2">
-                  <div className="bg-brand-teal/20 rounded-full p-2">
-                    {item.icon}
+                  
+                  <div className="absolute left-1/2 transform translate-x-[-50%] bg-background border-4 border-brand-teal rounded-full p-2">
+                    <div className="bg-brand-teal/20 rounded-full p-2">
+                      {item.icon}
+                    </div>
                   </div>
+                  
+                  <div className="w-1/2"></div>
                 </div>
-                
-                <div className="w-full md:w-1/2"></div>
+
+                {/* Vertical connector line for mobile */}
+                {index < 4 && (
+                  <div className="md:hidden absolute left-4 top-10 bottom-0 w-0.5 h-[calc(100%+1rem)] bg-gradient-to-b from-brand-teal/60 to-brand-teal/10"></div>
+                )}
               </div>
             ))}
           </div>
         </div>
       </RevealSection>
       
-      {/* Case Study/Testimonial - Updated for small business focus */}
+      {/* Case Study/Testimonial - Updated for small business focus and mobile view */}
       <RevealSection className="py-16 md:py-24">
         <div className="container max-w-7xl mx-auto px-4">
           <div className="bg-gradient-to-r from-secondary via-secondary/80 to-secondary/50 rounded-2xl overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2">
-              <div className="relative h-64 lg:h-auto">
+              <div className="relative h-56 sm:h-64 lg:h-auto">
                 <img 
                   src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop" 
                   alt="Small Business Case Study" 
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
-              <div className="p-8 md:p-12">
-                <h3 className="text-2xl font-bold font-display mb-4">
+              <div className="p-6 sm:p-8 md:p-12">
+                <h3 className="text-xl sm:text-2xl font-bold font-display mb-4">
                   {language === 'sv' ? "Case: Lokal designbyrå" : "Case: Local design agency"}
                 </h3>
-                <p className="text-gray-300 mb-6">
+                <p className="text-gray-300 mb-6 text-sm sm:text-base">
                   {language === 'sv'
                     ? "En mindre designbyrå med fem anställda kom till oss eftersom deras webbplats från 2018 inte längre representerade deras moderna portfölj eller attraherade rätt kunder."
                     : "A small design agency with five employees came to us because their website from 2018 no longer represented their modern portfolio or attracted the right clients."}
                 </p>
-                <div className="grid grid-cols-2 gap-6 mb-6">
+                <div className="grid grid-cols-2 gap-4 sm:gap-6 mb-6">
                   <div>
-                    <p className="text-sm text-gray-400 mb-1">
+                    <p className="text-xs sm:text-sm text-gray-400 mb-1">
                       {language === 'sv' ? "Nya kundförfrågningar" : "New client inquiries"}
                     </p>
-                    <p className="text-3xl font-bold text-brand-teal">+156%</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-brand-teal">+156%</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-400 mb-1">
+                    <p className="text-xs sm:text-sm text-gray-400 mb-1">
                       {language === 'sv' ? "Kvalificerade leads" : "Qualified leads"}
                     </p>
-                    <p className="text-3xl font-bold text-brand-teal">+89%</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-brand-teal">+89%</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-400 mb-1">
+                    <p className="text-xs sm:text-sm text-gray-400 mb-1">
                       {language === 'sv' ? "Besökstid på sidan" : "Time on site"}
                     </p>
-                    <p className="text-3xl font-bold text-brand-teal">+118%</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-brand-teal">+118%</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-400 mb-1">
+                    <p className="text-xs sm:text-sm text-gray-400 mb-1">
                       {language === 'sv' ? "Sidladdningstid" : "Page load time"}
                     </p>
-                    <p className="text-3xl font-bold text-brand-teal">0.9s</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-brand-teal">0.9s</p>
                   </div>
                 </div>
-                <blockquote className="border-l-4 border-brand-teal pl-4 italic text-gray-300">
+                <blockquote className="border-l-4 border-brand-teal pl-4 italic text-gray-300 text-sm sm:text-base">
                   {language === 'sv'
                     ? "Som ett mindre företag var vi oroliga för att en omdesign skulle vara utom vår budget. RemakeiT anpassade processen för våra behov och levererade en webbplats som direkt började generera fler och bättre kundförfrågningar. ROI blev tydlig redan efter första månaden."
                     : "As a small business, we were worried a redesign would be out of our budget. RemakeiT tailored the process to our needs and delivered a website that immediately started generating more and better client inquiries. The ROI became clear after just the first month."}
-                  <footer className="mt-2 text-sm text-gray-400 not-italic">
+                  <footer className="mt-2 text-xs sm:text-sm text-gray-400 not-italic">
                     — {language === 'sv' ? "Ägare" : "Owner"}, {language === 'sv' ? "Designbyrå i Göteborg" : "Design Agency in Gothenburg"}
                   </footer>
                 </blockquote>

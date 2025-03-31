@@ -89,10 +89,10 @@ const Portfolio: React.FC = () => {
   const currentItems = portfolioItems[language];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground touch-auto">
       <Nav />
       
-      <section className="pt-32 pb-16 relative overflow-hidden">
+      <section className="pt-32 pb-16 relative overflow-visible">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-brand-purple/20 blur-[150px] rounded-full pointer-events-none"></div>
         <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-brand-teal/20 blur-[150px] rounded-full pointer-events-none"></div>
         

@@ -8,7 +8,7 @@
   :root {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-
+    
     --card: 240 10% 5%;
     --card-foreground: 0 0% 98%;
 
@@ -47,8 +47,8 @@
     @apply overflow-x-hidden;
     width: 100%;
     height: auto;
-    overscroll-behavior-y: auto;
-    touch-action: auto;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y;
   }
   
   body {

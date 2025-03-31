@@ -16,8 +16,9 @@ const ComparisonSlider: React.FC<ComparisonSliderProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
 
-  const handleMouseDown = () => {
+  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     isDragging.current = true;
+    // Don't prevent default here to allow scrolling when not directly on the slider
   };
 
   const handleMouseUp = () => {
@@ -36,7 +37,7 @@ const ComparisonSlider: React.FC<ComparisonSliderProps> = ({
   };
 
   const handleTouchMove = (e: TouchEvent) => {
-    if (!containerRef.current) return;
+    if (!isDragging.current || !containerRef.current) return;
     
     const containerRect = containerRef.current.getBoundingClientRect();
     const touch = e.touches[0];
@@ -45,19 +46,25 @@ const ComparisonSlider: React.FC<ComparisonSliderProps> = ({
     const limitedPosition = Math.min(Math.max(position, 5), 95);
     setSliderPosition(limitedPosition);
     
-    e.preventDefault(); // Prevent page scrolling while dragging
+    // Only prevent default when actually dragging the slider
+    if (isDragging.current) {
+      e.preventDefault();
+    }
   };
 
   useEffect(() => {
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('touchmove', handleTouchMove as any, { passive: false });
+    
+    // Use passive true for better scroll performance when not dragging
+    const touchMoveHandler = (e: TouchEvent) => handleTouchMove(e);
+    document.addEventListener('touchmove', touchMoveHandler, { passive: false });
     document.addEventListener('touchend', handleMouseUp);
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('touchmove', handleTouchMove as any);
+      document.removeEventListener('touchmove', touchMoveHandler);
       document.removeEventListener('touchend', handleMouseUp);
     };
   }, []);

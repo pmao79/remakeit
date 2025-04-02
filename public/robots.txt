@@ -33,3 +33,17 @@ Disallow: /wp-admin/
 
 # Control crawl rate
 Crawl-delay: 1
+
+# New directives for better SEO handling
+User-agent: *
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# Request specific handling for archive pages
+Allow: /archive/
+
+# Disallow some specific files or patterns
+Disallow: /private/
+Disallow: /*.pdf$
+Disallow: /temp/

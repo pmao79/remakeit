@@ -8,12 +8,11 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import SeoHead from '@/components/SeoHead';
-import BreadcrumbSchema from '@/components/ui/breadcrumb-schema';
+import BreadcrumbSchema from '@/components/schema/BreadcrumbSchema';
 
 const Portfolio: React.FC = () => {
   const { language, t } = useLanguage();
   
-  // SEO data based on current language
   const seoData = {
     sv: {
       title: "Portfolio - Se Våra Webbplatsprojekt & Transformationer | RemakeiT",
@@ -27,7 +26,6 @@ const Portfolio: React.FC = () => {
     }
   };
   
-  // Breadcrumbs for portfolio page
   const breadcrumbItems = [
     {
       name: language === 'sv' ? 'Hem' : 'Home',
@@ -39,8 +37,6 @@ const Portfolio: React.FC = () => {
     }
   ];
   
-  // Sample portfolio items with before/after images
-  // In a real implementation, these would come from a database or API
   const portfolioItems = {
     sv: [
       {
@@ -108,7 +104,6 @@ const Portfolio: React.FC = () => {
     ]
   };
 
-  // Scroll to top when the page loads
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

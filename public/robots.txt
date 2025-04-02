@@ -18,12 +18,16 @@ Allow: /
 User-agent: BingPreview
 Allow: /
 
-# Social Media bots
+# Social Media bots - make sure social links are indexed properly
 User-agent: Twitterbot
 Allow: /
 User-agent: facebookexternalhit
 Allow: /
 User-agent: LinkedInBot
+Allow: /
+User-agent: Pinterest
+Allow: /
+User-agent: InstagramBot
 Allow: /
 
 # Disallow admin areas
@@ -39,6 +43,7 @@ User-agent: *
 Allow: /images/
 Allow: /css/
 Allow: /js/
+Allow: /social-icons/
 
 # Request specific handling for archive pages
 Allow: /archive/

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Facebook, Instagram } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const { language, t } = useLanguage();
@@ -22,6 +23,22 @@ const Footer: React.FC = () => {
   };
 
   const current = contactInfo[language];
+
+  // Social media links with proper SEO attributes
+  const socialLinks = [
+    {
+      name: 'Facebook',
+      url: 'https://www.facebook.com/remakeit',
+      icon: <Facebook className="w-5 h-5" />,
+      ariaLabel: 'Besök vår Facebook sida',
+    },
+    {
+      name: 'Instagram',
+      url: 'https://www.instagram.com/remakeit.se',
+      icon: <Instagram className="w-5 h-5" />,
+      ariaLabel: 'Följ oss på Instagram',
+    }
+  ];
   
   return (
     <footer className="bg-secondary/50 border-t border-white/5">
@@ -36,6 +53,23 @@ const Footer: React.FC = () => {
             <p className="text-gray-400 mb-6">
               {t('footer.description')}
             </p>
+            
+            {/* Social Media Icons */}
+            <div className="flex items-center space-x-4 mt-4">
+              {socialLinks.map((social, index) => (
+                <a 
+                  key={index} 
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.ariaLabel}
+                  className="text-gray-400 hover:text-brand-teal transition-colors duration-200 flex items-center justify-center p-2 rounded-full bg-secondary hover:bg-secondary/80"
+                  title={`Följ RemakeiT på ${social.name}`}
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
           </div>
           
           <div>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ServicePageLayout from '@/components/ServicePageLayout';
 import ServiceBenefits from '@/components/ServiceBenefits';
@@ -8,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Check, Search, TrendingUp, BarChart, Globe, Users, ArrowRight, Layers } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import ServiceSchema from '@/components/schema/ServiceSchema';
 
 const SeoOptimization = () => {
   const { language } = useLanguage();
@@ -138,6 +138,16 @@ const SeoOptimization = () => {
       }}
       heroImage="https://images.unsplash.com/photo-1548094891-c4ba474efd16?q=80&w=2000&auto=format&fit=crop"
     >
+      {/* Add ServiceSchema for SEO-specific structured data */}
+      <ServiceSchema 
+        name={language === 'sv' ? "SEO-optimering tjänster" : "SEO optimization services"}
+        description={language === 'sv' 
+          ? "Professionella SEO-tjänster för att förbättra din webbplats synlighet i sökmotorer och öka organisk trafik."
+          : "Professional SEO services to improve your website visibility in search engines and increase organic traffic."}
+        url={language === 'sv' ? 'https://remakeit.com/sv/services/seo-optimization' : 'https://remakeit.com/services/seo-optimization'}
+        serviceArea={language === 'sv' ? 'Sverige' : 'Worldwide'}
+      />
+      
       {/* Intro Section */}
       <section className="py-16 md:py-24 bg-gradient-to-b from-black to-background">
         <div className="container max-w-7xl mx-auto px-4">

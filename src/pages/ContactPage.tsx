@@ -6,6 +6,7 @@ import Contact from '@/components/Contact';
 import RevealSection from '@/components/ui/reveal-section';
 import { useLanguage } from '@/contexts/LanguageContext';
 import SeoHead from '@/components/SeoHead';
+import BreadcrumbSchema from '@/components/schema/BreadcrumbSchema';
 
 const ContactPage: React.FC = () => {
   const { t, language } = useLanguage();
@@ -15,14 +16,26 @@ const ContactPage: React.FC = () => {
     sv: {
       title: "Kontakta Oss - Få Hjälp Med Din Webbplats | RemakeiT",
       description: "Kontakta vårt team för att diskutera din webbplats. Få en gratis konsultation och se hur vi kan hjälpa dig att förbättra din digitala närvaro.",
-      keywords: "kontakta webbdesign byrå, webbplats konsultation, webbplats förbättring, digital närvaro, kontaktformulär"
+      keywords: "kontakta webbdesign byrå, webbplats konsultation, webbplats förbättring, digital närvaro, kontaktformulär, webbyrå kontakt, webbdesign konsultation, webbplatsoptimering, SEO konsultation, designprojekt"
     },
     en: {
       title: "Contact Us - Get Help With Your Website | RemakeiT",
       description: "Contact our team to discuss your website. Get a free consultation and see how we can help you improve your digital presence.",
-      keywords: "contact web design agency, website consultation, website improvement, digital presence, contact form"
+      keywords: "contact web design agency, website consultation, website improvement, digital presence, contact form, web agency contact, web design consultation, website optimization, SEO consultation, design project"
     }
   };
+  
+  // Breadcrumbs for contact page
+  const breadcrumbItems = [
+    {
+      name: language === 'sv' ? 'Hem' : 'Home',
+      url: language === 'sv' ? 'https://remakeit.com/sv/' : 'https://remakeit.com/'
+    },
+    {
+      name: language === 'sv' ? 'Kontakt' : 'Contact',
+      url: language === 'sv' ? 'https://remakeit.com/sv/contact' : 'https://remakeit.com/contact'
+    }
+  ];
   
   // Scroll to top when the page loads
   useEffect(() => {
@@ -37,6 +50,7 @@ const ContactPage: React.FC = () => {
         keywords={seoData[language].keywords}
         canonical={language === 'sv' ? 'https://remakeit.com/sv/contact' : 'https://remakeit.com/contact'}
       />
+      <BreadcrumbSchema items={breadcrumbItems} />
       <Nav />
       
       <section className="pt-32 pb-16 relative overflow-hidden">

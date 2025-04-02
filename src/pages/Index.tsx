@@ -13,6 +13,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import OrganizationSchema from '@/components/schema/OrganizationSchema';
 import WebsiteSchema from '@/components/schema/WebsiteSchema';
 import BreadcrumbSchema from '@/components/schema/BreadcrumbSchema';
+import ServiceSchema from '@/components/schema/ServiceSchema';
 
 const Index: React.FC = () => {
   const { language } = useLanguage();
@@ -27,12 +28,12 @@ const Index: React.FC = () => {
     sv: {
       title: "RemakeiT - Expertis inom Webbdesign & Webbplatsomdesign",
       description: "Förvandla din föråldrade webbplats till en modern, konverteringsoptimerad digital upplevelse. Få experthjälp med webbdesign, redesign och SEO.",
-      keywords: "webbdesign, webbplatsomvandling, redesign, SEO, konverteringsoptimering, professionell webbyrå, moderna webbplatser"
+      keywords: "webbdesign, webbplatsomvandling, redesign, SEO, konverteringsoptimering, professionell webbyrå, moderna webbplatser, webbplats förbättring, UX design, responsiv design, företagswebbplats, e-handel design, webbapplikation"
     },
     en: {
       title: "RemakeiT - Professional Web Design & Redesign Services",
       description: "Transform your outdated website into a modern, conversion-optimized digital experience. Get expert help with web design, redesign and SEO.",
-      keywords: "web design, website transformation, redesign, SEO, conversion optimization, professional web agency, modern websites"
+      keywords: "web design, website transformation, redesign, SEO, conversion optimization, professional web agency, modern websites, website improvement, UX design, responsive design, business website, e-commerce design, web application"
     }
   };
   
@@ -55,6 +56,11 @@ const Index: React.FC = () => {
       <OrganizationSchema />
       <WebsiteSchema />
       <BreadcrumbSchema items={breadcrumbItems} />
+      <ServiceSchema 
+        name="Web Design & Redesign Services"
+        description="Professional web design and redesign services to transform your online presence and improve conversion rates."
+        url={language === 'sv' ? 'https://remakeit.com/sv/' : 'https://remakeit.com/'}
+      />
       <Nav />
       <main className="w-full overflow-visible">
         <Hero />

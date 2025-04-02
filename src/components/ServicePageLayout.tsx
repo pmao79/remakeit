@@ -7,6 +7,8 @@ import RevealSection from '@/components/ui/reveal-section';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Check } from 'lucide-react';
+import SeoHead from '@/components/SeoHead';
+import ServiceSchema from '@/components/schema/ServiceSchema';
 
 interface ServicePageLayoutProps {
   title: {
@@ -19,13 +21,31 @@ interface ServicePageLayoutProps {
   };
   heroImage: string;
   children: React.ReactNode;
+  // SEO Props
+  metaTitle?: {
+    sv: string;
+    en: string;
+  };
+  metaDescription?: {
+    sv: string;
+    en: string;
+  };
+  metaKeywords?: {
+    sv: string;
+    en: string;
+  };
+  canonicalPath?: string;
 }
 
 const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({ 
   title, 
   subtitle, 
   heroImage,
-  children 
+  children,
+  metaTitle,
+  metaDescription,
+  metaKeywords,
+  canonicalPath = ''
 }) => {
   const { language, t } = useLanguage();
   
@@ -34,8 +54,34 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
     window.scrollTo(0, 0);
   }, []);
 
+  // Default SEO data if not provided
+  const seoTitle = metaTitle?.[language] || title[language];
+  const seoDescription = metaDescription?.[language] || subtitle[language];
+  const seoKeywords = metaKeywords?.[language] || '';
+  const canonical = `https://remakeit.com${language === 'sv' ? '/sv' : ''}${canonicalPath}`;
+  
+  // Service schema data
+  const schemaName = language === 'sv' ? 
+    `RemakeiT - ${title.sv}` : 
+    `RemakeiT - ${title.en}`;
+  
+  const schemaDescription = language === 'sv' ? 
+    subtitle.sv : 
+    subtitle.en;
+
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SeoHead 
+        title={seoTitle}
+        description={seoDescription}
+        keywords={seoKeywords}
+        canonical={canonical}
+      />
+      <ServiceSchema
+        name={schemaName}
+        description={schemaDescription}
+        url={canonical}
+      />
       <Nav />
       
       {/* Hero Section */}

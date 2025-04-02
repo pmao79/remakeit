@@ -26,13 +26,14 @@ interface ServiceBenefitsProps {
     sv: string;
     en: string;
   };
+  sectionId?: string;
 }
 
-const ServiceBenefits: React.FC<ServiceBenefitsProps> = ({ benefits, title, subtitle }) => {
+const ServiceBenefits: React.FC<ServiceBenefitsProps> = ({ benefits, title, subtitle, sectionId = 'benefits' }) => {
   const { language } = useLanguage();
   
   return (
-    <section className="py-16 md:py-24">
+    <section id={sectionId} className="py-16 md:py-24">
       <div className="container max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">{title[language]}</h2>
@@ -44,7 +45,7 @@ const ServiceBenefits: React.FC<ServiceBenefitsProps> = ({ benefits, title, subt
             <RevealSection key={index} delay={index * 100} className="h-full">
               <Card className="h-full bg-secondary/50 border-white/5 hover:border-brand-teal/30 transition-colors">
                 <CardContent className="p-8">
-                  <div className="mb-5 text-brand-teal">
+                  <div className="mb-5 text-brand-teal" aria-hidden="true">
                     {benefit.icon}
                   </div>
                   <h3 className="text-xl font-semibold font-display mb-4">{benefit.title[language]}</h3>

@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -8,9 +7,24 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import SeoHead from '@/components/SeoHead';
 
 const Portfolio: React.FC = () => {
   const { language, t } = useLanguage();
+  
+  // SEO data based on current language
+  const seoData = {
+    sv: {
+      title: "Portfolio - Se Våra Webbplatsprojekt & Transformationer | RemakeiT",
+      description: "Utforska våra framgångsrika webbdesignprojekt. Se skillnaden före och efter när vi förvandlar föråldrade webbplatser till moderna, konverterande digitala upplevelser.",
+      keywords: "webbdesign portfolio, webbplats före och efter, webbplats transformationer, webbdesign exempel, designprojekt"
+    },
+    en: {
+      title: "Portfolio - See Our Website Projects & Transformations | RemakeiT",
+      description: "Explore our successful web design projects. See the before and after difference as we transform outdated websites into modern, converting digital experiences.",
+      keywords: "web design portfolio, website before and after, website transformations, web design examples, design projects"
+    }
+  };
   
   // Sample portfolio items with before/after images
   // In a real implementation, these would come from a database or API
@@ -90,6 +104,12 @@ const Portfolio: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground touch-auto">
+      <SeoHead 
+        title={seoData[language].title}
+        description={seoData[language].description}
+        keywords={seoData[language].keywords}
+        canonical={language === 'sv' ? 'https://remakeit.com/sv/portfolio' : 'https://remakeit.com/portfolio'}
+      />
       <Nav />
       
       <section className="pt-32 pb-16 relative overflow-visible">

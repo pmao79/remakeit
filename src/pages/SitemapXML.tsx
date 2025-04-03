@@ -3,13 +3,15 @@ import React, { useEffect } from 'react';
 
 const SitemapXML: React.FC = () => {
   useEffect(() => {
-    // Create a temporary link to force proper browser handling of the XML file
+    // Set the correct MIME type and navigate to the sitemap.xml file
     const link = document.createElement('a');
     link.href = '/sitemap.xml';
     link.setAttribute('type', 'application/xml');
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
     
-    // Alternatively, redirect with a delay to ensure proper page navigation
+    // Fallback redirect with a delay
     setTimeout(() => {
       window.location.replace('/sitemap.xml');
     }, 100);

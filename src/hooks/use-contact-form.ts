@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
+import emailjs from 'emailjs-com';
 
 interface ContactFormData {
   name: string;
@@ -43,33 +44,38 @@ export const useContactForm = () => {
   };
 
   const sendNotificationEmail = async (formData: ContactFormData) => {
-    // In a real application, this would send an email to admin users
-    console.log('Sending notification email with form data:', formData);
+    console.log('Sending email notification with form data:', formData);
     
     // Email addresses to notify
     const adminEmails = ['info@remakeit.se', 'marcus@remakeit.se'];
     
-    // For demonstration purposes, we'll log what would be sent
-    console.log(`Would send email notifications to: ${adminEmails.join(', ')}`);
-    console.log(`Email subject: New Contact Form Submission from ${formData.name}`);
-    console.log(`Email body would include: Name: ${formData.name}, Email: ${formData.email}, Phone: ${formData.phone || 'Not provided'}, Message: ${formData.message}`);
-    
-    // This is a mock implementation
-    // In a production environment, you would need to set up a server endpoint 
-    // or use a service like EmailJS, SendGrid, etc.
-
     try {
-      // For now, we'll use EmailJS as a client-side email solution
-      // This is a temporary solution to demonstrate functionality
-      // For a production environment, you'd want a server-side solution
+      // Configure EmailJS with your service ID, template ID, and user ID
+      // These should be obtained from the EmailJS dashboard
+      const templateParams = {
+        from_name: formData.name,
+        reply_to: formData.email,
+        phone_number: formData.phone || 'Not provided',
+        website: formData.website || 'Not provided',
+        message: formData.message,
+        to_email: adminEmails.join(', ')
+      };
       
-      // Mock success for now
-      return new Promise<boolean>((resolve) => {
-        setTimeout(() => {
-          console.log('Email notification sent successfully');
-          resolve(true);
-        }, 1000);
-      });
+      // Replace these values with your own EmailJS credentials
+      const serviceId = 'service_remakeit';  // Your EmailJS service ID
+      const templateId = 'template_contact'; // Your EmailJS template ID
+      const userId = 'user_yourUserId';      // Your EmailJS user ID
+      
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        userId
+      );
+      
+      console.log('Email sent successfully:', response);
+      return true;
     } catch (error) {
       console.error('Error sending notification email:', error);
       return false;
@@ -93,10 +99,11 @@ export const useContactForm = () => {
       
       if (!emailSent) {
         console.warn('Email notification could not be sent, but lead was stored');
+        toast.warning('Your message was received but we had trouble sending notifications. We will still contact you soon.');
+      } else {
+        // Show success message
+        toast.success('Your message has been sent! We will contact you soon.');
       }
-      
-      // Show success message
-      toast.success('Your message has been sent! We will contact you soon.');
       
       // Return success
       return { success: true, message: 'Form submitted successfully' };

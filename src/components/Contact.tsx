@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone } from 'lucide-react';
@@ -28,13 +27,7 @@ const Contact: React.FC = () => {
     console.log("Contact form submitted with data:", formData);
     
     // Submit the form using our custom hook
-    const result = await submitForm({
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      website: formData.website,
-      message: formData.message
-    });
+    const result = await submitForm(formData);
     
     // If submission was successful, reset the form
     if (result.success) {

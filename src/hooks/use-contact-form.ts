@@ -50,25 +50,23 @@ export const useContactForm = () => {
       // EmailJS configuration
       emailjs.init("kMds9Y1Lf0Eln0I8J"); // Public key
       
-      // 1. Send auto-response to customer (using the template you provided)
+      // Send auto-response to customer with correct parameters
+      // Make sure all required template parameters are included
       const customerEmailParams = {
         to_name: formData.name,
         to_email: formData.email,
         from_name: "RemakeiT",
-        message: "Thank you for contacting RemakeiT! We've received your message and will get back to you as soon as possible."
+        message: "Thank you for contacting RemakeiT! We've received your message and will get back to you as soon as possible.",
+        reply_to: "info@remakeit.se" // Add a reply_to parameter
       };
       
       const customerResponse = await emailjs.send(
-        "service_5zvrov8", // Service ID
-        "template_gdz9quv", // Template ID for customer auto-responses
+        "service_5zvrov8", // Service ID 
+        "template_gdz9quv", // Template ID
         customerEmailParams
       );
       
       console.log('Customer auto-response email sent successfully:', customerResponse);
-      
-      // 2. Send notification to admin - store form data in localStorage instead
-      // Since we don't have a specific template for admin notifications,
-      // we'll rely on the leads being stored in localStorage for admin access
       
       return true;
     } catch (error) {

@@ -50,40 +50,25 @@ export const useContactForm = () => {
       // EmailJS configuration
       emailjs.init("kMds9Y1Lf0Eln0I8J"); // Public key
       
-      // 1. Send notification to admin
-      const adminEmailParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        phone: formData.phone || 'Not provided',
-        website: formData.website || 'Not provided',
-        message: formData.message,
-        reply_to: formData.email
-      };
-      
-      const adminResponse = await emailjs.send(
-        "service_5zvrov8", // Service ID
-        "template_gdz9quv", // Template ID for admin notification
-        adminEmailParams
-      );
-      
-      console.log('Admin notification email sent successfully:', adminResponse);
-      
-      // 2. Send auto-response to customer
+      // 1. Send auto-response to customer (using the template you provided)
       const customerEmailParams = {
         to_name: formData.name,
         to_email: formData.email,
-        message: `Thank you for contacting RemakeiT! We've received your message and will get back to you as soon as possible.`,
+        from_name: "RemakeiT",
+        message: "Thank you for contacting RemakeiT! We've received your message and will get back to you as soon as possible."
       };
       
-      // Create a second template in EmailJS for auto-responses and use that template ID
-      // For now, we'll use the same template but in a real implementation you'd create a separate template
       const customerResponse = await emailjs.send(
         "service_5zvrov8", // Service ID
-        "template_gdz9quv", // Replace with your auto-response template ID when created
+        "template_gdz9quv", // Template ID for customer auto-responses
         customerEmailParams
       );
       
       console.log('Customer auto-response email sent successfully:', customerResponse);
+      
+      // 2. Send notification to admin - store form data in localStorage instead
+      // Since we don't have a specific template for admin notifications,
+      // we'll rely on the leads being stored in localStorage for admin access
       
       return true;
     } catch (error) {
@@ -104,7 +89,7 @@ export const useContactForm = () => {
         throw new Error('Failed to store lead data');
       }
       
-      // Send notification emails to admin and auto-response to customer
+      // Send auto-response email to customer
       const emailsSent = await sendNotificationEmails(formData);
       
       if (!emailsSent) {

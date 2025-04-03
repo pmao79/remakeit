@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { Resend } from 'resend';
+import emailjs from 'emailjs-com';
 
 interface ContactFormData {
   name: string;
@@ -43,46 +43,51 @@ export const useContactForm = () => {
     }
   };
 
-  const sendNotificationEmail = async (formData: ContactFormData) => {
-    console.log('Sending email notification with form data:', formData);
-    
-    // Email addresses to notify
-    const adminEmails = ['info@remakeit.se', 'marcus@remakeit.se'];
+  const sendNotificationEmails = async (formData: ContactFormData) => {
+    console.log('Sending notification emails with form data:', formData);
     
     try {
-      // Initialize Resend with your API key
-      // Note: In a production environment, this API key should be stored securely
-      const resend = new Resend('re_your_resend_api_key'); // Replace with your Resend API key
+      // EmailJS configuration
+      emailjs.init("kMds9Y1Lf0Eln0I8J"); // Public key
       
-      // Prepare email content
-      const emailContent = `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${formData.name}</p>
-        <p><strong>Email:</strong> ${formData.email}</p>
-        <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
-        <p><strong>Website:</strong> ${formData.website || 'Not provided'}</p>
-        <h3>Message:</h3>
-        <p>${formData.message}</p>
-      `;
-      
-      // Send email using Resend
-      const { data, error } = await resend.emails.send({
-        from: 'noreply@remakeit.se', // Replace with your verified Resend domain
-        to: adminEmails,
-        subject: `New Contact Form Submission from ${formData.name}`,
-        html: emailContent,
+      // 1. Send notification to admin
+      const adminEmailParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone || 'Not provided',
+        website: formData.website || 'Not provided',
+        message: formData.message,
         reply_to: formData.email
-      });
+      };
       
-      if (error) {
-        console.error('Error from Resend:', error);
-        return false;
-      }
+      const adminResponse = await emailjs.send(
+        "service_5zvrov8", // Service ID
+        "template_gdz9quv", // Template ID for admin notification
+        adminEmailParams
+      );
       
-      console.log('Email sent successfully with Resend:', data);
+      console.log('Admin notification email sent successfully:', adminResponse);
+      
+      // 2. Send auto-response to customer
+      const customerEmailParams = {
+        to_name: formData.name,
+        to_email: formData.email,
+        message: `Thank you for contacting RemakeiT! We've received your message and will get back to you as soon as possible.`,
+      };
+      
+      // Create a second template in EmailJS for auto-responses and use that template ID
+      // For now, we'll use the same template but in a real implementation you'd create a separate template
+      const customerResponse = await emailjs.send(
+        "service_5zvrov8", // Service ID
+        "template_gdz9quv", // Replace with your auto-response template ID when created
+        customerEmailParams
+      );
+      
+      console.log('Customer auto-response email sent successfully:', customerResponse);
+      
       return true;
     } catch (error) {
-      console.error('Error sending notification email:', error);
+      console.error('Error sending notification emails:', error);
       return false;
     }
   };
@@ -99,11 +104,11 @@ export const useContactForm = () => {
         throw new Error('Failed to store lead data');
       }
       
-      // Send notification email to admin
-      const emailSent = await sendNotificationEmail(formData);
+      // Send notification emails to admin and auto-response to customer
+      const emailsSent = await sendNotificationEmails(formData);
       
-      if (!emailSent) {
-        console.warn('Email notification could not be sent, but lead was stored');
+      if (!emailsSent) {
+        console.warn('Email notifications could not be sent, but lead was stored');
         toast.warning('Your message was received but we had trouble sending notifications. We will still contact you soon.');
       } else {
         // Show success message

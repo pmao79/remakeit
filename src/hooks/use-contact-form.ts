@@ -50,19 +50,20 @@ export const useContactForm = () => {
       // EmailJS configuration
       emailjs.init("kMds9Y1Lf0Eln0I8J"); // Public key
       
-      // Send auto-response to customer with correct parameters
-      // Make sure all required template parameters are included
+      // Send auto-response to customer with all required parameters
       const customerEmailParams = {
         to_name: formData.name,
         to_email: formData.email,
         from_name: "RemakeiT",
         message: "Thank you for contacting RemakeiT! We've received your message and will get back to you as soon as possible.",
-        reply_to: "info@remakeit.se" // Add a reply_to parameter
+        reply_to: "info@remakeit.se",
+        // Add any other parameters that might be required by the template
+        subject: "Thank you for contacting RemakeiT"
       };
       
       const customerResponse = await emailjs.send(
-        "service_5zvrov8", // Service ID 
-        "template_gdz9quv", // Template ID
+        "service_5zvrov8",
+        "template_gdz9quv",
         customerEmailParams
       );
       

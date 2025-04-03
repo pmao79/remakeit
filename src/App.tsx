@@ -18,6 +18,7 @@ import SeoOptimization from "./pages/services/SeoOptimization";
 import ConversionOptimization from "./pages/services/ConversionOptimization";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import SitemapXML from "./pages/SitemapXML";
 
 const queryClient = new QueryClient();
 
@@ -42,8 +43,16 @@ const App = () => (
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/login" element={<Admin />} />
-              {/* Static files like sitemap.xml should be served from /public directory */}
-              {/* Do not add a route for sitemap.xml here */}
+              <Route path="/admin/dashboard" element={<Admin />} />
+              <Route path="/admin/blog" element={<Admin />} />
+              <Route path="/admin/portfolio" element={<Admin />} />
+              <Route path="/admin/services" element={<Admin />} />
+              <Route path="/admin/leads" element={<Admin />} />
+              <Route path="/admin/seo" element={<Admin />} />
+              <Route path="/admin/users" element={<Admin />} />
+              <Route path="/admin/media" element={<Admin />} />
+              <Route path="/admin/settings" element={<Admin />} />
+              <Route path="/sitemap.xml" element={<SitemapXML />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

@@ -1,30 +1,73 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Layout as DashboardLayout } from '@/components/admin/Layout';
+
+// Admin users with access
+const ADMIN_USERS = [
+  { email: 'info@remakeit.se', password: 'admin123' },
+  { email: 'marcus@remakeit.se', password: 'admin123' }
+];
 
 const Admin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Check if user is already authenticated
+  useEffect(() => {
+    const adminAuth = localStorage.getItem('admin-auth');
+    if (adminAuth) {
+      try {
+        const authData = JSON.parse(adminAuth);
+        const now = new Date();
+        if (authData.expiry && new Date(authData.expiry) > now) {
+          setIsAuthenticated(true);
+        } else {
+          localStorage.removeItem('admin-auth');
+        }
+      } catch (e) {
+        localStorage.removeItem('admin-auth');
+      }
+    }
+  }, []);
+
+  // Render dashboard if already authenticated
+  if (isAuthenticated && !location.pathname.includes('/admin/login')) {
+    return <DashboardLayout />;
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // This is just a placeholder for a real authentication system
+    // Authenticate user
     setTimeout(() => {
-      // In a real app, you would authenticate with a backend service
-      if (email === 'admin@remakeit.com' && password === 'admin123') {
+      const user = ADMIN_USERS.find(user => user.email === email && user.password === password);
+      
+      if (user) {
+        // Set authentication in localStorage with 24 hour expiry
+        const expiry = new Date();
+        expiry.setHours(expiry.getHours() + 24);
+        
+        localStorage.setItem('admin-auth', JSON.stringify({
+          email: user.email,
+          expiry: expiry.toISOString()
+        }));
+        
         toast.success('Login successful!');
+        setIsAuthenticated(true);
         navigate('/admin/dashboard');
       } else {
         toast.error('Invalid email or password');
       }
       setIsLoading(false);
-    }, 1500);
+    }, 1000);
   };
 
   return (
@@ -76,7 +119,7 @@ const Admin: React.FC = () => {
           
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-400">
-              For demo purposes: admin@remakeit.com / admin123
+              Admin access only
             </p>
           </div>
         </form>

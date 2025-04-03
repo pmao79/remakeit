@@ -132,6 +132,14 @@ const Nav: React.FC = () => {
               {t('nav.portfolio')}
             </Link>
             <Link 
+              to="/blog" 
+              className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
+                isActive('/blog') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
+              }`}
+            >
+              {language === 'sv' ? 'Blogg' : 'Blog'}
+            </Link>
+            <Link 
               to="/contact" 
               className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
                 isActive('/contact') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
@@ -201,6 +209,12 @@ const Nav: React.FC = () => {
                     className={`text-lg font-medium py-2 ${isActive('/portfolio') ? 'text-brand-teal' : 'text-white'}`}
                   >
                     {t('nav.portfolio')}
+                  </Link>
+                  <Link 
+                    to="/blog"
+                    className={`text-lg font-medium py-2 ${isActive('/blog') ? 'text-brand-teal' : 'text-white'}`}
+                  >
+                    {language === 'sv' ? 'Blogg' : 'Blog'}
                   </Link>
                   <Link 
                     to="/contact"

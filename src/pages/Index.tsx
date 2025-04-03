@@ -14,6 +14,7 @@ import OrganizationSchema from '@/components/schema/OrganizationSchema';
 import WebsiteSchema from '@/components/schema/WebsiteSchema';
 import BreadcrumbSchema from '@/components/schema/BreadcrumbSchema';
 import ServiceSchema from '@/components/schema/ServiceSchema';
+import LatestBlogPosts from '@/components/LatestBlogPosts';
 
 const Index: React.FC = () => {
   const { language } = useLanguage();
@@ -67,6 +68,7 @@ const Index: React.FC = () => {
         <Benefits />
         <Process />
         <BeforeAfter />
+        <LatestBlogPosts />
         <Pricing />
         <Contact />
       </main>

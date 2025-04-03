@@ -41,17 +41,9 @@ const App = () => (
               <Route path="/services/conversion-optimization" element={<ConversionOptimization />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              {/* Admin routes - consolidated to avoid duplication */}
               <Route path="/admin" element={<Admin />} />
-              <Route path="/admin/login" element={<Admin />} />
-              <Route path="/admin/dashboard" element={<Admin />} />
-              <Route path="/admin/blog" element={<Admin />} />
-              <Route path="/admin/portfolio" element={<Admin />} />
-              <Route path="/admin/services" element={<Admin />} />
-              <Route path="/admin/leads" element={<Admin />} />
-              <Route path="/admin/seo" element={<Admin />} />
-              <Route path="/admin/users" element={<Admin />} />
-              <Route path="/admin/media" element={<Admin />} />
-              <Route path="/admin/settings" element={<Admin />} />
+              <Route path="/admin/*" element={<Admin />} />
               <Route path="/sitemap.xml" element={<SitemapXML />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

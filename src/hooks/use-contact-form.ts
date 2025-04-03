@@ -7,6 +7,7 @@ interface ContactFormData {
   email: string;
   phone?: string;
   message: string;
+  website?: string;
 }
 
 export const useContactForm = () => {
@@ -34,8 +35,10 @@ export const useContactForm = () => {
       localStorage.setItem('admin-leads', JSON.stringify(updatedLeads));
       
       console.log('Lead stored in local storage:', newLead);
+      return true;
     } catch (error) {
       console.error('Error storing lead in local storage:', error);
+      return false;
     }
   };
 
@@ -51,28 +54,46 @@ export const useContactForm = () => {
     console.log(`Email subject: New Contact Form Submission from ${formData.name}`);
     console.log(`Email body would include: Name: ${formData.name}, Email: ${formData.email}, Phone: ${formData.phone || 'Not provided'}, Message: ${formData.message}`);
     
-    // This is a mock implementation - in a real application, you would:
-    // 1. Call a backend API endpoint that sends emails
-    // 2. Store the lead in a database
-    
-    // For now, we'll simulate success after a delay
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        console.log('Email notification sent successfully');
-        resolve();
-      }, 1000);
-    });
+    // This is a mock implementation
+    // In a production environment, you would need to set up a server endpoint 
+    // or use a service like EmailJS, SendGrid, etc.
+
+    try {
+      // For now, we'll use EmailJS as a client-side email solution
+      // This is a temporary solution to demonstrate functionality
+      // For a production environment, you'd want a server-side solution
+      
+      // Mock success for now
+      return new Promise<boolean>((resolve) => {
+        setTimeout(() => {
+          console.log('Email notification sent successfully');
+          resolve(true);
+        }, 1000);
+      });
+    } catch (error) {
+      console.error('Error sending notification email:', error);
+      return false;
+    }
   };
 
   const handleSubmit = async (formData: ContactFormData) => {
     setIsSubmitting(true);
+    console.log("Form submission started with data:", formData);
     
     try {
       // Store lead in local storage for admin panel
-      storeLeadInLocalStorage(formData);
+      const storedSuccessfully = storeLeadInLocalStorage(formData);
+      
+      if (!storedSuccessfully) {
+        throw new Error('Failed to store lead data');
+      }
       
       // Send notification email to admin
-      await sendNotificationEmail(formData);
+      const emailSent = await sendNotificationEmail(formData);
+      
+      if (!emailSent) {
+        console.warn('Email notification could not be sent, but lead was stored');
+      }
       
       // Show success message
       toast.success('Your message has been sent! We will contact you soon.');

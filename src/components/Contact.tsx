@@ -25,12 +25,14 @@ const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Contact form submitted with data:", formData);
     
     // Submit the form using our custom hook
     const result = await submitForm({
       name: formData.name,
       email: formData.email,
       phone: formData.phone,
+      website: formData.website,
       message: formData.message
     });
     

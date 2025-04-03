@@ -28,16 +28,21 @@ export function Dashboard() {
   useEffect(() => {
     try {
       const storedLeads = localStorage.getItem('admin-leads');
+      console.log('Stored leads from localStorage:', storedLeads);
+      
       if (storedLeads) {
         const leads: Lead[] = JSON.parse(storedLeads);
+        console.log('Parsed leads:', leads);
         
         // Calculate stats
         setStats({
           totalLeads: leads.length,
           newLeads: leads.filter(lead => lead.status === 'New').length,
-          inProgress: leads.filter(lead => lead.status === 'In Progress').length,
+          inProgress: leads.filter(lead => lead.status === 'In Progress' || lead.status === 'Contacted').length,
           completed: leads.filter(lead => lead.status === 'Completed').length
         });
+      } else {
+        console.log('No leads found in localStorage');
       }
     } catch (error) {
       console.error('Error loading leads from localStorage:', error);

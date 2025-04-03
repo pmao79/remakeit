@@ -43,7 +43,7 @@ export function ServiceManager() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold tracking-tight">Services</h1>
-        <Button>
+        <Button className="bg-brand-teal text-black hover:bg-brand-teal/90">
           <Plus className="h-4 w-4 mr-2" />
           Add Service
         </Button>
@@ -51,11 +51,11 @@ export function ServiceManager() {
       
       <div className="grid gap-4">
         {services.map((service) => (
-          <Card key={service.id}>
+          <Card key={service.id} className="border border-border bg-card">
             <CardHeader className="pb-2">
               <div className="flex justify-between items-start">
                 <div>
-                  <CardTitle>{service.name}</CardTitle>
+                  <CardTitle className="text-card-foreground">{service.name}</CardTitle>
                   <CardDescription className="mt-1">{service.path}</CardDescription>
                 </div>
                 <div className="flex gap-2">

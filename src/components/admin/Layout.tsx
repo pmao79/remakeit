@@ -73,8 +73,8 @@ export function Layout() {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen w-full flex bg-gray-50 dark:bg-gray-900">
-        <Sidebar>
+      <div className="min-h-screen w-full flex bg-background">
+        <Sidebar className="border-r border-border">
           <SidebarHeader>
             <div className="p-2 flex items-center justify-center">
               <h2 className="text-xl font-bold text-center">

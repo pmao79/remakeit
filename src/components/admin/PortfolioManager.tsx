@@ -25,7 +25,7 @@ export function PortfolioManager() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold tracking-tight">Portfolio</h1>
-        <Button>
+        <Button className="bg-brand-teal text-black hover:bg-brand-teal/90">
           <Plus className="h-4 w-4 mr-2" />
           Add Project
         </Button>
@@ -33,18 +33,22 @@ export function PortfolioManager() {
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {portfolioItems.map((item) => (
-          <Card key={item.id} className="overflow-hidden">
+          <Card key={item.id} className="overflow-hidden border border-border bg-card">
             <div className="aspect-video bg-muted flex items-center justify-center">
               <Image className="h-10 w-10 text-muted-foreground" />
             </div>
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg">{item.name}</CardTitle>
+              <CardTitle className="text-lg text-card-foreground">{item.name}</CardTitle>
               <CardDescription>{item.category}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex gap-2">
                 <Button size="sm" variant="outline">Edit</Button>
-                <Button size="sm" variant="outline" className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground">
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
+                >
                   Delete
                 </Button>
               </div>

@@ -7,11 +7,9 @@ import { Layout } from '@/components/admin/Layout';
 import { Dashboard } from '@/components/admin/Dashboard';
 import { BlogManager } from '@/components/admin/BlogManager';
 import { PortfolioManager } from '@/components/admin/PortfolioManager';
-import { ServiceManager } from '@/components/admin/ServiceManager';
 import { LeadManager } from '@/components/admin/LeadManager';
 import { SeoTools } from '@/components/admin/SeoTools';
 import { UserManager } from '@/components/admin/UserManager';
-import { MediaLibrary } from '@/components/admin/MediaLibrary';
 import { AdminSettings } from '@/components/admin/Settings';
 
 // Admin users with access
@@ -143,11 +141,9 @@ const Admin: React.FC = () => {
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="blog" element={<BlogManager />} />
       <Route path="portfolio" element={<PortfolioManager />} />
-      <Route path="services" element={<ServiceManager />} />
       <Route path="leads" element={<LeadManager />} />
       <Route path="seo" element={<SeoTools />} />
       <Route path="users" element={<UserManager />} />
-      <Route path="media" element={<MediaLibrary />} />
       <Route path="settings" element={<AdminSettings />} />
       <Route path="" element={<Dashboard />} />
     </Routes>

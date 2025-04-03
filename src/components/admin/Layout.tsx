@@ -21,7 +21,6 @@ import {
   LayoutDashboard, 
   FileText, 
   Image, 
-  Users, 
   MessageSquare, 
   Search, 
   Settings, 
@@ -57,11 +56,8 @@ export function Layout({ children }: LayoutProps) {
     { title: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
     { title: 'Blog Posts', path: '/admin/blog', icon: FileText },
     { title: 'Portfolio', path: '/admin/portfolio', icon: Image },
-    { title: 'Services', path: '/admin/services', icon: FileText },
     { title: 'Leads', path: '/admin/leads', icon: MessageSquare },
     { title: 'SEO Tools', path: '/admin/seo', icon: Search },
-    { title: 'User Management', path: '/admin/users', icon: Users },
-    { title: 'Media Library', path: '/admin/media', icon: Image },
     { title: 'Settings', path: '/admin/settings', icon: Settings },
   ];
 

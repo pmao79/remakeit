@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import { LanguageProvider } from "./contexts/LanguageContext";
 import Index from "./pages/Index";
@@ -18,7 +18,6 @@ import SeoOptimization from "./pages/services/SeoOptimization";
 import ConversionOptimization from "./pages/services/ConversionOptimization";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
-import SitemapXML from "./pages/SitemapXML";
 
 const queryClient = new QueryClient();
 
@@ -43,7 +42,7 @@ const App = () => (
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/login" element={<Admin />} />
-              <Route path="/sitemap.xml" element={<SitemapXML />} />
+              {/* Remove the React route for sitemap.xml to ensure static file is served */}
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

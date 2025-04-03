@@ -16,6 +16,8 @@ import WebDesign from "./pages/services/WebDesign";
 import WebRedesign from "./pages/services/WebRedesign";
 import SeoOptimization from "./pages/services/SeoOptimization";
 import ConversionOptimization from "./pages/services/ConversionOptimization";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +38,8 @@ const App = () => (
               <Route path="/services/web-redesign" element={<WebRedesign />} />
               <Route path="/services/seo-optimization" element={<SeoOptimization />} />
               <Route path="/services/conversion-optimization" element={<ConversionOptimization />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/login" element={<Admin />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

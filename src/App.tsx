@@ -18,6 +18,7 @@ import SeoOptimization from "./pages/services/SeoOptimization";
 import ConversionOptimization from "./pages/services/ConversionOptimization";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import SitemapXML from "./pages/SitemapXML";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/login" element={<Admin />} />
+              <Route path="/sitemap.xml" element={<SitemapXML />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

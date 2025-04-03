@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useNavigate, useLocation, Routes, Route } from 'react-router-dom';
-import { Layout as DashboardLayout } from '@/components/admin/Layout';
+import { Layout } from '@/components/admin/Layout';
 import { Dashboard } from '@/components/admin/Dashboard';
 import { BlogManager } from '@/components/admin/BlogManager';
 import { PortfolioManager } from '@/components/admin/PortfolioManager';
@@ -137,23 +137,24 @@ const Admin: React.FC = () => {
     );
   }
 
-  // Render dashboard layout with nested routes for authenticated users
-  return (
-    <DashboardLayout>
-      <Routes>
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="blog" element={<BlogManager />} />
-        <Route path="portfolio" element={<PortfolioManager />} />
-        <Route path="services" element={<ServiceManager />} />
-        <Route path="leads" element={<LeadManager />} />
-        <Route path="seo" element={<SeoTools />} />
-        <Route path="users" element={<UserManager />} />
-        <Route path="media" element={<MediaLibrary />} />
-        <Route path="settings" element={<AdminSettings />} />
-        <Route path="" element={<Dashboard />} />
-      </Routes>
-    </DashboardLayout>
+  // Create routing content to pass to the Layout component
+  const adminRoutes = (
+    <Routes>
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="blog" element={<BlogManager />} />
+      <Route path="portfolio" element={<PortfolioManager />} />
+      <Route path="services" element={<ServiceManager />} />
+      <Route path="leads" element={<LeadManager />} />
+      <Route path="seo" element={<SeoTools />} />
+      <Route path="users" element={<UserManager />} />
+      <Route path="media" element={<MediaLibrary />} />
+      <Route path="settings" element={<AdminSettings />} />
+      <Route path="" element={<Dashboard />} />
+    </Routes>
   );
+
+  // Render dashboard layout with nested routes for authenticated users
+  return <Layout>{adminRoutes}</Layout>;
 };
 
 export default Admin;

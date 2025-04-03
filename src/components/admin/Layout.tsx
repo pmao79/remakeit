@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useNavigate, Routes, Route, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { 
   SidebarProvider, 
@@ -28,17 +28,11 @@ import {
   LogOut
 } from 'lucide-react';
 
-import { Dashboard } from './Dashboard';
-import { BlogManager } from './BlogManager';
-import { PortfolioManager } from './PortfolioManager';
-import { ServiceManager } from './ServiceManager';
-import { LeadManager } from './LeadManager';
-import { SeoTools } from './SeoTools';
-import { UserManager } from './UserManager';
-import { MediaLibrary } from './MediaLibrary';
-import { AdminSettings } from './Settings';
+interface LayoutProps {
+  children: React.ReactNode;
+}
 
-export function Layout() {
+export function Layout({ children }: LayoutProps) {
   const navigate = useNavigate();
   const [currentAdmin, setCurrentAdmin] = useState<string>(() => {
     try {
@@ -129,18 +123,7 @@ export function Layout() {
               <SidebarTrigger />
             </div>
 
-            <Routes>
-              <Route path="/admin/dashboard" element={<Dashboard />} />
-              <Route path="/admin/blog" element={<BlogManager />} />
-              <Route path="/admin/portfolio" element={<PortfolioManager />} />
-              <Route path="/admin/services" element={<ServiceManager />} />
-              <Route path="/admin/leads" element={<LeadManager />} />
-              <Route path="/admin/seo" element={<SeoTools />} />
-              <Route path="/admin/users" element={<UserManager />} />
-              <Route path="/admin/media" element={<MediaLibrary />} />
-              <Route path="/admin/settings" element={<AdminSettings />} />
-              <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-            </Routes>
+            {children}
           </div>
         </div>
       </div>

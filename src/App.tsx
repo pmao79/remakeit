@@ -41,8 +41,6 @@ const App = () => (
               <Route path="/services/conversion-optimization" element={<ConversionOptimization />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
-              {/* Admin routes - consolidated to avoid duplication */}
-              <Route path="/admin" element={<Admin />} />
               <Route path="/admin/*" element={<Admin />} />
               <Route path="/sitemap.xml" element={<SitemapXML />} />
               <Route path="*" element={<NotFound />} />

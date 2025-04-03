@@ -2,8 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Routes, Route } from 'react-router-dom';
 import { Layout as DashboardLayout } from '@/components/admin/Layout';
+import { Dashboard } from '@/components/admin/Dashboard';
+import { BlogManager } from '@/components/admin/BlogManager';
+import { PortfolioManager } from '@/components/admin/PortfolioManager';
+import { ServiceManager } from '@/components/admin/ServiceManager';
+import { LeadManager } from '@/components/admin/LeadManager';
+import { SeoTools } from '@/components/admin/SeoTools';
+import { UserManager } from '@/components/admin/UserManager';
+import { MediaLibrary } from '@/components/admin/MediaLibrary';
+import { AdminSettings } from '@/components/admin/Settings';
 
 // Admin users with access
 const ADMIN_USERS = [
@@ -18,6 +27,8 @@ const Admin: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  
+  console.log('Current location:', location.pathname);
 
   // Check if user is already authenticated
   useEffect(() => {
@@ -37,11 +48,7 @@ const Admin: React.FC = () => {
     }
   }, []);
 
-  // Render dashboard if already authenticated
-  if (isAuthenticated && !location.pathname.includes('/admin/login')) {
-    return <DashboardLayout />;
-  }
-
+  // Login handler
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -70,61 +77,82 @@ const Admin: React.FC = () => {
     }, 1000);
   };
 
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="max-w-md w-full glass-panel p-8 rounded-lg">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold font-display mb-2">
-            Remake<span className="text-brand-teal">iT</span> Admin
-          </h1>
-          <p className="text-gray-400">Sign in to access the admin dashboard</p>
-        </div>
-        
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-4 mb-6">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
-                placeholder="admin@remakeit.com"
-                required
-              />
+  // Login page
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="max-w-md w-full glass-panel p-8 rounded-lg">
+          <div className="text-center mb-8">
+            <h1 className="text-2xl font-bold font-display mb-2">
+              Remake<span className="text-brand-teal">iT</span> Admin
+            </h1>
+            <p className="text-gray-400">Sign in to access the admin dashboard</p>
+          </div>
+          
+          <form onSubmit={handleSubmit}>
+            <div className="space-y-4 mb-6">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
+                  placeholder="admin@remakeit.com"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
             </div>
             
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">Password</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-teal/50"
-                placeholder="••••••••"
-                required
-              />
+            <Button
+              type="submit"
+              className="w-full bg-brand-teal text-black hover:bg-brand-teal/90"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Signing in...' : 'Sign In'}
+            </Button>
+            
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-400">
+                Admin access only
+              </p>
             </div>
-          </div>
-          
-          <Button
-            type="submit"
-            className="w-full bg-brand-teal text-black hover:bg-brand-teal/90"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Signing in...' : 'Sign In'}
-          </Button>
-          
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-400">
-              Admin access only
-            </p>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
+    );
+  }
+
+  // Render dashboard layout with nested routes for authenticated users
+  return (
+    <DashboardLayout>
+      <Routes>
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="blog" element={<BlogManager />} />
+        <Route path="portfolio" element={<PortfolioManager />} />
+        <Route path="services" element={<ServiceManager />} />
+        <Route path="leads" element={<LeadManager />} />
+        <Route path="seo" element={<SeoTools />} />
+        <Route path="users" element={<UserManager />} />
+        <Route path="media" element={<MediaLibrary />} />
+        <Route path="settings" element={<AdminSettings />} />
+        <Route path="" element={<Dashboard />} />
+      </Routes>
+    </DashboardLayout>
   );
 };
 

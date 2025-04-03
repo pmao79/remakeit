@@ -42,8 +42,8 @@ const App = () => (
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/login" element={<Admin />} />
-              {/* Remove the React route for sitemap.xml to ensure static file is served */}
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              {/* Static files like sitemap.xml should be served from /public directory */}
+              {/* Do not add a route for sitemap.xml here */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

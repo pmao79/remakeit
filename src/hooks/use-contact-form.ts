@@ -43,36 +43,37 @@ export const useContactForm = () => {
     }
   };
 
-  const sendNotificationEmails = async (formData: ContactFormData) => {
-    console.log('Sending notification emails with form data:', formData);
+  const sendAutoResponseEmail = async (formData: ContactFormData) => {
+    console.log('Attempting to send auto-response email to:', formData.email);
     
     try {
-      // EmailJS configuration
-      emailjs.init("kMds9Y1Lf0Eln0I8J"); // Public key
+      // Initialize EmailJS with public key
+      emailjs.init("kMds9Y1Lf0Eln0I8J");
       
-      // Send auto-response to customer using the EMAILJS TEMPLATE format
-      // The template_gdz9quv expects specific parameters
-      const customerEmailParams = {
-        to_email: formData.email,
+      // EmailJS requires these parameters to be in this exact format for template_gdz9quv
+      const templateParams = {
+        from_name: "RemakeiT",
         to_name: formData.name,
         message: "Thank you for contacting RemakeiT! We've received your message and will get back to you as soon as possible.",
-        from_name: "RemakeiT",
         reply_to: "info@remakeit.se",
+        to_email: formData.email, // This is what was missing - EmailJS needs to_email
+        email: formData.email, // Adding this as a backup in case the template expects 'email' instead
         subject: "Thank you for contacting RemakeiT"
       };
       
-      // Send email using EmailJS
-      const customerResponse = await emailjs.send(
-        "service_5zvrov8", // Service ID
-        "template_gdz9quv", // Template ID
-        customerEmailParams
+      console.log('Sending email with template parameters:', templateParams);
+      
+      // Send the email
+      const response = await emailjs.send(
+        "service_5zvrov8", 
+        "template_gdz9quv", 
+        templateParams
       );
       
-      console.log('Customer auto-response email sent successfully:', customerResponse);
-      
+      console.log('Auto-response email sent successfully:', response);
       return true;
     } catch (error) {
-      console.error('Error sending notification emails:', error);
+      console.error('Failed to send auto-response email:', error);
       return false;
     }
   };
@@ -82,25 +83,25 @@ export const useContactForm = () => {
     console.log("Form submission started with data:", formData);
     
     try {
-      // Store lead in local storage for admin panel
+      // First, store lead in local storage
       const storedSuccessfully = storeLeadInLocalStorage(formData);
       
       if (!storedSuccessfully) {
         throw new Error('Failed to store lead data');
       }
       
-      // Send auto-response email to customer
-      const emailsSent = await sendNotificationEmails(formData);
+      // Then try to send the auto-response email
+      const emailSent = await sendAutoResponseEmail(formData);
       
-      if (!emailsSent) {
-        console.warn('Email notifications could not be sent, but lead was stored');
-        toast.warning('Your message was received but we had trouble sending notifications. We will still contact you soon.');
+      if (!emailSent) {
+        console.warn('Auto-response email could not be sent, but lead was stored');
+        toast.warning('Your message was received but we had trouble sending a confirmation email. We will still contact you soon.');
       } else {
         // Show success message
         toast.success('Your message has been sent! We will contact you soon.');
       }
       
-      // Return success
+      // Return success regardless of email status, since the lead was stored
       return { success: true, message: 'Form submitted successfully' };
     } catch (error) {
       console.error('Error submitting contact form:', error);

@@ -1,18 +1,48 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquare, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
+interface Lead {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
+  date: string;
+  status: 'New' | 'Contacted' | 'In Progress' | 'Completed';
+}
+
 export function Dashboard() {
   const navigate = useNavigate();
-  const [stats] = useState({
-    totalLeads: 4,
-    newLeads: 1,
-    inProgress: 1,
-    completed: 1
+  const [stats, setStats] = useState({
+    totalLeads: 0,
+    newLeads: 0,
+    inProgress: 0,
+    completed: 0
   });
+
+  // Load leads from localStorage and calculate stats
+  useEffect(() => {
+    try {
+      const storedLeads = localStorage.getItem('admin-leads');
+      if (storedLeads) {
+        const leads: Lead[] = JSON.parse(storedLeads);
+        
+        // Calculate stats
+        setStats({
+          totalLeads: leads.length,
+          newLeads: leads.filter(lead => lead.status === 'New').length,
+          inProgress: leads.filter(lead => lead.status === 'In Progress').length,
+          completed: leads.filter(lead => lead.status === 'Completed').length
+        });
+      }
+    } catch (error) {
+      console.error('Error loading leads from localStorage:', error);
+    }
+  }, []);
 
   // Simplified dashboard that focuses on leads
   return (
@@ -80,10 +110,10 @@ export function Dashboard() {
         <CardContent>
           <div className="space-y-4">
             <p>
-              Welcome to your admin dashboard. Here you can manage leads, blog posts, portfolio projects, and SEO settings.
+              Welcome to your admin dashboard. Here you can manage leads from contact form submissions.
             </p>
             <p>
-              New leads from the contact form will automatically be sent to your email and appear in the Leads section.
+              New leads from the contact form will automatically appear in the Leads section and notifications will be sent to your email addresses: info@remakeit.se and marcus@remakeit.se.
             </p>
             <div className="mt-6">
               <Button onClick={() => navigate('/admin/leads')} className="gap-2">

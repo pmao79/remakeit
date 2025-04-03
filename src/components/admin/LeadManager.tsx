@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { 
   Card, 
@@ -95,20 +95,59 @@ const statusColors = {
 };
 
 export function LeadManager() {
-  const [leads, setLeads] = useState<Lead[]>(initialLeads);
+  const [leads, setLeads] = useState<Lead[]>([]);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [replyMessage, setReplyMessage] = useState('');
   const [isReplyDialogOpen, setIsReplyDialogOpen] = useState(false);
   const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
 
+  // Load leads from localStorage on component mount
+  useEffect(() => {
+    const loadLeadsFromStorage = () => {
+      try {
+        const storedLeads = localStorage.getItem('admin-leads');
+        if (storedLeads) {
+          const parsedLeads = JSON.parse(storedLeads);
+          setLeads(parsedLeads);
+        } else {
+          // If no leads in localStorage, use the demo leads
+          setLeads(initialLeads);
+          // Store initial leads in localStorage
+          localStorage.setItem('admin-leads', JSON.stringify(initialLeads));
+        }
+      } catch (error) {
+        console.error('Error loading leads from localStorage:', error);
+        setLeads(initialLeads);
+      }
+    };
+
+    loadLeadsFromStorage();
+  }, []);
+
+  // Save leads to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('admin-leads', JSON.stringify(leads));
+  }, [leads]);
+
   const handleReply = () => {
+    if (!selectedLead) return;
+    
     // In a real application, this would send an email
     if (replyMessage.trim() === '') {
       toast.error('Please enter a message');
       return;
     }
     
-    toast.success(`Reply sent to ${selectedLead?.name}`);
+    // Here we would actually send an email
+    console.log(`Sending email to ${selectedLead.email} with message: ${replyMessage}`);
+    
+    toast.success(`Reply sent to ${selectedLead.name}`);
+    
+    // Update the lead status to 'Contacted' if it was 'New'
+    if (selectedLead.status === 'New') {
+      handleUpdateStatus(selectedLead.id, 'Contacted');
+    }
+    
     setReplyMessage('');
     setIsReplyDialogOpen(false);
   };

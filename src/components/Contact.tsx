@@ -1,9 +1,9 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
 import { Mail, Phone } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useContactForm } from '@/hooks/use-contact-form';
 
 const Contact: React.FC = () => {
   const { language, t } = useLanguage();
@@ -14,22 +14,28 @@ const Contact: React.FC = () => {
     website: '',
     message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Use our custom hook for form handling
+  const { handleSubmit: submitForm, isSubmitting } = useContactForm();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
-      toast.success(language === 'sv' ? 'Formuläret har skickats! Vi kontaktar dig snart.' : 'Form submitted successfully! We\'ll contact you soon.', {
-        position: 'top-center',
-      });
+    // Submit the form using our custom hook
+    const result = await submitForm({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message
+    });
+    
+    // If submission was successful, reset the form
+    if (result.success) {
       setFormData({
         name: '',
         email: '',
@@ -37,8 +43,7 @@ const Contact: React.FC = () => {
         website: '',
         message: ''
       });
-      setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   // Kontaktinformation baserat på språk

@@ -7,6 +7,7 @@ const SitemapXML: React.FC = () => {
   const baseUrl = 'https://remakeit.com';
 
   useEffect(() => {
+    // Create the XML string with no leading whitespace
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
@@ -74,24 +75,22 @@ const SitemapXML: React.FC = () => {
   </url>
 </urlset>`;
 
-    // Create a blob with the XML content
+    // Set proper XML Content-Type header
+    document.title = "XML Sitemap";
+    
+    // Create a blob with the XML content and the correct MIME type
     const blob = new Blob([xml], { type: 'application/xml' });
     const url = URL.createObjectURL(blob);
     
-    // Download or display the XML content
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'sitemap.xml');
-    
-    // For a React app, we'll just redirect to the blob URL to display the XML
-    window.location.href = url;
+    // Replace the current document with the XML content
+    window.location.replace(url);
     
     return () => {
       URL.revokeObjectURL(url);
     };
-  }, []);
+  }, [baseUrl]); // Add baseUrl to dependency array
 
-  return <div>Generating sitemap.xml...</div>;
+  return null; // We don't need to render anything as we're redirecting
 };
 
 export default SitemapXML;

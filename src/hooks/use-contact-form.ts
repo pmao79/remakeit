@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
-import emailjs from 'emailjs-com';
+import { Resend } from 'resend';
 
 interface ContactFormData {
   name: string;
@@ -50,31 +50,36 @@ export const useContactForm = () => {
     const adminEmails = ['info@remakeit.se', 'marcus@remakeit.se'];
     
     try {
-      // Configure EmailJS with your service ID, template ID, and user ID
-      // These should be obtained from the EmailJS dashboard
-      const templateParams = {
-        from_name: formData.name,
-        reply_to: formData.email,
-        phone_number: formData.phone || 'Not provided',
-        website: formData.website || 'Not provided',
-        message: formData.message,
-        to_email: adminEmails.join(', ')
-      };
+      // Initialize Resend with your API key
+      // Note: In a production environment, this API key should be stored securely
+      const resend = new Resend('re_your_resend_api_key'); // Replace with your Resend API key
       
-      // Replace these values with your own EmailJS credentials
-      const serviceId = 'service_remakeit';  // Your EmailJS service ID
-      const templateId = 'template_contact'; // Your EmailJS template ID
-      const userId = 'user_yourUserId';      // Your EmailJS user ID
+      // Prepare email content
+      const emailContent = `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${formData.name}</p>
+        <p><strong>Email:</strong> ${formData.email}</p>
+        <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
+        <p><strong>Website:</strong> ${formData.website || 'Not provided'}</p>
+        <h3>Message:</h3>
+        <p>${formData.message}</p>
+      `;
       
-      // Send email using EmailJS
-      const response = await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams,
-        userId
-      );
+      // Send email using Resend
+      const { data, error } = await resend.emails.send({
+        from: 'noreply@remakeit.se', // Replace with your verified Resend domain
+        to: adminEmails,
+        subject: `New Contact Form Submission from ${formData.name}`,
+        html: emailContent,
+        reply_to: formData.email
+      });
       
-      console.log('Email sent successfully:', response);
+      if (error) {
+        console.error('Error from Resend:', error);
+        return false;
+      }
+      
+      console.log('Email sent successfully with Resend:', data);
       return true;
     } catch (error) {
       console.error('Error sending notification email:', error);

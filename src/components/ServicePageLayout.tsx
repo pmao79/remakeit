@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -49,18 +48,15 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
 }) => {
   const { language, t } = useLanguage();
   
-  // Scroll to top when the page loads
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Default SEO data if not provided
   const seoTitle = metaTitle?.[language] || title[language];
   const seoDescription = metaDescription?.[language] || subtitle[language];
   const seoKeywords = metaKeywords?.[language] || '';
   const canonical = `https://www.remakeit.se${language === 'sv' ? '/sv' : ''}${canonicalPath}`;
-  
-  // Service schema data
+
   const schemaName = language === 'sv' ? 
     `RemakeiT - ${title.sv}` : 
     `RemakeiT - ${title.en}`;
@@ -69,9 +65,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
     subtitle.sv : 
     subtitle.en;
 
-  // Prepare preloaded resources for LCP optimization
   const preloadResources = [
-    // Preload the hero image which is likely the LCP element
     {
       href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png",
       as: "image",
@@ -95,7 +89,6 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
       />
       <Nav />
       
-      {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/40 z-10" />
@@ -104,7 +97,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
             alt={title[language]}
             className="w-full h-full object-cover object-center"
             loading="eager" 
-            fetchpriority="high"
+            fetchPriority="high"
           />
         </div>
         <div className="container relative z-10 max-w-7xl mx-auto px-4">
@@ -127,12 +120,10 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
         </div>
       </section>
       
-      {/* Content */}
       <div className="bg-background">
         {children}
       </div>
       
-      {/* CTA Section */}
       <RevealSection className="bg-secondary/50 py-20">
         <div className="container max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">

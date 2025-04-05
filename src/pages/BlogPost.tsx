@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
@@ -102,7 +101,7 @@ const BlogPost: React.FC = () => {
             alt={post.title[language]}
             className="w-full h-full object-cover object-center"
             loading="eager" 
-            fetchpriority="high"
+            fetchPriority="high"
           />
         </div>
         <div className="container relative z-10 max-w-7xl mx-auto px-4">

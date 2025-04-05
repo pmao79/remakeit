@@ -30,7 +30,9 @@ if (process.env.NODE_ENV === 'production') {
           new PerformanceObserver((entryList) => {
             const entries = entryList.getEntries();
             entries.forEach(entry => {
-              const delay = entry.processingStart - entry.startTime;
+              // Cast entry to the correct type that has the processingStart property
+              const firstInputEntry = entry as PerformanceEventTiming;
+              const delay = firstInputEntry.processingStart - firstInputEntry.startTime;
               console.log('First Input Delay:', delay);
             });
           }).observe({type: 'first-input', buffered: true});

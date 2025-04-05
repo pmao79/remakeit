@@ -28,7 +28,7 @@ const SeoHead: React.FC<SeoHeadProps> = ({
   description,
   keywords,
   canonical = 'https://www.remakeit.se/',
-  ogImage = 'https://www.remakeit.se/opengraph-image.png',
+  ogImage = 'https://www.remakeit.se/opengraph-image.webp',
   ogType = 'website',
   noIndex = false,
   children,
@@ -54,6 +54,10 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       
       {/* Robots directive for indexing control */}
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
+      {!noIndex && <meta name="robots" content="index, follow" />}
+      
+      {/* Cache control (used for HTTP header generation) */}
+      <meta httpEquiv="Cache-Control" content="max-age=604800" />
       
       {/* Font display strategy for better text visibility during font loading */}
       <style type="text/css">{`
@@ -63,12 +67,12 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       `}</style>
       
       {/* DNS prefetch for performance optimization */}
-      {dnsPrefetch.map((url, idx) => (
+      {dnsPrefetchDomains.map((url, idx) => (
         <link key={`dns-prefetch-${idx}`} rel="dns-prefetch" href={url} />
       ))}
       
       {/* Preconnect for performance optimization */}
-      {preconnect.map((url, idx) => (
+      {preconnectDomains.map((url, idx) => (
         <link key={`preconnect-${idx}`} rel="preconnect" href={url} crossOrigin="anonymous" />
       ))}
       
@@ -102,6 +106,9 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       <meta name="twitter:title" content={formattedTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
+      
+      {/* Performance optimizations */}
+      <meta name="theme-color" content="#000000" />
       
       {children}
     </Helmet>

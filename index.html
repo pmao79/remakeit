@@ -6,16 +6,12 @@
     <!-- DNS prefetch for critical domains -->
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     
     <!-- Preconnect to critical domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     
     <!-- CRITICAL: Preload LCP hero image with highest priority -->
-    <link rel="preload" as="image" href="/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png" fetchpriority="high" type="image/webp">
+    <link rel="preload" as="image" href="/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.webp" fetchpriority="high" type="image/webp">
     
     <!-- Preload critical CSS -->
     <link rel="preload" href="/src/index.css" as="style">
@@ -57,12 +53,12 @@
     <meta property="og:title" content="RemakeiT - Transform Your Online Presence" />
     <meta property="og:description" content="Professional web design & redesign services that increase conversions, improve user experience and boost your business growth." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://www.remakeit.se/opengraph-image.png" />
+    <meta property="og:image" content="https://www.remakeit.se/opengraph-image.webp" />
     <meta property="og:url" content="https://www.remakeit.se/" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@remakeit" />
-    <meta name="twitter:image" content="https://www.remakeit.se/opengraph-image.png" />
+    <meta name="twitter:image" content="https://www.remakeit.se/opengraph-image.webp" />
     
     <!-- Favicon - optimized loading order -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -74,9 +70,32 @@
     <link rel="canonical" href="https://www.remakeit.se/" />
     
     <!-- Load fonts with display swap for better paint performance -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+    <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/manrope-var.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <style>
+      /* Local font loading with font-display: swap */
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url('/fonts/inter-var.woff2') format('woff2');
+      }
+      
+      @font-face {
+        font-family: 'Manrope';
+        font-style: normal;
+        font-weight: 200 800;
+        font-display: swap;
+        src: url('/fonts/manrope-var.woff2') format('woff2');
+      }
+    </style>
+    
+    <!-- Non-critical CSS loaded with media="print" trick to avoid render blocking -->
+    <link rel="stylesheet" href="/src/index.css" media="print" onload="this.media='all'">
     <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" />
+      <link rel="stylesheet" href="/src/index.css">
     </noscript>
     
     <!-- Lovable script tag for enabling new features -->

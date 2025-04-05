@@ -69,9 +69,10 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
   // Preload hero image which is likely the LCP element
   const preloadResources = [
     {
-      href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png",
+      href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.webp",
       as: "image",
-      type: "image/png" 
+      type: "image/webp",
+      fetchPriority: "high" as "high"
     }
   ];
 
@@ -95,12 +96,14 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/40 z-10" />
           <img
-            src="/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png"
+            src="/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.webp"
             alt={title[language]}
             className="w-full h-full object-cover object-center"
             loading="eager" 
-            fetchPriority="high"
+            fetchpriority="high"
             decoding="async"
+            width="1600"
+            height="900"
           />
         </div>
         <div className="container relative z-10 max-w-7xl mx-auto px-4">

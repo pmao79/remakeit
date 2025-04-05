@@ -9,14 +9,14 @@ import { Input } from '@/components/ui/input';
 import { Upload, Image, FileText, X } from 'lucide-react';
 import { toast } from 'sonner';
 
-// Example media files for demonstration
+// Example media files for demonstration - optimized
 const demoMedia = [
-  { id: 1, name: 'hero-image-1.jpg', type: 'image', size: '1.2 MB', url: '/placeholder.svg' },
-  { id: 2, name: 'about-team.jpg', type: 'image', size: '0.8 MB', url: '/placeholder.svg' },
-  { id: 3, name: 'portfolio-1.jpg', type: 'image', size: '1.5 MB', url: '/placeholder.svg' },
-  { id: 4, name: 'brochure.pdf', type: 'document', size: '2.3 MB', url: '#' },
-  { id: 5, name: 'logo.svg', type: 'image', size: '0.2 MB', url: '/placeholder.svg' },
-  { id: 6, name: 'case-study.pdf', type: 'document', size: '1.7 MB', url: '#' },
+  { id: 1, name: 'hero-image-1.webp', type: 'image', size: '400 KB', url: '/placeholder.svg' },
+  { id: 2, name: 'about-team.webp', type: 'image', size: '280 KB', url: '/placeholder.svg' },
+  { id: 3, name: 'portfolio-1.webp', type: 'image', size: '520 KB', url: '/placeholder.svg' },
+  { id: 4, name: 'brochure.pdf', type: 'document', size: '870 KB', url: '#' },
+  { id: 5, name: 'logo.svg', type: 'image', size: '15 KB', url: '/placeholder.svg' },
+  { id: 6, name: 'case-study.pdf', type: 'document', size: '650 KB', url: '#' },
 ];
 
 export function MediaLibrary() {
@@ -48,7 +48,7 @@ export function MediaLibrary() {
         </Button>
       </div>
       
-      <div className="flex gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-1">
           <Input
             placeholder="Search media files..."
@@ -56,14 +56,14 @@ export function MediaLibrary() {
             onChange={(e) => setFilter(e.target.value)}
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 overflow-x-auto md:overflow-visible py-2 md:py-0">
           <Button variant="outline">All</Button>
           <Button variant="outline">Images</Button>
           <Button variant="outline">Documents</Button>
         </div>
       </div>
       
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {filteredMedia.map((item) => (
           <Card key={item.id} className="overflow-hidden">
             <div className="aspect-square bg-muted flex items-center justify-center relative">
@@ -72,6 +72,9 @@ export function MediaLibrary() {
                   src={item.url} 
                   alt={item.name} 
                   className="object-cover w-full h-full"
+                  loading="lazy"
+                  width="300"
+                  height="300"
                 />
               ) : (
                 <FileText className="h-16 w-16 text-muted-foreground" />

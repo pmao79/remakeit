@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
@@ -57,8 +58,7 @@ const Index: React.FC = () => {
       href: lcp_image,
       as: "image",
       type: "image/webp", // Use modern format with high compression
-      fetchPriority: "high",
-      importance: "high"
+      fetchPriority: "high" as "high" // Explicitly cast to the correct type
     }
   ];
 

@@ -17,7 +17,6 @@ interface SeoHeadProps {
     type?: string;
     media?: string;
     fetchPriority?: "high" | "low" | "auto";
-    importance?: "high" | "low" | "auto";
   }[];
   preconnect?: string[];
 }
@@ -74,7 +73,6 @@ const SeoHead: React.FC<SeoHeadProps> = ({
           type={item.type}
           media={item.media} 
           fetchPriority={item.fetchPriority}
-          importance={item.importance}
         />
       ))}
       

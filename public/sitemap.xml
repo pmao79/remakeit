@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
@@ -10,7 +11,7 @@
     <loc>https://www.remakeit.se/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.remakeit.se/" />
     <xhtml:link rel="alternate" hreflang="sv" href="https://www.remakeit.se/sv/" />
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -20,7 +21,7 @@
     <loc>https://www.remakeit.se/about</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.remakeit.se/about" />
     <xhtml:link rel="alternate" hreflang="sv" href="https://www.remakeit.se/sv/about" />
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -34,7 +35,7 @@
     <loc>https://www.remakeit.se/portfolio</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.remakeit.se/portfolio" />
     <xhtml:link rel="alternate" hreflang="sv" href="https://www.remakeit.se/sv/portfolio" />
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -48,7 +49,7 @@
     <loc>https://www.remakeit.se/contact</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.remakeit.se/contact" />
     <xhtml:link rel="alternate" hreflang="sv" href="https://www.remakeit.se/sv/contact" />
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -58,7 +59,7 @@
     <loc>https://www.remakeit.se/blog</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.remakeit.se/blog" />
     <xhtml:link rel="alternate" hreflang="sv" href="https://www.remakeit.se/sv/blog" />
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -124,7 +125,7 @@
     <loc>https://www.remakeit.se/services/web-design</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.remakeit.se/services/web-design" />
     <xhtml:link rel="alternate" hreflang="sv" href="https://www.remakeit.se/sv/services/web-design" />
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -137,7 +138,7 @@
     <loc>https://www.remakeit.se/services/web-redesign</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.remakeit.se/services/web-redesign" />
     <xhtml:link rel="alternate" hreflang="sv" href="https://www.remakeit.se/sv/services/web-redesign" />
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -150,7 +151,7 @@
     <loc>https://www.remakeit.se/services/seo-optimization</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.remakeit.se/services/seo-optimization" />
     <xhtml:link rel="alternate" hreflang="sv" href="https://www.remakeit.se/sv/services/seo-optimization" />
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -163,7 +164,7 @@
     <loc>https://www.remakeit.se/services/conversion-optimization</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.remakeit.se/services/conversion-optimization" />
     <xhtml:link rel="alternate" hreflang="sv" href="https://www.remakeit.se/sv/services/conversion-optimization" />
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>

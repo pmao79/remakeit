@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
@@ -36,6 +37,17 @@
 
     --radius: 0.75rem;
   }
+}
+
+/* Ensure font-display: swap is applied to all custom fonts */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  font-display: swap;
 }
 
 @layer base {
@@ -96,6 +108,7 @@
   min-height: 100vh;
 }
 
+/* Keep existing code (comparison slider styles) */
 .before-after-container {
   position: relative;
   overflow: hidden;

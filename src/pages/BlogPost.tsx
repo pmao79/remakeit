@@ -45,21 +45,31 @@ const BlogPost: React.FC = () => {
   const title = post.title[language];
   const description = post.excerpt[language];
   const keywords = `${post.category[language]}, ${post.keywords?.[language] || ''}webbyrå kristianstad, hemsida företag skåne, SEO-optimerad webbsida`;
-  const canonical = `https://remakeit.com/${language === 'sv' ? 'sv/' : ''}blog/${slug}`;
+  const canonical = `https://www.remakeit.se/${language === 'sv' ? 'sv/' : ''}blog/${slug}`;
   
   // Get breadcrumb data for schema
   const breadcrumbItems = [
     {
       name: language === 'sv' ? 'Hem' : 'Home',
-      url: language === 'sv' ? 'https://remakeit.com/sv/' : 'https://remakeit.com/'
+      url: language === 'sv' ? 'https://www.remakeit.se/sv/' : 'https://www.remakeit.se/'
     },
     {
       name: language === 'sv' ? 'Blogg' : 'Blog',
-      url: language === 'sv' ? 'https://remakeit.com/sv/blog' : 'https://remakeit.com/blog'
+      url: language === 'sv' ? 'https://www.remakeit.se/sv/blog' : 'https://www.remakeit.se/blog'
     },
     {
       name: post.title[language],
       url: canonical
+    }
+  ];
+
+  // Prepare preloaded resources for LCP optimization
+  const preloadResources = [
+    // Preload the hero image which is likely the LCP element
+    {
+      href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png",
+      as: "image",
+      type: "image/png" 
     }
   ];
 
@@ -70,12 +80,13 @@ const BlogPost: React.FC = () => {
         description={description}
         keywords={keywords}
         canonical={canonical}
+        preload={preloadResources}
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <ArticleSchema 
         headline={title}
         description={description}
-        image="https://remakeit.com/images/blog/default.jpg"
+        image="https://www.remakeit.se/images/blog/default.jpg"
         datePublished={post.date}
         url={canonical}
       />
@@ -90,6 +101,8 @@ const BlogPost: React.FC = () => {
             src="/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png"
             alt={post.title[language]}
             className="w-full h-full object-cover object-center"
+            loading="eager" 
+            fetchpriority="high"
           />
         </div>
         <div className="container relative z-10 max-w-7xl mx-auto px-4">

@@ -11,34 +11,72 @@ interface SeoHeadProps {
   ogType?: string;
   noIndex?: boolean;
   children?: React.ReactNode;
+  preload?: {
+    href: string;
+    as: string;
+    type?: string;
+    media?: string;
+  }[];
+  preconnect?: string[];
 }
 
 const SeoHead: React.FC<SeoHeadProps> = ({
   title,
   description,
   keywords,
-  canonical = 'https://remakeit.com/',
-  ogImage = 'https://lovable.dev/opengraph-image-p98pqg.png',
+  canonical = 'https://www.remakeit.se/',
+  ogImage = 'https://www.remakeit.se/opengraph-image.png',
   ogType = 'website',
   noIndex = false,
-  children
+  children,
+  preload = [],
+  preconnect = []
 }) => {
   // Append brand name if not already included
   const formattedTitle = title.includes('RemakeiT') ? title : `${title} | RemakeiT`;
+
+  // Make sure canonical URLs are absolute and use the primary domain
+  const absoluteCanonical = canonical.startsWith('http') 
+    ? canonical 
+    : `https://www.remakeit.se${canonical.startsWith('/') ? canonical : `/${canonical}`}`;
   
   return (
     <Helmet>
       <title>{formattedTitle}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
-      <link rel="canonical" href={canonical} />
+      <link rel="canonical" href={absoluteCanonical} />
       
       {/* Robots directive for indexing control */}
       {noIndex && <meta name="robots" content="noindex, nofollow" />}
       
+      {/* Font display strategy for better text visibility during font loading */}
+      <style type="text/css">{`
+        @font-face {
+          font-display: swap;
+        }
+      `}</style>
+      
+      {/* Resource hints for performance optimization */}
+      {preconnect.map((url, idx) => (
+        <link key={`preconnect-${idx}`} rel="preconnect" href={url} crossOrigin="anonymous" />
+      ))}
+      
+      {/* Preload critical resources */}
+      {preload.map((item, idx) => (
+        <link 
+          key={`preload-${idx}`} 
+          rel="preload" 
+          href={item.href} 
+          as={item.as} 
+          type={item.type}
+          media={item.media} 
+        />
+      ))}
+      
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={ogType} />
-      <meta property="og:url" content={canonical} />
+      <meta property="og:url" content={absoluteCanonical} />
       <meta property="og:title" content={formattedTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />

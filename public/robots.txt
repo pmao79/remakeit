@@ -4,6 +4,9 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /admin/*
+Disallow: /private/
+Disallow: /*.pdf$
+Disallow: /temp/
 
 # Sitemap
 Sitemap: https://www.remakeit.se/sitemap.xml
@@ -44,17 +47,9 @@ Disallow: /admin/
 # Control crawl rate
 Crawl-delay: 1
 
-# New directives for better SEO handling
-User-agent: *
+# Allow specific directories
 Allow: /images/
 Allow: /css/
 Allow: /js/
 Allow: /social-icons/
-
-# Request specific handling for archive pages
 Allow: /archive/
-
-# Disallow some specific files or patterns
-Disallow: /private/
-Disallow: /*.pdf$
-Disallow: /temp/

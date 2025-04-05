@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import RevealSection from '@/components/ui/reveal-section';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import SeoHead from '@/components/SeoHead';
 import ServiceSchema from '@/components/schema/ServiceSchema';
 
@@ -58,7 +58,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
   const seoTitle = metaTitle?.[language] || title[language];
   const seoDescription = metaDescription?.[language] || subtitle[language];
   const seoKeywords = metaKeywords?.[language] || '';
-  const canonical = `https://remakeit.com${language === 'sv' ? '/sv' : ''}${canonicalPath}`;
+  const canonical = `https://www.remakeit.se${language === 'sv' ? '/sv' : ''}${canonicalPath}`;
   
   // Service schema data
   const schemaName = language === 'sv' ? 
@@ -69,6 +69,16 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
     subtitle.sv : 
     subtitle.en;
 
+  // Prepare preloaded resources for LCP optimization
+  const preloadResources = [
+    // Preload the hero image which is likely the LCP element
+    {
+      href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png",
+      as: "image",
+      type: "image/png" 
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SeoHead 
@@ -76,6 +86,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
         description={seoDescription}
         keywords={seoKeywords}
         canonical={canonical}
+        preload={preloadResources}
       />
       <ServiceSchema
         name={schemaName}
@@ -92,6 +103,8 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
             src="/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png"
             alt={title[language]}
             className="w-full h-full object-cover object-center"
+            loading="eager" 
+            fetchpriority="high"
           />
         </div>
         <div className="container relative z-10 max-w-7xl mx-auto px-4">

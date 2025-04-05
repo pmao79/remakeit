@@ -20,6 +20,28 @@ const LatestBlogPosts: React.FC = () => {
     return date.toLocaleDateString(language === 'sv' ? 'sv-SE' : 'en-US', options);
   };
 
+  // Generate descriptive link text based on post slug
+  const getReadMoreText = (slug: string, title: string): string => {
+    if (slug === 'why-seo-is-crucial-for-businesses') {
+      return language === 'sv' 
+        ? 'Läs mer om varför SEO är viktigt för företag' 
+        : 'Read more about why SEO is crucial for businesses';
+    } else if (slug === 'modern-website-increases-sales') {
+      return language === 'sv'
+        ? 'Läs mer om hur en modern webbplats ökar försäljning'
+        : 'Read more about how a modern website increases sales';
+    } else if (slug === '5-things-business-website-must-have') {
+      return language === 'sv'
+        ? 'Läs mer om 5 måsten för företagshemsidan'
+        : 'Read more about 5 things every business website must have';
+    }
+    
+    // Generic descriptive link for other posts
+    return language === 'sv'
+      ? `Läs mer om ${title.toLowerCase()}`
+      : `Read more about ${title.toLowerCase()}`;
+  };
+
   return (
     <RevealSection className="py-16 bg-secondary/20">
       <div className="container max-w-7xl mx-auto px-4">
@@ -63,8 +85,9 @@ const LatestBlogPosts: React.FC = () => {
                 <Link 
                   to={`/blog/${post.slug}`} 
                   className="text-primary hover:underline text-sm font-medium"
+                  aria-label={post.title[language]}
                 >
-                  {language === 'sv' ? 'Läs mer' : 'Read more'}
+                  {getReadMoreText(post.slug, post.title[language])}
                 </Link>
               </CardFooter>
             </Card>

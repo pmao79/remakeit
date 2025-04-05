@@ -42,8 +42,25 @@ const Index: React.FC = () => {
   const breadcrumbItems = [
     {
       name: language === 'sv' ? 'Hem' : 'Home',
-      url: language === 'sv' ? 'https://remakeit.com/sv/' : 'https://remakeit.com/'
+      url: language === 'sv' ? 'https://www.remakeit.se/sv/' : 'https://www.remakeit.se/'
     }
+  ];
+
+  // Prepare preloaded resources for LCP optimization
+  const preloadResources = [
+    // Preload the hero image which is likely the LCP element
+    {
+      href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png",
+      as: "image",
+      type: "image/png" 
+    }
+  ];
+
+  // Domains to preconnect to
+  const preconnectDomains = [
+    "https://fonts.googleapis.com",
+    "https://fonts.gstatic.com",
+    "https://www.googletagmanager.com"
   ];
 
   return (
@@ -52,7 +69,9 @@ const Index: React.FC = () => {
         title={seoData[language].title}
         description={seoData[language].description}
         keywords={seoData[language].keywords}
-        canonical={language === 'sv' ? 'https://remakeit.com/sv/' : 'https://remakeit.com/'}
+        canonical={language === 'sv' ? 'https://www.remakeit.se/sv/' : 'https://www.remakeit.se/'}
+        preload={preloadResources}
+        preconnect={preconnectDomains}
       />
       <OrganizationSchema />
       <WebsiteSchema />
@@ -60,7 +79,7 @@ const Index: React.FC = () => {
       <ServiceSchema 
         name="Web Design & Redesign Services"
         description="Professional web design and redesign services to transform your online presence and improve conversion rates."
-        url={language === 'sv' ? 'https://remakeit.com/sv/' : 'https://remakeit.com/'}
+        url={language === 'sv' ? 'https://www.remakeit.se/sv/' : 'https://www.remakeit.se/'}
       />
       <Nav />
       <main className="w-full overflow-visible">

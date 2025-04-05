@@ -16,6 +16,8 @@ interface SeoHeadProps {
     as: string;
     type?: string;
     media?: string;
+    fetchPriority?: "high" | "low" | "auto";
+    importance?: "high" | "low" | "auto";
   }[];
   preconnect?: string[];
 }
@@ -62,7 +64,7 @@ const SeoHead: React.FC<SeoHeadProps> = ({
         <link key={`preconnect-${idx}`} rel="preconnect" href={url} crossOrigin="anonymous" />
       ))}
       
-      {/* Preload critical resources */}
+      {/* Preload critical resources with proper priority attributes */}
       {preload.map((item, idx) => (
         <link 
           key={`preload-${idx}`} 
@@ -71,6 +73,8 @@ const SeoHead: React.FC<SeoHeadProps> = ({
           as={item.as} 
           type={item.type}
           media={item.media} 
+          fetchPriority={item.fetchPriority}
+          importance={item.importance}
         />
       ))}
       

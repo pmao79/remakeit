@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     
+    <!-- CRITICAL: Preload LCP hero image with highest priority -->
+    <link rel="preload" as="image" href="/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png" fetchpriority="high">
+    
     <!-- Inline critical CSS for above-the-fold content -->
     <style>
       :root{--background:240 10% 3.9%;--foreground:0 0% 98%}
@@ -58,9 +61,6 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.remakeit.se/" />
-    
-    <!-- Preload critical hero image for LCP -->
-    <link rel="preload" href="/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png" as="image" media="(max-width: 768px)" fetchpriority="high" />
     
     <!-- Load fonts with display swap for better paint performance -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap&display=swap" media="print" onload="this.media='all'" />

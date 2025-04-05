@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Nav from '@/components/Nav';
 import Hero from '@/components/Hero';
@@ -48,14 +47,18 @@ const Index: React.FC = () => {
     }
   ];
 
-  // Prepare preloaded resources for LCP optimization - focus only on critical images for mobile
+  // LCP optimization - Preload the hero background image which is the LCP element
+  const lcp_image = "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png";
+  
+  // Enhanced preload resources with priority on LCP image
   const preloadResources = [
-    // Preload the hero image which is likely the LCP element
+    // Preload the hero image which is the LCP element - ensure highest priority
     {
-      href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png",
+      href: lcp_image,
       as: "image",
-      type: "image/png",
-      media: isMobile ? "(max-width: 768px)" : undefined
+      type: "image/webp", // Use modern format with high compression
+      fetchPriority: "high",
+      importance: "high"
     }
   ];
 

@@ -2,6 +2,8 @@
 # Global
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /admin/*
 
 # Sitemap
 Sitemap: https://remakeit.com/sitemap.xml
@@ -9,31 +11,35 @@ Sitemap: https://remakeit.com/sitemap.xml
 # Google-specific
 User-agent: Googlebot
 Allow: /
+Disallow: /admin/
 User-agent: Googlebot-Image
 Allow: /
+Disallow: /admin/
 
 # Bing-specific
 User-agent: Bingbot
 Allow: /
+Disallow: /admin/
 User-agent: BingPreview
 Allow: /
+Disallow: /admin/
 
 # Social Media bots - make sure social links are indexed properly
 User-agent: Twitterbot
 Allow: /
+Disallow: /admin/
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /admin/
 User-agent: LinkedInBot
 Allow: /
+Disallow: /admin/
 User-agent: Pinterest
 Allow: /
+Disallow: /admin/
 User-agent: InstagramBot
 Allow: /
-
-# Disallow admin areas
 Disallow: /admin/
-Disallow: /admin/login
-Disallow: /wp-admin/
 
 # Control crawl rate
 Crawl-delay: 1

@@ -9,6 +9,7 @@ interface SeoHeadProps {
   canonical?: string;
   ogImage?: string;
   ogType?: string;
+  noIndex?: boolean;
   children?: React.ReactNode;
 }
 
@@ -19,6 +20,7 @@ const SeoHead: React.FC<SeoHeadProps> = ({
   canonical = 'https://remakeit.com/',
   ogImage = 'https://lovable.dev/opengraph-image-p98pqg.png',
   ogType = 'website',
+  noIndex = false,
   children
 }) => {
   // Append brand name if not already included
@@ -30,6 +32,9 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={canonical} />
+      
+      {/* Robots directive for indexing control */}
+      {noIndex && <meta name="robots" content="noindex, nofollow" />}
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={ogType} />

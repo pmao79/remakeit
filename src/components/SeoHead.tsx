@@ -19,6 +19,8 @@ interface SeoHeadProps {
     fetchPriority?: "high" | "low" | "auto";
   }[];
   preconnect?: string[];
+  prefetch?: string[];
+  dnsPrefetch?: string[];
 }
 
 const SeoHead: React.FC<SeoHeadProps> = ({
@@ -31,7 +33,9 @@ const SeoHead: React.FC<SeoHeadProps> = ({
   noIndex = false,
   children,
   preload = [],
-  preconnect = []
+  preconnect = [],
+  prefetch = [],
+  dnsPrefetch = []
 }) => {
   // Append brand name if not already included
   const formattedTitle = title.includes('RemakeiT') ? title : `${title} | RemakeiT`;
@@ -58,9 +62,19 @@ const SeoHead: React.FC<SeoHeadProps> = ({
         }
       `}</style>
       
-      {/* Resource hints for performance optimization */}
+      {/* DNS prefetch for performance optimization */}
+      {dnsPrefetch.map((url, idx) => (
+        <link key={`dns-prefetch-${idx}`} rel="dns-prefetch" href={url} />
+      ))}
+      
+      {/* Preconnect for performance optimization */}
       {preconnect.map((url, idx) => (
         <link key={`preconnect-${idx}`} rel="preconnect" href={url} crossOrigin="anonymous" />
+      ))}
+      
+      {/* Prefetch resources that will be needed soon */}
+      {prefetch.map((url, idx) => (
+        <link key={`prefetch-${idx}`} rel="prefetch" href={url} />
       ))}
       
       {/* Preload critical resources with proper priority attributes */}

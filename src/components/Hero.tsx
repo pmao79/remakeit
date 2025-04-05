@@ -27,6 +27,7 @@ const Hero: React.FC = () => {
       <div className="container relative z-10 mt-16 md:mt-0 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="flex flex-col space-y-8 text-center lg:text-left">
+            {/* Critical hero content */}
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-tight tracking-tight">
                 {t('hero.title')}

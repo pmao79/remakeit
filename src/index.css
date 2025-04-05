@@ -1,6 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -81,21 +79,44 @@
   }
 }
 
-/* Separate mobile-specific styles using media queries to reduce CSS parsing on mobile */
-@media (max-width: 768px) {
+/* Mobile-first styles to reduce CSS parsing on small devices */
+.section-container {
+  @apply px-4 py-12 max-w-7xl mx-auto;
+}
+
+.reveal-animation {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Simplify animations on mobile for better performance */
+.animate-float {
+  animation: none;
+}
+
+/* Add desktop enhancements with media queries */
+@media (min-width: 768px) {
   .section-container {
-    @apply px-4 py-12;
+    @apply px-6 py-16;
   }
   
   .reveal-animation {
-    opacity: 1;
-    transform: none;
-    transition: none;
+    @apply opacity-0 translate-y-8 transition-all duration-700;
   }
   
-  /* Simplify animations on mobile for better performance */
+  .reveal-animation.revealed {
+    @apply opacity-100 translate-y-0;
+  }
+  
   .animate-float {
-    animation: none;
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
   }
 }
 
@@ -108,33 +129,14 @@
     @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)];
   }
   
-  .section-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24;
-  }
-  
-  .reveal-animation {
-    @apply opacity-0 translate-y-8 transition-all duration-700;
-  }
-  
-  .reveal-animation.revealed {
-    @apply opacity-100 translate-y-0;
-  }
-  
-  /* Add content-visibility for non-visible sections to improve mobile rendering */
-  @media (max-width: 768px) {
-    .cv-auto {
-      content-visibility: auto;
-      contain-intrinsic-size: 0 500px;
-    }
+  /* Add content-visibility for non-visible sections to improve rendering */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
   }
 }
 
-#root {
-  width: 100%;
-  min-height: 100vh;
-}
-
-/* Keep existing code (comparison slider styles) */
+/* Comparison slider styles */
 .before-after-container {
   position: relative;
   overflow: hidden;
@@ -187,33 +189,7 @@
   overflow: hidden;
 }
 
-.before-container::after {
-  content: 'BEFORE';
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 5px 15px;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 4px;
-}
-
-.after-container::after {
-  content: 'AFTER';
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 5px 15px;
-  background-color: rgba(12, 250, 232, 0.8);
-  color: black;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 4px;
-}
-
-/* Optimize for print - reduce unnecessary elements */
+/* Print optimization */
 @media print {
   .no-print {
     display: none;

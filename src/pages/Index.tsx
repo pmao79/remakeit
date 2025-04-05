@@ -69,6 +69,12 @@ const Index: React.FC = () => {
     "https://www.googletagmanager.com"
   ];
 
+  // Add DNS prefetch for third-party domains
+  const dnsPrefetchDomains = [
+    "https://www.google-analytics.com",
+    "https://www.googletagmanager.com"
+  ];
+
   return (
     <div className="min-h-screen bg-background text-foreground w-full">
       <SeoHead 
@@ -78,6 +84,7 @@ const Index: React.FC = () => {
         canonical={language === 'sv' ? 'https://www.remakeit.se/sv/' : 'https://www.remakeit.se/'}
         preload={preloadResources}
         preconnect={preconnectDomains}
+        dnsPrefetch={dnsPrefetchDomains}
       />
       <OrganizationSchema />
       <WebsiteSchema />
@@ -93,10 +100,16 @@ const Index: React.FC = () => {
         <Benefits />
         <Process />
         <BeforeAfter />
-        {/* Conditionally render or optimize for mobile */}
-        <LatestBlogPosts />
-        <Pricing />
-        <Contact />
+        {/* LatestBlogPosts with lazy loading for below-the-fold content */}
+        <div className="cv-auto">
+          <LatestBlogPosts />
+        </div>
+        <div className="cv-auto">
+          <Pricing />
+        </div>
+        <div className="cv-auto">
+          <Contact />
+        </div>
       </main>
       <Footer />
     </div>

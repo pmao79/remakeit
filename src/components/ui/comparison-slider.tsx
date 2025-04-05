@@ -78,8 +78,9 @@ const ComparisonSlider: React.FC<ComparisonSliderProps> = ({
 
   // Determine loading attribute based on mobile and viewport
   const imageLoadingAttrs = {
-    loading: isMobile ? "lazy" : "eager" as "lazy" | "eager",
-    decoding: "async" as "async" | "sync" | "auto"
+    loading: "lazy" as "lazy" | "eager", // Lazy load below the fold
+    decoding: "async" as "async" | "sync" | "auto",
+    fetchpriority: "low" as "high" | "low" | "auto" // Low priority for below fold images
   };
 
   return (

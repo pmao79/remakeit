@@ -6,7 +6,7 @@ Disallow: /admin/
 Disallow: /admin/*
 
 # Sitemap
-Sitemap: https://remakeit.com/sitemap.xml
+Sitemap: https://www.remakeit.se/sitemap.xml
 
 # Google-specific
 User-agent: Googlebot

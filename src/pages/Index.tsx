@@ -15,9 +15,11 @@ import WebsiteSchema from '@/components/schema/WebsiteSchema';
 import BreadcrumbSchema from '@/components/schema/BreadcrumbSchema';
 import ServiceSchema from '@/components/schema/ServiceSchema';
 import LatestBlogPosts from '@/components/LatestBlogPosts';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Index: React.FC = () => {
   const { language } = useLanguage();
+  const isMobile = useIsMobile();
   
   // Scroll to top when the page loads
   useEffect(() => {
@@ -46,13 +48,14 @@ const Index: React.FC = () => {
     }
   ];
 
-  // Prepare preloaded resources for LCP optimization
+  // Prepare preloaded resources for LCP optimization - focus only on critical images for mobile
   const preloadResources = [
     // Preload the hero image which is likely the LCP element
     {
       href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png",
       as: "image",
-      type: "image/png" 
+      type: "image/png",
+      media: isMobile ? "(max-width: 768px)" : undefined
     }
   ];
 
@@ -87,6 +90,7 @@ const Index: React.FC = () => {
         <Benefits />
         <Process />
         <BeforeAfter />
+        {/* Conditionally render or optimize for mobile */}
         <LatestBlogPosts />
         <Pricing />
         <Contact />

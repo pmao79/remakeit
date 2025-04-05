@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -65,6 +66,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
     subtitle.sv : 
     subtitle.en;
 
+  // Preload hero image which is likely the LCP element
   const preloadResources = [
     {
       href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png",
@@ -98,6 +100,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
             className="w-full h-full object-cover object-center"
             loading="eager" 
             fetchPriority="high"
+            decoding="async"
           />
         </div>
         <div className="container relative z-10 max-w-7xl mx-auto px-4">

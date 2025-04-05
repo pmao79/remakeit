@@ -1,5 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ComparisonSliderProps {
   beforeImage: string;
@@ -13,12 +14,13 @@ const ComparisonSlider: React.FC<ComparisonSliderProps> = ({
   alt = "Before and after comparison"
 }) => {
   const [sliderPosition, setSliderPosition] = useState(50);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
+  const isMobile = useIsMobile();
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     isDragging.current = true;
-    // Don't prevent default here to allow scrolling when not directly on the slider
   };
 
   const handleMouseUp = () => {
@@ -46,10 +48,15 @@ const ComparisonSlider: React.FC<ComparisonSliderProps> = ({
     const limitedPosition = Math.min(Math.max(position, 5), 95);
     setSliderPosition(limitedPosition);
     
-    // Only prevent default when actually dragging the slider
+    // Prevent default only when dragging to avoid scroll issues
     if (isDragging.current) {
       e.preventDefault();
     }
+  };
+
+  // Image loading handler
+  const handleImageLoad = () => {
+    setImagesLoaded(true);
   };
 
   useEffect(() => {
@@ -69,17 +76,27 @@ const ComparisonSlider: React.FC<ComparisonSliderProps> = ({
     };
   }, []);
 
+  // Determine loading attribute based on mobile and viewport
+  const imageLoadingAttrs = {
+    loading: isMobile ? "lazy" : "eager" as "lazy" | "eager",
+    decoding: "async" as "async" | "sync" | "auto"
+  };
+
   return (
     <div 
       ref={containerRef} 
       className="before-after-container aspect-video relative border border-white/10 rounded-lg overflow-hidden shadow-xl"
       aria-label={alt}
     >
-      <div className="after-container relative w-full h-full">
+      <div 
+        className={`after-container relative w-full h-full ${!imagesLoaded ? 'bg-muted animate-pulse' : ''}`}
+      >
         <img 
           src={afterImage} 
           alt="After" 
           className="after-image w-full h-full object-cover" 
+          onLoad={handleImageLoad}
+          {...imageLoadingAttrs}
         />
         <div className="absolute bottom-4 right-4 bg-brand-teal/90 text-black font-medium px-3 py-1 rounded text-sm">
           Efter
@@ -94,6 +111,8 @@ const ComparisonSlider: React.FC<ComparisonSliderProps> = ({
           src={beforeImage} 
           alt="Before" 
           className="before-image w-full h-full object-cover" 
+          onLoad={handleImageLoad}
+          {...imageLoadingAttrs}
         />
         <div className="absolute bottom-4 left-4 bg-white/20 text-white font-medium px-3 py-1 rounded text-sm backdrop-blur-sm">
           Före

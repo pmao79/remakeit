@@ -63,7 +63,8 @@
   
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+    /* Remove problematic font feature settings that cause capitalization issues */
+    font-feature-settings: normal;
     position: relative;
     min-height: 100%;
   }

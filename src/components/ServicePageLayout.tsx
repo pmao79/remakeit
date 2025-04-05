@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -66,7 +65,6 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
     subtitle.sv : 
     subtitle.en;
 
-  // Preload hero image which is likely the LCP element
   const preloadResources = [
     {
       href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.webp",
@@ -109,14 +107,14 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
         <div className="container relative z-10 max-w-7xl mx-auto px-4">
           <div className="max-w-3xl">
             <h1 
-              className="text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight text-white mb-6"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight text-white mb-6 normal-case"
               dangerouslySetInnerHTML={{ __html: title[language] }}
             >
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8">
+            <p className="text-xl md:text-2xl text-gray-300 mb-8 normal-case">
               {subtitle[language]}
             </p>
-            <Button asChild size="lg" className="bg-brand-teal text-black hover:bg-brand-teal/90">
+            <Button asChild size="lg" className="bg-brand-teal text-black hover:bg-brand-teal/90 normal-case">
               <Link to="/contact">
                 {t('nav.cta')}
                 <ArrowRight className="ml-2 h-4 w-4" />

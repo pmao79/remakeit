@@ -29,7 +29,7 @@ const Hero: React.FC = () => {
           <div className="flex flex-col space-y-8 text-center lg:text-left">
             {/* Critical hero content */}
             <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-tight tracking-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-tight tracking-tight normal-case">
                 {t('hero.title')}
               </h1>
               
@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
               <div className="bg-white/5 border border-white/10 rounded-lg p-4 mt-6">
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
                   <div className="flex flex-col items-center sm:items-start">
-                    <span className="text-brand-teal font-bold mb-1">
+                    <span className="text-brand-teal font-bold mb-1 normal-case">
                       {t('hero.traditional')}:
                     </span>
                     <span className="line-through text-gray-400 whitespace-nowrap">25 000 - 100 000 SEK</span>
@@ -49,26 +49,26 @@ const Hero: React.FC = () => {
                   <div className="hidden sm:block text-gray-400">|</div>
                   
                   <div className="flex flex-col items-center sm:items-start">
-                    <span className="text-brand-teal font-bold mb-1">RemakeiT:</span>
-                    <span className="text-white font-bold whitespace-nowrap">
+                    <span className="text-brand-teal font-bold mb-1 normal-case">RemakeiT:</span>
+                    <span className="text-white font-bold whitespace-nowrap normal-case">
                       {t('hero.ourPrice')}
                     </span>
                   </div>
                 </div>
-                <p className="text-sm text-brand-teal mt-3 text-center">
+                <p className="text-sm text-brand-teal mt-3 text-center normal-case">
                   {t('hero.pricingClaim')}
                 </p>
               </div>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button asChild size="lg" className="bg-brand-teal text-black hover:bg-brand-teal/90 text-lg font-medium">
+              <Button asChild size="lg" className="bg-brand-teal text-black hover:bg-brand-teal/90 text-lg font-medium normal-case">
                 <Link to="/contact">
                   {t('hero.cta.primary')}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-white/20 hover:bg-white/5 text-lg font-medium">
+              <Button asChild variant="outline" size="lg" className="border-white/20 hover:bg-white/5 text-lg font-medium normal-case">
                 <Link to="/portfolio">{t('hero.cta.secondary')}</Link>
               </Button>
             </div>

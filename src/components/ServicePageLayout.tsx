@@ -91,7 +91,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
       href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.webp",
       as: "image",
       type: "image/webp",
-      fetchpriority: "high" as "high"
+      fetchPriority: "high" as "high"
     }
   ];
 
@@ -122,7 +122,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
             alt={title[language]}
             className="w-full h-full object-cover object-center"
             loading="eager" 
-            fetchpriority="high"
+            fetchPriority="high"
             decoding="async"
             width="1600"
             height="900"

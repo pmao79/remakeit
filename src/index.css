@@ -131,17 +131,42 @@ h1, h2, h3, h4, h5, h6, p {
     display: none !important;
   }
   
-  /* Hide duplicate/overlapping content */
-  .service-page-duplicate-fix {
+  /* More aggressive fix for the duplicate text at the top */
+  .service-page-fix-overlay {
     content: '';
     display: block;
-    position: absolute;
-    top: -100vh;
+    position: fixed;
+    top: 0;
     left: 0;
     right: 0;
-    height: 100vh;
-    background-color: var(--background);
-    z-index: 30;
+    height: 60px; /* Just cover the top area where the text appears */
+    background-color: #0a0a0b; /* Exact background color to match the header */
+    z-index: 40; /* Higher z-index to ensure it's above everything else */
+  }
+  
+  /* Add a class to the body when service pages are active */
+  body.service-page-active .service-page-header::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #0a0a0b;
+    z-index: 25;
+  }
+  
+  /* Hide the duplicate text with a different approach */
+  body.service-page-active::before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #0a0a0b;
+    z-index: 1000; /* Very high z-index */
   }
 }
 

@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -54,13 +53,23 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
   useEffect(() => {
     window.scrollTo(0, 0);
     
-    // Additional mobile fix for duplicate content
+    // More aggressive fix for mobile
     if (isMobile) {
       document.body.classList.add('service-page-active');
+      
+      // Force repaint to ensure our fix is applied
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.body.style.opacity = '0.99';
+        setTimeout(() => {
+          document.body.style.opacity = '1';
+        }, 10);
+      }, 50);
     }
     
     return () => {
       document.body.classList.remove('service-page-active');
+      document.body.style.opacity = '1';
     };
   }, [isMobile]);
 
@@ -82,7 +91,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
       href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.webp",
       as: "image",
       type: "image/webp",
-      fetchPriority: "high" as "high"
+      fetchpriority: "high" as "high"
     }
   ];
 
@@ -102,7 +111,8 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
       />
       <Nav />
       
-      {isMobile && <div className="service-page-duplicate-fix" aria-hidden="true"></div>}
+      {/* Triple-layered fix for mobile: black overlay at the top */}
+      {isMobile && <div className="service-page-fix-overlay" aria-hidden="true"></div>}
       
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden service-page-header">
         <div className="absolute inset-0 z-0">
@@ -112,7 +122,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
             alt={title[language]}
             className="w-full h-full object-cover object-center"
             loading="eager" 
-            fetchPriority="high"
+            fetchpriority="high"
             decoding="async"
             width="1600"
             height="900"

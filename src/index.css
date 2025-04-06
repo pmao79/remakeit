@@ -127,7 +127,21 @@ h1, h2, h3, h4, h5, h6, p {
   
   /* Hide any text that might overflow from the header */
   .service-page-content::before {
-    display: none;
+    content: none !important;
+    display: none !important;
+  }
+  
+  /* Hide duplicate/overlapping content */
+  .service-page-duplicate-fix {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -100vh;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background-color: var(--background);
+    z-index: 30;
   }
 }
 

@@ -53,7 +53,16 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
   
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    
+    // Additional mobile fix for duplicate content
+    if (isMobile) {
+      document.body.classList.add('service-page-active');
+    }
+    
+    return () => {
+      document.body.classList.remove('service-page-active');
+    };
+  }, [isMobile]);
 
   const seoTitle = metaTitle?.[language] || title[language];
   const seoDescription = metaDescription?.[language] || subtitle[language];
@@ -92,6 +101,8 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
         url={canonical}
       />
       <Nav />
+      
+      {isMobile && <div className="service-page-duplicate-fix" aria-hidden="true"></div>}
       
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden service-page-header">
         <div className="absolute inset-0 z-0">

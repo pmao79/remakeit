@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -53,23 +54,18 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
   useEffect(() => {
     window.scrollTo(0, 0);
     
-    // More aggressive fix for mobile
+    // Gentler fix for mobile that doesn't block the menu
     if (isMobile) {
       document.body.classList.add('service-page-active');
       
       // Force repaint to ensure our fix is applied
       setTimeout(() => {
         window.scrollTo(0, 0);
-        document.body.style.opacity = '0.99';
-        setTimeout(() => {
-          document.body.style.opacity = '1';
-        }, 10);
       }, 50);
     }
     
     return () => {
       document.body.classList.remove('service-page-active');
-      document.body.style.opacity = '1';
     };
   }, [isMobile]);
 
@@ -111,8 +107,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
       />
       <Nav />
       
-      {/* Triple-layered fix for mobile: black overlay at the top */}
-      {isMobile && <div className="service-page-fix-overlay" aria-hidden="true"></div>}
+      {/* Modified fix: No black overlay that could block the menu */}
       
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden service-page-header">
         <div className="absolute inset-0 z-0">

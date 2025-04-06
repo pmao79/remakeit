@@ -131,42 +131,28 @@ h1, h2, h3, h4, h5, h6, p {
     display: none !important;
   }
   
-  /* More aggressive fix for the duplicate text at the top */
-  .service-page-fix-overlay {
+  /* More subtle fix that won't block the menu */
+  body.service-page-active::after {
     content: '';
-    display: block;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 60px; /* Just cover the top area where the text appears */
-    background-color: #0a0a0b; /* Exact background color to match the header */
-    z-index: 40; /* Higher z-index to ensure it's above everything else */
+    height: 1px;
+    background-color: rgba(0,0,0,0); /* Invisible, just to interrupt text rendering */
+    z-index: 5; /* Lower z-index to not interfere with menu */
   }
   
   /* Add a class to the body when service pages are active */
   body.service-page-active .service-page-header::before {
     content: '';
-    position: fixed;
+    position: absolute; /* Changed from fixed to avoid covering the menu */
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
-    background-color: #0a0a0b;
-    z-index: 25;
-  }
-  
-  /* Hide the duplicate text with a different approach */
-  body.service-page-active::before {
-    content: '';
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    background-color: #0a0a0b;
-    z-index: 1000; /* Very high z-index */
+    height: 1px;
+    background-color: rgba(0,0,0,0);
+    z-index: 5;
   }
 }
 

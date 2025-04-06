@@ -93,7 +93,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
       />
       <Nav />
       
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden service-page-header">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/40 z-10" />
           <img
@@ -127,7 +127,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
         </div>
       </section>
       
-      <div className="bg-background">
+      <div className="bg-background service-page-content">
         {children}
       </div>
       

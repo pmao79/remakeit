@@ -105,6 +105,32 @@ h1, h2, h3, h4, h5, h6, p {
   text-transform: none !important;
 }
 
+/* Fix for service pages text overlap in mobile view */
+@media (max-width: 767px) {
+  .service-page-header {
+    overflow: visible;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .service-page-header h1,
+  .service-page-header p {
+    position: relative;
+    z-index: 20;
+  }
+  
+  /* Fix unwanted text at top of service pages */
+  .service-page-content {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Hide any text that might overflow from the header */
+  .service-page-content::before {
+    display: none;
+  }
+}
+
 /* Add desktop enhancements with media queries */
 @media (min-width: 768px) {
   .section-container {

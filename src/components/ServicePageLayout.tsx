@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -8,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import SeoHead from '@/components/SeoHead';
 import ServiceSchema from '@/components/schema/ServiceSchema';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ServicePageLayoutProps {
   title: {
@@ -47,6 +49,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
   canonicalPath = ''
 }) => {
   const { language, t } = useLanguage();
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -130,10 +133,10 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
       
       <RevealSection className="bg-secondary/50 py-20">
         <div className="container max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold font-display mb-6 normal-case">
             {t('services.readyToStart')}
           </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto normal-case">
             {t('services.readyToStartText')}
           </p>
           <Button asChild size="lg" className="bg-brand-teal text-black hover:bg-brand-teal/90">

@@ -6,43 +6,21 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import { LanguageProvider } from "./contexts/LanguageContext";
-import { lazy, Suspense } from 'react';
+import Index from "./pages/Index";
+import About from "./pages/About";
+import Portfolio from "./pages/Portfolio";
+import ContactPage from "./pages/ContactPage";
+import Admin from "./pages/Admin";
+import NotFound from "./pages/NotFound";
+import WebDesign from "./pages/services/WebDesign";
+import WebRedesign from "./pages/services/WebRedesign";
+import SeoOptimization from "./pages/services/SeoOptimization";
+import ConversionOptimization from "./pages/services/ConversionOptimization";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import SitemapXML from "./pages/SitemapXML";
 
-// Lazy load components for better code splitting
-const Index = lazy(() => import("./pages/Index"));
-const About = lazy(() => import("./pages/About"));
-const Portfolio = lazy(() => import("./pages/Portfolio"));
-const ContactPage = lazy(() => import("./pages/ContactPage"));
-const Admin = lazy(() => import("./pages/Admin"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const WebDesign = lazy(() => import("./pages/services/WebDesign"));
-const WebRedesign = lazy(() => import("./pages/services/WebRedesign"));
-const SeoOptimization = lazy(() => import("./pages/services/SeoOptimization"));
-const ConversionOptimization = lazy(() => import("./pages/services/ConversionOptimization"));
-const Blog = lazy(() => import("./pages/Blog"));
-const BlogPost = lazy(() => import("./pages/BlogPost"));
-const SitemapXML = lazy(() => import("./pages/SitemapXML"));
-
-// Loading fallback
-const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
-    <div className="text-center">
-      <div className="w-16 h-16 border-4 border-t-brand-teal border-opacity-50 rounded-full animate-spin mx-auto"></div>
-      <p className="mt-4 text-lg">Loading...</p>
-    </div>
-  </div>
-);
-
-// Create query client with optimized settings
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      cacheTime: 10 * 60 * 1000, // 10 minutes
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -52,23 +30,21 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/portfolio" element={<Portfolio />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/services/web-design" element={<WebDesign />} />
-                <Route path="/services/web-redesign" element={<WebRedesign />} />
-                <Route path="/services/seo-optimization" element={<SeoOptimization />} />
-                <Route path="/services/conversion-optimization" element={<ConversionOptimization />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:slug" element={<BlogPost />} />
-                <Route path="/admin/*" element={<Admin />} />
-                <Route path="/sitemap.xml" element={<SitemapXML />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/services/web-design" element={<WebDesign />} />
+              <Route path="/services/web-redesign" element={<WebRedesign />} />
+              <Route path="/services/seo-optimization" element={<SeoOptimization />} />
+              <Route path="/services/conversion-optimization" element={<ConversionOptimization />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/admin/*" element={<Admin />} />
+              <Route path="/sitemap.xml" element={<SitemapXML />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </BrowserRouter>
         </TooltipProvider>
       </HelmetProvider>

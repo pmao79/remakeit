@@ -14,11 +14,8 @@ import OrganizationSchema from '@/components/schema/OrganizationSchema';
 import WebsiteSchema from '@/components/schema/WebsiteSchema';
 import BreadcrumbSchema from '@/components/schema/BreadcrumbSchema';
 import ServiceSchema from '@/components/schema/ServiceSchema';
-import { lazy, Suspense } from 'react';
+import LatestBlogPosts from '@/components/LatestBlogPosts';
 import { useIsMobile } from '@/hooks/use-mobile';
-
-// Lazy load below-the-fold components
-const LatestBlogPosts = lazy(() => import('@/components/LatestBlogPosts'));
 
 const Index: React.FC = () => {
   const { language } = useLanguage();
@@ -52,7 +49,7 @@ const Index: React.FC = () => {
   ];
 
   // LCP optimization - Preload the hero background image which is the LCP element
-  const lcp_image = "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.webp";
+  const lcp_image = "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png";
   
   // Enhanced preload resources with priority on LCP image
   const preloadResources = [
@@ -67,6 +64,8 @@ const Index: React.FC = () => {
 
   // Domains to preconnect to
   const preconnectDomains = [
+    "https://fonts.googleapis.com",
+    "https://fonts.gstatic.com",
     "https://www.googletagmanager.com"
   ];
 
@@ -101,18 +100,13 @@ const Index: React.FC = () => {
         <Benefits />
         <Process />
         <BeforeAfter />
-        
-        {/* Lazy load below-the-fold content */}
+        {/* LatestBlogPosts with lazy loading for below-the-fold content */}
         <div className="cv-auto">
-          <Suspense fallback={<div className="py-16 max-w-7xl mx-auto px-4">Loading...</div>}>
-            <LatestBlogPosts />
-          </Suspense>
+          <LatestBlogPosts />
         </div>
-        
         <div className="cv-auto">
           <Pricing />
         </div>
-        
         <div className="cv-auto">
           <Contact />
         </div>

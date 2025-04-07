@@ -67,12 +67,12 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       `}</style>
       
       {/* DNS prefetch for performance optimization */}
-      {dnsPrefetchDomains.map((url, idx) => (
+      {dnsPrefetch.map((url, idx) => (
         <link key={`dns-prefetch-${idx}`} rel="dns-prefetch" href={url} />
       ))}
       
       {/* Preconnect for performance optimization */}
-      {preconnectDomains.map((url, idx) => (
+      {preconnect.map((url, idx) => (
         <link key={`preconnect-${idx}`} rel="preconnect" href={url} crossOrigin="anonymous" />
       ))}
       

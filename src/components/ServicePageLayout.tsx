@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import SeoHead from '@/components/SeoHead';
 import ServiceSchema from '@/components/schema/ServiceSchema';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ServicePageLayoutProps {
   title: {
@@ -49,25 +48,10 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
   canonicalPath = ''
 }) => {
   const { language, t } = useLanguage();
-  const isMobile = useIsMobile();
   
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    // Gentler fix for mobile that doesn't block the menu
-    if (isMobile) {
-      document.body.classList.add('service-page-active');
-      
-      // Force repaint to ensure our fix is applied
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 50);
-    }
-    
-    return () => {
-      document.body.classList.remove('service-page-active');
-    };
-  }, [isMobile]);
+  }, []);
 
   const seoTitle = metaTitle?.[language] || title[language];
   const seoDescription = metaDescription?.[language] || subtitle[language];
@@ -82,6 +66,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
     subtitle.sv : 
     subtitle.en;
 
+  // Preload hero image which is likely the LCP element
   const preloadResources = [
     {
       href: "/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.webp",
@@ -107,9 +92,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
       />
       <Nav />
       
-      {/* Modified fix: No black overlay that could block the menu */}
-      
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden service-page-header">
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/40 z-10" />
           <img
@@ -117,7 +100,7 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
             alt={title[language]}
             className="w-full h-full object-cover object-center"
             loading="eager" 
-            fetchPriority="high"
+            fetchpriority="high"
             decoding="async"
             width="1600"
             height="900"
@@ -126,14 +109,14 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
         <div className="container relative z-10 max-w-7xl mx-auto px-4">
           <div className="max-w-3xl">
             <h1 
-              className="text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight text-white mb-6 normal-case"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight text-white mb-6"
               dangerouslySetInnerHTML={{ __html: title[language] }}
             >
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 normal-case">
+            <p className="text-xl md:text-2xl text-gray-300 mb-8">
               {subtitle[language]}
             </p>
-            <Button asChild size="lg" className="bg-brand-teal text-black hover:bg-brand-teal/90 normal-case">
+            <Button asChild size="lg" className="bg-brand-teal text-black hover:bg-brand-teal/90">
               <Link to="/contact">
                 {t('nav.cta')}
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -143,16 +126,16 @@ const ServicePageLayout: React.FC<ServicePageLayoutProps> = ({
         </div>
       </section>
       
-      <div className="bg-background service-page-content">
+      <div className="bg-background">
         {children}
       </div>
       
       <RevealSection className="bg-secondary/50 py-20">
         <div className="container max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold font-display mb-6 normal-case">
+          <h2 className="text-3xl md:text-4xl font-bold font-display mb-6">
             {t('services.readyToStart')}
           </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto normal-case">
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             {t('services.readyToStartText')}
           </p>
           <Button asChild size="lg" className="bg-brand-teal text-black hover:bg-brand-teal/90">

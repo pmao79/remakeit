@@ -63,8 +63,7 @@
   
   body {
     @apply bg-background text-foreground antialiased;
-    /* Remove problematic font feature settings that cause capitalization issues */
-    font-feature-settings: normal;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
     position: relative;
     min-height: 100%;
   }
@@ -94,66 +93,6 @@
 /* Simplify animations on mobile for better performance */
 .animate-float {
   animation: none;
-}
-
-/* Fix for mobile text display issues */
-.normal-case {
-  text-transform: none !important;
-}
-
-h1, h2, h3, h4, h5, h6, p {
-  text-transform: none !important;
-}
-
-/* Fix for service pages text overlap in mobile view */
-@media (max-width: 767px) {
-  .service-page-header {
-    overflow: visible;
-    position: relative;
-    z-index: 10;
-  }
-  
-  .service-page-header h1,
-  .service-page-header p {
-    position: relative;
-    z-index: 20;
-  }
-  
-  /* Fix unwanted text at top of service pages */
-  .service-page-content {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  /* Hide any text that might overflow from the header */
-  .service-page-content::before {
-    content: none !important;
-    display: none !important;
-  }
-  
-  /* More subtle fix that won't block the menu */
-  body.service-page-active::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: rgba(0,0,0,0); /* Invisible, just to interrupt text rendering */
-    z-index: 5; /* Lower z-index to not interfere with menu */
-  }
-  
-  /* Add a class to the body when service pages are active */
-  body.service-page-active .service-page-header::before {
-    content: '';
-    position: absolute; /* Changed from fixed to avoid covering the menu */
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: rgba(0,0,0,0);
-    z-index: 5;
-  }
 }
 
 /* Add desktop enhancements with media queries */

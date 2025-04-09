@@ -20,7 +20,14 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import SitemapXML from "./pages/SitemapXML";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: 1000 * 60 * 5, // 5 minutes
+      staleTime: 1000 * 60 * 2, // 2 minutes
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

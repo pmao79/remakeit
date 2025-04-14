@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
@@ -17,6 +18,9 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { useIsMobile } from '@/hooks/use-mobile';
+
+// Define a type for the route keys
+type RouteKey = keyof ReturnType<typeof getRouteByKey> | string;
 
 const Nav: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,8 +42,8 @@ const Nav: React.FC = () => {
   }, []);
 
   // Check if a path is active
-  const isActive = (routeKey: keyof typeof getRouteByKey) => {
-    const path = getRouteByKey(routeKey, language);
+  const isActive = (routeKey: RouteKey) => {
+    const path = getRouteByKey(routeKey as keyof typeof getRouteByKey, language);
     return location.pathname === path;
   };
 
@@ -114,7 +118,7 @@ const Nav: React.FC = () => {
                       <Link 
                         to={getRouteByKey(service.routeKey as keyof typeof getRouteByKey, language)} 
                         className={`w-full px-4 py-2 text-sm hover:bg-secondary/80 ${
-                          isActive(service.routeKey as keyof typeof getRouteByKey) ? 'text-brand-teal' : 'text-foreground'
+                          isActive(service.routeKey) ? 'text-brand-teal' : 'text-foreground'
                         }`}
                       >
                         {service.isHTML ? (
@@ -199,7 +203,7 @@ const Nav: React.FC = () => {
                           key={service.routeKey}
                           to={getRouteByKey(service.routeKey as keyof typeof getRouteByKey, language)}
                           className={`text-base py-1 ${
-                            isActive(service.routeKey as keyof typeof getRouteByKey) ? 'text-brand-teal' : 'text-gray-300'
+                            isActive(service.routeKey) ? 'text-brand-teal' : 'text-gray-300'
                           }`}
                         >
                           {service.isHTML ? (

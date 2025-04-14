@@ -1,8 +1,6 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { useLocation } from 'react-router-dom';
-import { translatePath } from '@/utils/routeTranslations';
 
 interface SeoHeadProps {
   title: string;
@@ -29,8 +27,8 @@ const SeoHead: React.FC<SeoHeadProps> = ({
   title,
   description,
   keywords,
-  canonical,
-  ogImage = 'https://www.remakeit.se/images/opengraph-image.png',
+  canonical = 'https://www.remakeit.se/',
+  ogImage = 'https://www.remakeit.se/opengraph-image.png',
   ogType = 'website',
   noIndex = false,
   children,
@@ -39,31 +37,13 @@ const SeoHead: React.FC<SeoHeadProps> = ({
   prefetch = [],
   dnsPrefetch = []
 }) => {
-  const { language } = useLanguage();
-  const location = useLocation();
-  
   // Append brand name if not already included
   const formattedTitle = title.includes('RemakeiT') ? title : `${title} | RemakeiT`;
 
-  // Get the current path for alternate language URL generation
-  const path = location.pathname;
-  
-  // Determine canonical URL
-  let absoluteCanonical = '';
-  
-  if (canonical) {
-    // If canonical is explicitly provided, use it
-    absoluteCanonical = canonical.startsWith('http') 
-      ? canonical 
-      : `https://www.remakeit.se${canonical.startsWith('/') ? canonical : `/${canonical}`}`;
-  } else {
-    // Otherwise generate based on current path and language
-    absoluteCanonical = `https://www.remakeit.se${path}`;
-  }
-  
-  // Generate alternate language URLs for hreflang tags
-  const svURL = `https://www.remakeit.se${translatePath(path, language, 'sv')}`;
-  const enURL = `https://www.remakeit.se${translatePath(path, language, 'en')}`;
+  // Make sure canonical URLs are absolute and use the primary domain
+  const absoluteCanonical = canonical.startsWith('http') 
+    ? canonical 
+    : `https://www.remakeit.se${canonical.startsWith('/') ? canonical : `/${canonical}`}`;
   
   return (
     <Helmet>
@@ -71,11 +51,6 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={absoluteCanonical} />
-      
-      {/* Hreflang tags for language alternates - Using correct hrefLang camelCase attribute */}
-      <link rel="alternate" hrefLang="sv" href={svURL} />
-      <link rel="alternate" hrefLang="en" href={enURL} />
-      <link rel="alternate" hrefLang="x-default" href={svURL} />
       
       {/* Robots directive for indexing control */}
       {noIndex && <meta name="robots" content="noindex, nofollow" />}

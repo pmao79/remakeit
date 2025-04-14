@@ -8,8 +8,8 @@ interface OrganizationSchemaProps {
 }
 
 const OrganizationSchema: React.FC<OrganizationSchemaProps> = ({
-  url = 'https://www.remakeit.se',
-  logo = 'https://www.remakeit.se/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png',
+  url = 'https://remakeit.com',
+  logo = 'https://remakeit.com/logo.png',
 }) => {
   const schemaData = {
     '@context': 'https://schema.org',

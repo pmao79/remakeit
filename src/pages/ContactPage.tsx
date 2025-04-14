@@ -7,7 +7,6 @@ import RevealSection from '@/components/ui/reveal-section';
 import { useLanguage } from '@/contexts/LanguageContext';
 import SeoHead from '@/components/SeoHead';
 import BreadcrumbSchema from '@/components/schema/BreadcrumbSchema';
-import { getRouteByKey } from '@/utils/routeTranslations';
 
 const ContactPage: React.FC = () => {
   const { t, language } = useLanguage();
@@ -26,19 +25,15 @@ const ContactPage: React.FC = () => {
     }
   };
   
-  // Get URLs for the current language
-  const homeUrl = `https://remakeit.com${language === 'en' ? '/en' : ''}`;
-  const contactUrl = `https://remakeit.com${getRouteByKey('contact', language)}`;
-  
   // Breadcrumbs for contact page
   const breadcrumbItems = [
     {
       name: language === 'sv' ? 'Hem' : 'Home',
-      url: homeUrl
+      url: language === 'sv' ? 'https://remakeit.com/sv/' : 'https://remakeit.com/'
     },
     {
       name: language === 'sv' ? 'Kontakt' : 'Contact',
-      url: contactUrl
+      url: language === 'sv' ? 'https://remakeit.com/sv/contact' : 'https://remakeit.com/contact'
     }
   ];
   
@@ -53,6 +48,7 @@ const ContactPage: React.FC = () => {
         title={seoData[language].title}
         description={seoData[language].description}
         keywords={seoData[language].keywords}
+        canonical={language === 'sv' ? 'https://remakeit.com/sv/contact' : 'https://remakeit.com/contact'}
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <Nav />

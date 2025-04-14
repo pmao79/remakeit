@@ -53,11 +53,3 @@ Allow: /css/
 Allow: /js/
 Allow: /social-icons/
 Allow: /archive/
-
-# Language paths
-Allow: /en/
-Allow: /tjanster/
-Allow: /blogg/
-Allow: /om
-Allow: /kontakt
-

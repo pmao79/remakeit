@@ -31,12 +31,12 @@ const queryClient = new QueryClient({
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <LanguageProvider>
-      <HelmetProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+    <BrowserRouter>
+      <LanguageProvider>
+        <HelmetProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
             <Routes>
               {/* Swedish routes (primary language - at root) */}
               <Route path="/" element={<Index />} />
@@ -77,10 +77,10 @@ const App = () => (
               <Route path="/sitemap.xml" element={<SitemapXML />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </HelmetProvider>
-    </LanguageProvider>
+          </TooltipProvider>
+        </HelmetProvider>
+      </LanguageProvider>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 

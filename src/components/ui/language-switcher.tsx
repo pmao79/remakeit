@@ -4,12 +4,33 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+// Create a separate hook to safely get location and navigate
+const useSafeRouter = () => {
+  try {
+    // Try to use location and navigate, but fall back to null if not in Router context
+    return {
+      location: useLocation(),
+      navigate: useNavigate()
+    };
+  } catch (e) {
+    return {
+      location: null,
+      navigate: null
+    };
+  }
+};
+
 const LanguageSwitcher: React.FC = () => {
   const { language, setLanguage } = useLanguage();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const { location, navigate } = useSafeRouter();
 
   const handleLanguageChange = (newLanguage: 'sv' | 'en') => {
+    // If we don't have router context, just set the language and let the app reload
+    if (!location || !navigate) {
+      setLanguage(newLanguage);
+      return;
+    }
+
     const currentPath = location.pathname;
     
     // Don't do anything if we're already on the right language

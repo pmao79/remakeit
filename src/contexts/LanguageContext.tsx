@@ -204,20 +204,32 @@ interface LanguageProviderProps {
   children: ReactNode;
 }
 
+// Create a separate hook to safely get location
+const useSafeLocation = () => {
+  try {
+    // Try to use location, but fall back to null if not in Router context
+    return useLocation();
+  } catch (e) {
+    return null;
+  }
+};
+
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('sv');
-  const location = useLocation();
+  const location = useSafeLocation();
   
-  // Set language based on URL path
+  // Set language based on URL path, but only if location is available
   useEffect(() => {
-    const path = location.pathname;
-    // Check if path starts with /en/
-    if (path.startsWith('/en')) {
-      setLanguage('en');
-    } else {
-      setLanguage('sv');
+    if (location) {
+      const path = location.pathname;
+      // Check if path starts with /en/
+      if (path.startsWith('/en')) {
+        setLanguage('en');
+      } else {
+        setLanguage('sv');
+      }
     }
-  }, [location.pathname]);
+  }, [location?.pathname]);
 
   // Översättningsfunktion
   const t = (key: string): string => {

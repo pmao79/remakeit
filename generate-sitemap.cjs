@@ -98,6 +98,9 @@ const generate = async () => {
     readableStream.pipe(stream);
 
     const data = await streamToPromise(stream);
+    console.log("--- Sitemap Content START ---");
+    console.log(data.toString()); // Logga XML-datan som ska skrivas
+    console.log("--- Sitemap Content END ---");
 
     // Skapa build-mappen om den inte finns
     if (!fs.existsSync(buildOutputPath)){

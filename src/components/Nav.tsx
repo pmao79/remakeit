@@ -37,26 +37,52 @@ const Nav: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const isActive = (path: string) => {
+  // Get base path for current language
+  const langBase = language === 'en' ? '/en' : '';
+
+  // Generate path for appropriate language
+  const getPath = (svPath: string, enPath: string) => {
+    return language === 'en' ? `/en${enPath}` : svPath;
+  };
+
+  // Check if a path is active
+  const isActive = (svPath: string, enPath: string) => {
+    const path = getPath(svPath, enPath);
     return location.pathname === path;
   };
 
+  // Check if any service page is active
   const isServiceActive = () => {
-    return location.pathname.includes('/services/');
+    const servicesPrefix = language === 'en' ? '/en/services' : '/tjanster';
+    return location.pathname.startsWith(servicesPrefix);
   };
 
+  // Define services with language-specific paths
   const services = [
-    { path: '/services/web-design', name: { sv: 'Webbdesign', en: 'Web Design' } },
     { 
-      path: '/services/web-redesign', 
+      svPath: '/tjanster/webbdesign', 
+      enPath: '/services/web-design', 
+      name: { sv: 'Webbdesign', en: 'Web Design' }
+    },
+    { 
+      svPath: '/tjanster/webbplats-remake', 
+      enPath: '/services/web-redesign', 
       name: { 
         sv: 'Webbplats<span class="text-brand-teal">Remake</span>iT', 
         en: 'Website<span class="text-brand-teal">Remake</span>iT'
       },
       isHTML: true
     },
-    { path: '/services/seo-optimization', name: { sv: 'SEO-optimering', en: 'SEO Optimization' } },
-    { path: '/services/conversion-optimization', name: { sv: 'Konverteringsoptimering', en: 'Conversion Optimization' } },
+    { 
+      svPath: '/tjanster/seo-optimering', 
+      enPath: '/services/seo-optimization', 
+      name: { sv: 'SEO-optimering', en: 'SEO Optimization' } 
+    },
+    { 
+      svPath: '/tjanster/konverteringsoptimering', 
+      enPath: '/services/conversion-optimization', 
+      name: { sv: 'Konverteringsoptimering', en: 'Conversion Optimization' } 
+    },
   ];
 
   return (
@@ -64,7 +90,7 @@ const Nav: React.FC = () => {
       isScrolled ? 'py-2 bg-background/80 backdrop-blur-lg border-b border-white/10' : 'py-6'
     }`}>
       <div className="container max-w-7xl mx-auto px-4 flex justify-between items-center">
-        <Link to="/" className="flex items-center">
+        <Link to={langBase || '/'} className="flex items-center">
           <span className="text-2xl font-bold font-display tracking-tight text-white">
             Remake<span className="text-brand-teal">iT</span>
           </span>
@@ -74,9 +100,9 @@ const Nav: React.FC = () => {
         <div className="hidden md:flex items-center gap-8">
           <div className="flex gap-8">
             <Link 
-              to="/" 
+              to={langBase || '/'} 
               className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
-                isActive('/') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
+                location.pathname === (langBase || '/') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
               {t('nav.home')}
@@ -96,11 +122,11 @@ const Nav: React.FC = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="center" className="bg-background/95 backdrop-blur-md border border-white/10 min-w-[200px]">
                   {services.map((service) => (
-                    <DropdownMenuItem key={service.path} asChild>
+                    <DropdownMenuItem key={service.svPath} asChild>
                       <Link 
-                        to={service.path} 
+                        to={getPath(service.svPath, service.enPath)} 
                         className={`w-full px-4 py-2 text-sm hover:bg-secondary/80 ${
-                          location.pathname === service.path ? 'text-brand-teal' : 'text-foreground'
+                          isActive(service.svPath, service.enPath) ? 'text-brand-teal' : 'text-foreground'
                         }`}
                       >
                         {service.isHTML ? (
@@ -116,33 +142,33 @@ const Nav: React.FC = () => {
             </div>
             
             <Link 
-              to="/about" 
+              to={getPath('/om', '/about')} 
               className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
-                isActive('/about') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
+                isActive('/om', '/about') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
               {t('nav.about')}
             </Link>
             <Link 
-              to="/portfolio" 
+              to={getPath('/portfolio', '/portfolio')} 
               className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
-                isActive('/portfolio') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
+                isActive('/portfolio', '/portfolio') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
               {t('nav.portfolio')}
             </Link>
             <Link 
-              to="/blog" 
+              to={getPath('/blogg', '/blog')} 
               className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
-                isActive('/blog') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
+                isActive('/blogg', '/blog') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
               {language === 'sv' ? 'Blogg' : 'Blog'}
             </Link>
             <Link 
-              to="/contact" 
+              to={getPath('/kontakt', '/contact')} 
               className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
-                isActive('/contact') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
+                isActive('/kontakt', '/contact') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
               {t('nav.contact')}
@@ -150,7 +176,7 @@ const Nav: React.FC = () => {
           </div>
           <LanguageSwitcher />
           <Button asChild className="bg-brand-teal text-black hover:bg-brand-teal/90 transition-all">
-            <Link to="/contact">{t('nav.cta')}</Link>
+            <Link to={getPath('/kontakt', '/contact')}>{t('nav.cta')}</Link>
           </Button>
         </div>
 
@@ -170,8 +196,8 @@ const Nav: React.FC = () => {
               <SheetContent side="left" className="w-full bg-background border-r border-white/10 p-0">
                 <div className="container mx-auto px-4 py-16 flex flex-col items-center gap-8">
                   <Link 
-                    to="/"
-                    className={`text-lg font-medium py-2 ${isActive('/') ? 'text-brand-teal' : 'text-white'}`}
+                    to={langBase || '/'}
+                    className={`text-lg font-medium py-2 ${location.pathname === (langBase || '/') ? 'text-brand-teal' : 'text-white'}`}
                   >
                     {t('nav.home')}
                   </Link>
@@ -182,10 +208,10 @@ const Nav: React.FC = () => {
                     <div className="flex flex-col items-center gap-3 pl-4">
                       {services.map((service) => (
                         <Link 
-                          key={service.path}
-                          to={service.path}
+                          key={service.svPath}
+                          to={getPath(service.svPath, service.enPath)}
                           className={`text-base py-1 ${
-                            location.pathname === service.path ? 'text-brand-teal' : 'text-gray-300'
+                            isActive(service.svPath, service.enPath) ? 'text-brand-teal' : 'text-gray-300'
                           }`}
                         >
                           {service.isHTML ? (
@@ -199,31 +225,31 @@ const Nav: React.FC = () => {
                   </div>
                   
                   <Link 
-                    to="/about"
-                    className={`text-lg font-medium py-2 ${isActive('/about') ? 'text-brand-teal' : 'text-white'}`}
+                    to={getPath('/om', '/about')}
+                    className={`text-lg font-medium py-2 ${isActive('/om', '/about') ? 'text-brand-teal' : 'text-white'}`}
                   >
                     {t('nav.about')}
                   </Link>
                   <Link 
-                    to="/portfolio"
-                    className={`text-lg font-medium py-2 ${isActive('/portfolio') ? 'text-brand-teal' : 'text-white'}`}
+                    to={getPath('/portfolio', '/portfolio')}
+                    className={`text-lg font-medium py-2 ${isActive('/portfolio', '/portfolio') ? 'text-brand-teal' : 'text-white'}`}
                   >
                     {t('nav.portfolio')}
                   </Link>
                   <Link 
-                    to="/blog"
-                    className={`text-lg font-medium py-2 ${isActive('/blog') ? 'text-brand-teal' : 'text-white'}`}
+                    to={getPath('/blogg', '/blog')}
+                    className={`text-lg font-medium py-2 ${isActive('/blogg', '/blog') ? 'text-brand-teal' : 'text-white'}`}
                   >
                     {language === 'sv' ? 'Blogg' : 'Blog'}
                   </Link>
                   <Link 
-                    to="/contact"
-                    className={`text-lg font-medium py-2 ${isActive('/contact') ? 'text-brand-teal' : 'text-white'}`}
+                    to={getPath('/kontakt', '/contact')}
+                    className={`text-lg font-medium py-2 ${isActive('/kontakt', '/contact') ? 'text-brand-teal' : 'text-white'}`}
                   >
                     {t('nav.contact')}
                   </Link>
                   <Button asChild className="mt-4 w-full bg-brand-teal text-black hover:bg-brand-teal/90">
-                    <Link to="/contact">{t('nav.cta')}</Link>
+                    <Link to={getPath('/kontakt', '/contact')}>{t('nav.cta')}</Link>
                   </Button>
                 </div>
               </SheetContent>

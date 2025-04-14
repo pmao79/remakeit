@@ -38,16 +38,41 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
+              {/* Swedish routes (primary language - at root) */}
               <Route path="/" element={<Index />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/om" element={<About />} />
               <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/services/web-design" element={<WebDesign />} />
-              <Route path="/services/web-redesign" element={<WebRedesign />} />
-              <Route path="/services/seo-optimization" element={<SeoOptimization />} />
-              <Route path="/services/conversion-optimization" element={<ConversionOptimization />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/kontakt" element={<ContactPage />} />
+              <Route path="/tjanster/webbdesign" element={<WebDesign />} />
+              <Route path="/tjanster/webbplats-remake" element={<WebRedesign />} />
+              <Route path="/tjanster/seo-optimering" element={<SeoOptimization />} />
+              <Route path="/tjanster/konverteringsoptimering" element={<ConversionOptimization />} />
+              <Route path="/blogg" element={<Blog />} />
+              <Route path="/blogg/:slug" element={<BlogPost />} />
+              
+              {/* English routes (secondary language - with /en prefix) */}
+              <Route path="/en" element={<Index />} />
+              <Route path="/en/about" element={<About />} />
+              <Route path="/en/portfolio" element={<Portfolio />} />
+              <Route path="/en/contact" element={<ContactPage />} />
+              <Route path="/en/services/web-design" element={<WebDesign />} />
+              <Route path="/en/services/web-redesign" element={<WebRedesign />} />
+              <Route path="/en/services/seo-optimization" element={<SeoOptimization />} />
+              <Route path="/en/services/conversion-optimization" element={<ConversionOptimization />} />
+              <Route path="/en/blog" element={<Blog />} />
+              <Route path="/en/blog/:slug" element={<BlogPost />} />
+              
+              {/* Legacy routes - redirect to Swedish equivalents */}
+              <Route path="/about" element={<Navigate to="/om" replace />} />
+              <Route path="/contact" element={<Navigate to="/kontakt" replace />} />
+              <Route path="/services/web-design" element={<Navigate to="/tjanster/webbdesign" replace />} />
+              <Route path="/services/web-redesign" element={<Navigate to="/tjanster/webbplats-remake" replace />} />
+              <Route path="/services/seo-optimization" element={<Navigate to="/tjanster/seo-optimering" replace />} />
+              <Route path="/services/conversion-optimization" element={<Navigate to="/tjanster/konverteringsoptimering" replace />} />
+              <Route path="/blog" element={<Navigate to="/blogg" replace />} />
+              <Route path="/blog/:slug" element={<Navigate to="/blogg/:slug" replace />} />
+
+              {/* Admin and other routes */}
               <Route path="/admin/*" element={<Admin />} />
               <Route path="/sitemap.xml" element={<SitemapXML />} />
               <Route path="*" element={<NotFound />} />

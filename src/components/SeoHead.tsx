@@ -1,6 +1,7 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useLocation } from 'react-router-dom';
 
 interface SeoHeadProps {
   title: string;
@@ -27,8 +28,8 @@ const SeoHead: React.FC<SeoHeadProps> = ({
   title,
   description,
   keywords,
-  canonical = 'https://www.remakeit.se/',
-  ogImage = 'https://www.remakeit.se/opengraph-image.png',
+  canonical,
+  ogImage = 'https://www.remakeit.se/images/opengraph-image.png',
   ogType = 'website',
   noIndex = false,
   children,
@@ -37,13 +38,67 @@ const SeoHead: React.FC<SeoHeadProps> = ({
   prefetch = [],
   dnsPrefetch = []
 }) => {
+  const { language } = useLanguage();
+  const location = useLocation();
+  
   // Append brand name if not already included
   const formattedTitle = title.includes('RemakeiT') ? title : `${title} | RemakeiT`;
 
-  // Make sure canonical URLs are absolute and use the primary domain
-  const absoluteCanonical = canonical.startsWith('http') 
-    ? canonical 
-    : `https://www.remakeit.se${canonical.startsWith('/') ? canonical : `/${canonical}`}`;
+  // Get the current path for alternate language URL generation
+  const path = location.pathname;
+  
+  // Determine canonical URL
+  let absoluteCanonical = '';
+  
+  if (canonical) {
+    // If canonical is explicitly provided, use it
+    absoluteCanonical = canonical.startsWith('http') 
+      ? canonical 
+      : `https://www.remakeit.se${canonical.startsWith('/') ? canonical : `/${canonical}`}`;
+  } else {
+    // Otherwise generate based on current path and language
+    // For Swedish (primary language)
+    if (language === 'sv') {
+      absoluteCanonical = `https://www.remakeit.se${path}`;
+    } 
+    // For English (secondary language)
+    else {
+      // If already on English path
+      if (path.startsWith('/en')) {
+        absoluteCanonical = `https://www.remakeit.se${path}`;
+      } 
+      // If on root path
+      else if (path === '/') {
+        absoluteCanonical = 'https://www.remakeit.se/en';
+      }
+      // If on another path
+      else {
+        absoluteCanonical = `https://www.remakeit.se/en${path}`;
+      }
+    }
+  }
+  
+  // Generate alternate language URLs for hreflang tags
+  let svURL = '';
+  let enURL = '';
+  
+  // Handle root path special case
+  if (path === '/') {
+    svURL = 'https://www.remakeit.se/';
+    enURL = 'https://www.remakeit.se/en';
+  }
+  // Handle English paths
+  else if (path.startsWith('/en')) {
+    enURL = `https://www.remakeit.se${path}`;
+    // Convert to Swedish equivalent by removing /en prefix
+    const svPath = path.replace(/^\/en/, '');
+    svURL = `https://www.remakeit.se${svPath}`;
+  }
+  // Handle Swedish paths
+  else {
+    svURL = `https://www.remakeit.se${path}`;
+    enURL = `https://www.remakeit.se/en${path}`;
+  }
   
   return (
     <Helmet>
@@ -51,6 +106,11 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={absoluteCanonical} />
+      
+      {/* Hreflang tags for language alternates */}
+      <link rel="alternate" hreflang="sv" href={svURL} />
+      <link rel="alternate" hreflang="en" href={enURL} />
+      <link rel="alternate" hreflang="x-default" href={svURL} />
       
       {/* Robots directive for indexing control */}
       {noIndex && <meta name="robots" content="noindex, nofollow" />}

@@ -1,4 +1,6 @@
+
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import RevealSection from '@/components/ui/reveal-section';
@@ -12,6 +14,7 @@ import BreadcrumbSchema from '@/components/schema/BreadcrumbSchema';
 
 const Portfolio: React.FC = () => {
   const { language, t } = useLanguage();
+  const location = useLocation();
   
   const seoData = {
     sv: {
@@ -26,14 +29,17 @@ const Portfolio: React.FC = () => {
     }
   };
   
+  // Create proper URL paths based on current language
+  const basePath = language === 'en' ? '/en' : '';
+  
   const breadcrumbItems = [
     {
       name: language === 'sv' ? 'Hem' : 'Home',
-      url: language === 'sv' ? 'https://remakeit.com/sv/' : 'https://remakeit.com/'
+      url: language === 'sv' ? 'https://www.remakeit.se/' : 'https://www.remakeit.se/en/'
     },
     {
       name: language === 'sv' ? 'Portfolio' : 'Portfolio',
-      url: language === 'sv' ? 'https://remakeit.com/sv/portfolio' : 'https://remakeit.com/portfolio'
+      url: language === 'sv' ? 'https://www.remakeit.se/portfolio' : 'https://www.remakeit.se/en/portfolio'
     }
   ];
   
@@ -109,6 +115,11 @@ const Portfolio: React.FC = () => {
   }, []);
 
   const currentItems = portfolioItems[language];
+  
+  // Create canonical URL based on current path and language
+  const canonical = language === 'en' 
+    ? 'https://www.remakeit.se/en/portfolio' 
+    : 'https://www.remakeit.se/portfolio';
 
   return (
     <div className="min-h-screen bg-background text-foreground touch-auto">
@@ -116,7 +127,7 @@ const Portfolio: React.FC = () => {
         title={seoData[language].title}
         description={seoData[language].description}
         keywords={seoData[language].keywords}
-        canonical={language === 'sv' ? 'https://remakeit.com/sv/portfolio' : 'https://remakeit.com/portfolio'}
+        canonical={canonical}
       />
       <BreadcrumbSchema items={breadcrumbItems} />
       <Nav />
@@ -179,7 +190,7 @@ const Portfolio: React.FC = () => {
                 : 'Ready to Join Our Success Stories?'}
             </h2>
             <Button asChild size="lg" className="bg-brand-teal text-black hover:bg-brand-teal/90">
-              <Link to="/contact">
+              <Link to={`${basePath}/contact`}>
                 {language === 'sv' ? 'Få din gratis webbplats-mockup' : 'Get Your Free Website Mockup'}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>

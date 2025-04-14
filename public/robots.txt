@@ -2,6 +2,7 @@
 # Global
 User-agent: *
 Allow: /
+Allow: /en/
 Disallow: /admin/
 Disallow: /admin/*
 Disallow: /private/
@@ -14,34 +15,43 @@ Sitemap: https://www.remakeit.se/sitemap.xml
 # Google-specific
 User-agent: Googlebot
 Allow: /
+Allow: /en/
 Disallow: /admin/
 User-agent: Googlebot-Image
 Allow: /
+Allow: /en/
 Disallow: /admin/
 
 # Bing-specific
 User-agent: Bingbot
 Allow: /
+Allow: /en/
 Disallow: /admin/
 User-agent: BingPreview
 Allow: /
+Allow: /en/
 Disallow: /admin/
 
 # Social Media bots - make sure social links are indexed properly
 User-agent: Twitterbot
 Allow: /
+Allow: /en/
 Disallow: /admin/
 User-agent: facebookexternalhit
 Allow: /
+Allow: /en/
 Disallow: /admin/
 User-agent: LinkedInBot
 Allow: /
+Allow: /en/
 Disallow: /admin/
 User-agent: Pinterest
 Allow: /
+Allow: /en/
 Disallow: /admin/
 User-agent: InstagramBot
 Allow: /
+Allow: /en/
 Disallow: /admin/
 
 # Control crawl rate

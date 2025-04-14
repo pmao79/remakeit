@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface SeoHeadProps {
   title: string;
@@ -27,7 +29,7 @@ const SeoHead: React.FC<SeoHeadProps> = ({
   title,
   description,
   keywords,
-  canonical = 'https://www.remakeit.se/',
+  canonical,
   ogImage = 'https://www.remakeit.se/opengraph-image.png',
   ogType = 'website',
   noIndex = false,
@@ -37,13 +39,46 @@ const SeoHead: React.FC<SeoHeadProps> = ({
   prefetch = [],
   dnsPrefetch = []
 }) => {
+  const { language } = useLanguage();
+  const location = useLocation();
+  
   // Append brand name if not already included
   const formattedTitle = title.includes('RemakeiT') ? title : `${title} | RemakeiT`;
-
-  // Make sure canonical URLs are absolute and use the primary domain
-  const absoluteCanonical = canonical.startsWith('http') 
-    ? canonical 
-    : `https://www.remakeit.se${canonical.startsWith('/') ? canonical : `/${canonical}`}`;
+  
+  // Get the current path and properly format it for canonical URLs
+  const currentPath = location.pathname;
+  
+  // If a custom canonical wasn't provided, use the current path
+  let absoluteCanonical = canonical;
+  
+  if (!canonical) {
+    // For default language (sv), use the path as is
+    if (language === 'sv') {
+      absoluteCanonical = `https://www.remakeit.se${currentPath}`;
+    } 
+    // For English, make sure we're using /en/ prefix correctly
+    else {
+      if (currentPath.startsWith('/en')) {
+        absoluteCanonical = `https://www.remakeit.se${currentPath}`;
+      } else {
+        absoluteCanonical = `https://www.remakeit.se/en${currentPath === '/' ? '' : currentPath}`;
+      }
+    }
+  }
+  
+  // Make sure canonical URLs are absolute 
+  if (!absoluteCanonical.startsWith('http')) {
+    absoluteCanonical = `https://www.remakeit.se${absoluteCanonical.startsWith('/') ? absoluteCanonical : `/${absoluteCanonical}`}`;
+  }
+  
+  // Create alternate language URLs for hreflang tags
+  const svURL = language === 'sv' 
+    ? absoluteCanonical 
+    : absoluteCanonical.replace('/en/', '/').replace('/en', '/');
+    
+  const enURL = language === 'en' 
+    ? absoluteCanonical 
+    : absoluteCanonical.replace('https://www.remakeit.se/', 'https://www.remakeit.se/en/');
   
   return (
     <Helmet>
@@ -51,6 +86,11 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={absoluteCanonical} />
+      
+      {/* Hreflang tags for internationalization */}
+      <link rel="alternate" hreflang="sv" href={svURL} />
+      <link rel="alternate" hreflang="en" href={enURL} />
+      <link rel="alternate" hreflang="x-default" href={svURL} />
       
       {/* Robots directive for indexing control */}
       {noIndex && <meta name="robots" content="noindex, nofollow" />}

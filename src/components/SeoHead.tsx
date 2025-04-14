@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -107,10 +108,10 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={absoluteCanonical} />
       
-      {/* Hreflang tags for language alternates */}
-      <link rel="alternate" hreflang="sv" href={svURL} />
-      <link rel="alternate" hreflang="en" href={enURL} />
-      <link rel="alternate" hreflang="x-default" href={svURL} />
+      {/* Hreflang tags for language alternates - Fixed camelCase for hrefLang attribute */}
+      <link rel="alternate" hrefLang="sv" href={svURL} />
+      <link rel="alternate" hrefLang="en" href={enURL} />
+      <link rel="alternate" hrefLang="x-default" href={svURL} />
       
       {/* Robots directive for indexing control */}
       {noIndex && <meta name="robots" content="noindex, nofollow" />}

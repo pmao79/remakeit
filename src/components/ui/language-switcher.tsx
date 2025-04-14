@@ -17,15 +17,13 @@ const LanguageSwitcher: React.FC = () => {
       return;
     }
     
-    // Set the language in context
-    setLanguage(newLanguage);
-    
     // Handle navigation based on current path and target language
     if (newLanguage === 'sv') {
       // Switching to Swedish
       if (currentPath.startsWith('/en')) {
         // Remove '/en' prefix to get Swedish path
         const swedishPath = currentPath.replace(/^\/en/, '');
+        // If after removing /en we get empty string, navigate to root
         navigate(swedishPath || '/');
       }
       // Already on Swedish path, no navigation needed

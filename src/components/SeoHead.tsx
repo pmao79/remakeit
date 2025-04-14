@@ -60,7 +60,14 @@ const SeoHead: React.FC<SeoHeadProps> = ({
     // Otherwise generate based on current path and language
     // For Swedish (primary language)
     if (language === 'sv') {
-      absoluteCanonical = `https://www.remakeit.se${path}`;
+      // If on root path
+      if (path === '/') {
+        absoluteCanonical = 'https://www.remakeit.se/';
+      } 
+      // If on another Swedish path
+      else {
+        absoluteCanonical = `https://www.remakeit.se${path}`;
+      }
     } 
     // For English (secondary language)
     else {
@@ -68,11 +75,11 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       if (path.startsWith('/en')) {
         absoluteCanonical = `https://www.remakeit.se${path}`;
       } 
-      // If on root path
+      // If on root path (should not happen with our URL-based language detection)
       else if (path === '/') {
         absoluteCanonical = 'https://www.remakeit.se/en';
       }
-      // If on another path
+      // If on Swedish path (should not happen with our URL-based language detection)
       else {
         absoluteCanonical = `https://www.remakeit.se/en${path}`;
       }
@@ -108,7 +115,7 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={absoluteCanonical} />
       
-      {/* Hreflang tags for language alternates - Fixed camelCase for hrefLang attribute */}
+      {/* Hreflang tags for language alternates - Using correct hrefLang camelCase attribute */}
       <link rel="alternate" hrefLang="sv" href={svURL} />
       <link rel="alternate" hrefLang="en" href={enURL} />
       <link rel="alternate" hrefLang="x-default" href={svURL} />

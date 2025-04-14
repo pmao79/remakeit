@@ -1,4 +1,6 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 type Language = 'sv' | 'en';
 
@@ -204,6 +206,18 @@ interface LanguageProviderProps {
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('sv');
+  const location = useLocation();
+  
+  // Set language based on URL path
+  useEffect(() => {
+    const path = location.pathname;
+    // Check if path starts with /en/
+    if (path.startsWith('/en')) {
+      setLanguage('en');
+    } else {
+      setLanguage('sv');
+    }
+  }, [location.pathname]);
 
   // Översättningsfunktion
   const t = (key: string): string => {

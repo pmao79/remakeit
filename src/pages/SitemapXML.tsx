@@ -4,14 +4,9 @@ import SeoHead from '@/components/SeoHead';
 import { useNavigate } from 'react-router-dom';
 
 const SitemapXML: React.FC = () => {
-  const navigate = useNavigate();
-
   useEffect(() => {
     // Use the window.location for a direct redirect to the XML file
     window.location.href = '/sitemap.xml';
-
-    // Alternatively, if using router navigation
-    // navigate('/sitemap.xml');
   }, []);
 
   return (

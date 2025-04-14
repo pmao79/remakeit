@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useLocation } from 'react-router-dom';
+import { translatePath } from '@/utils/routeTranslations';
 
 interface SeoHeadProps {
   title: string;
@@ -58,55 +58,12 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       : `https://www.remakeit.se${canonical.startsWith('/') ? canonical : `/${canonical}`}`;
   } else {
     // Otherwise generate based on current path and language
-    // For Swedish (primary language)
-    if (language === 'sv') {
-      // If on root path
-      if (path === '/') {
-        absoluteCanonical = 'https://www.remakeit.se/';
-      } 
-      // If on another Swedish path
-      else {
-        absoluteCanonical = `https://www.remakeit.se${path}`;
-      }
-    } 
-    // For English (secondary language)
-    else {
-      // If already on English path
-      if (path.startsWith('/en')) {
-        absoluteCanonical = `https://www.remakeit.se${path}`;
-      } 
-      // If on root path (should not happen with our URL-based language detection)
-      else if (path === '/') {
-        absoluteCanonical = 'https://www.remakeit.se/en';
-      }
-      // If on Swedish path (should not happen with our URL-based language detection)
-      else {
-        absoluteCanonical = `https://www.remakeit.se/en${path}`;
-      }
-    }
+    absoluteCanonical = `https://www.remakeit.se${path}`;
   }
   
   // Generate alternate language URLs for hreflang tags
-  let svURL = '';
-  let enURL = '';
-  
-  // Handle root path special case
-  if (path === '/') {
-    svURL = 'https://www.remakeit.se/';
-    enURL = 'https://www.remakeit.se/en';
-  }
-  // Handle English paths
-  else if (path.startsWith('/en')) {
-    enURL = `https://www.remakeit.se${path}`;
-    // Convert to Swedish equivalent by removing /en prefix
-    const svPath = path.replace(/^\/en/, '');
-    svURL = `https://www.remakeit.se${svPath}`;
-  }
-  // Handle Swedish paths
-  else {
-    svURL = `https://www.remakeit.se${path}`;
-    enURL = `https://www.remakeit.se/en${path}`;
-  }
+  const svURL = `https://www.remakeit.se${translatePath(path, language, 'sv')}`;
+  const enURL = `https://www.remakeit.se${translatePath(path, language, 'en')}`;
   
   return (
     <Helmet>

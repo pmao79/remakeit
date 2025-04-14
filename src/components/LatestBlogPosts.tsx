@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import RevealSection from '@/components/ui/reveal-section';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { blogPosts } from '@/data/blogData';
+import { getRouteByKey } from '@/utils/routeTranslations';
 
 const LatestBlogPosts: React.FC = () => {
   const { language } = useLanguage();
@@ -42,6 +43,17 @@ const LatestBlogPosts: React.FC = () => {
       : `Read more about ${title.toLowerCase()}`;
   };
 
+  // Get blog route path based on language
+  const getBlogPath = () => {
+    return getRouteByKey('blog', language);
+  };
+
+  // Get blog post path based on language and slug
+  const getBlogPostPath = (slug: string) => {
+    const blogPostPath = getRouteByKey('blogPost', language);
+    return blogPostPath.replace(':slug', slug);
+  };
+
   return (
     <RevealSection className="py-16 bg-secondary/20">
       <div className="container max-w-7xl mx-auto px-4">
@@ -50,7 +62,7 @@ const LatestBlogPosts: React.FC = () => {
             {language === 'sv' ? 'Senaste inläggen' : 'Latest posts'}
           </h2>
           <Link 
-            to="/blog"
+            to={getBlogPath()}
             className="flex items-center text-brand-teal hover:text-brand-teal/80 transition-colors"
           >
             {language === 'sv' ? 'Se alla inlägg' : 'View all posts'}
@@ -71,7 +83,7 @@ const LatestBlogPosts: React.FC = () => {
                   </span>
                 </div>
                 <CardTitle className="text-xl">
-                  <Link to={`/blog/${post.slug}`} className="hover:text-primary transition-colors">
+                  <Link to={getBlogPostPath(post.slug)} className="hover:text-primary transition-colors">
                     {post.title[language]}
                   </Link>
                 </CardTitle>
@@ -83,7 +95,7 @@ const LatestBlogPosts: React.FC = () => {
               </CardContent>
               <CardFooter>
                 <Link 
-                  to={`/blog/${post.slug}`} 
+                  to={getBlogPostPath(post.slug)}
                   className="text-primary hover:underline text-sm font-medium"
                   aria-label={post.title[language]}
                 >

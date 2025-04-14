@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { routeMap } from "./utils/routeTranslations";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Portfolio from "./pages/Portfolio";
@@ -39,28 +40,28 @@ const App = () => (
             <Sonner />
             <Routes>
               {/* Swedish routes (primary language - at root) */}
-              <Route path="/" element={<Index />} />
-              <Route path="/om" element={<About />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/kontakt" element={<ContactPage />} />
-              <Route path="/tjanster/webbdesign" element={<WebDesign />} />
-              <Route path="/tjanster/webbplats-remake" element={<WebRedesign />} />
-              <Route path="/tjanster/seo-optimering" element={<SeoOptimization />} />
-              <Route path="/tjanster/konverteringsoptimering" element={<ConversionOptimization />} />
-              <Route path="/blogg" element={<Blog />} />
-              <Route path="/blogg/:slug" element={<BlogPost />} />
+              <Route path={routeMap.home.sv} element={<Index />} />
+              <Route path={routeMap.about.sv} element={<About />} />
+              <Route path={routeMap.portfolio.sv} element={<Portfolio />} />
+              <Route path={routeMap.contact.sv} element={<ContactPage />} />
+              <Route path={routeMap.webDesign.sv} element={<WebDesign />} />
+              <Route path={routeMap.webRedesign.sv} element={<WebRedesign />} />
+              <Route path={routeMap.seoOptimization.sv} element={<SeoOptimization />} />
+              <Route path={routeMap.conversionOptimization.sv} element={<ConversionOptimization />} />
+              <Route path={routeMap.blog.sv} element={<Blog />} />
+              <Route path={routeMap.blogPost.sv} element={<BlogPost />} />
               
               {/* English routes (secondary language - with /en prefix) */}
-              <Route path="/en" element={<Index />} />
-              <Route path="/en/about" element={<About />} />
-              <Route path="/en/portfolio" element={<Portfolio />} />
-              <Route path="/en/contact" element={<ContactPage />} />
-              <Route path="/en/services/web-design" element={<WebDesign />} />
-              <Route path="/en/services/web-redesign" element={<WebRedesign />} />
-              <Route path="/en/services/seo-optimization" element={<SeoOptimization />} />
-              <Route path="/en/services/conversion-optimization" element={<ConversionOptimization />} />
-              <Route path="/en/blog" element={<Blog />} />
-              <Route path="/en/blog/:slug" element={<BlogPost />} />
+              <Route path={routeMap.home.en} element={<Index />} />
+              <Route path={routeMap.about.en} element={<About />} />
+              <Route path={routeMap.portfolio.en} element={<Portfolio />} />
+              <Route path={routeMap.contact.en} element={<ContactPage />} />
+              <Route path={routeMap.webDesign.en} element={<WebDesign />} />
+              <Route path={routeMap.webRedesign.en} element={<WebRedesign />} />
+              <Route path={routeMap.seoOptimization.en} element={<SeoOptimization />} />
+              <Route path={routeMap.conversionOptimization.en} element={<ConversionOptimization />} />
+              <Route path={routeMap.blog.en} element={<Blog />} />
+              <Route path={routeMap.blogPost.en} element={<BlogPost />} />
               
               {/* Legacy routes - redirect to Swedish equivalents */}
               <Route path="/about" element={<Navigate to="/om" replace />} />
@@ -73,8 +74,8 @@ const App = () => (
               <Route path="/blog/:slug" element={<Navigate to="/blogg/:slug" replace />} />
 
               {/* Admin and other routes */}
-              <Route path="/admin/*" element={<Admin />} />
-              <Route path="/sitemap.xml" element={<SitemapXML />} />
+              <Route path={routeMap.admin.sv} element={<Admin />} />
+              <Route path={routeMap.sitemap.sv} element={<SitemapXML />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </TooltipProvider>

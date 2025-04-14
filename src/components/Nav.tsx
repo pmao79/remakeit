@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LanguageSwitcher from '@/components/ui/language-switcher';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { getRouteByKey } from '@/utils/routeTranslations';
 import {
   Sheet,
   SheetContent,
@@ -37,17 +37,9 @@ const Nav: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Get base path for current language
-  const langBase = language === 'en' ? '/en' : '';
-
-  // Generate path for appropriate language
-  const getPath = (svPath: string, enPath: string) => {
-    return language === 'en' ? `/en${enPath}` : svPath;
-  };
-
   // Check if a path is active
-  const isActive = (svPath: string, enPath: string) => {
-    const path = getPath(svPath, enPath);
+  const isActive = (routeKey: keyof typeof getRouteByKey) => {
+    const path = getRouteByKey(routeKey, language);
     return location.pathname === path;
   };
 
@@ -60,13 +52,11 @@ const Nav: React.FC = () => {
   // Define services with language-specific paths
   const services = [
     { 
-      svPath: '/tjanster/webbdesign', 
-      enPath: '/services/web-design', 
+      routeKey: 'webDesign',
       name: { sv: 'Webbdesign', en: 'Web Design' }
     },
     { 
-      svPath: '/tjanster/webbplats-remake', 
-      enPath: '/services/web-redesign', 
+      routeKey: 'webRedesign',
       name: { 
         sv: 'Webbplats<span class="text-brand-teal">Remake</span>iT', 
         en: 'Website<span class="text-brand-teal">Remake</span>iT'
@@ -74,13 +64,11 @@ const Nav: React.FC = () => {
       isHTML: true
     },
     { 
-      svPath: '/tjanster/seo-optimering', 
-      enPath: '/services/seo-optimization', 
+      routeKey: 'seoOptimization',
       name: { sv: 'SEO-optimering', en: 'SEO Optimization' } 
     },
     { 
-      svPath: '/tjanster/konverteringsoptimering', 
-      enPath: '/services/conversion-optimization', 
+      routeKey: 'conversionOptimization',
       name: { sv: 'Konverteringsoptimering', en: 'Conversion Optimization' } 
     },
   ];
@@ -90,7 +78,7 @@ const Nav: React.FC = () => {
       isScrolled ? 'py-2 bg-background/80 backdrop-blur-lg border-b border-white/10' : 'py-6'
     }`}>
       <div className="container max-w-7xl mx-auto px-4 flex justify-between items-center">
-        <Link to={langBase || '/'} className="flex items-center">
+        <Link to={getRouteByKey('home', language)} className="flex items-center">
           <span className="text-2xl font-bold font-display tracking-tight text-white">
             Remake<span className="text-brand-teal">iT</span>
           </span>
@@ -100,9 +88,9 @@ const Nav: React.FC = () => {
         <div className="hidden md:flex items-center gap-8">
           <div className="flex gap-8">
             <Link 
-              to={langBase || '/'} 
+              to={getRouteByKey('home', language)} 
               className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
-                location.pathname === (langBase || '/') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
+                isActive('home') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
               {t('nav.home')}
@@ -122,11 +110,11 @@ const Nav: React.FC = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="center" className="bg-background/95 backdrop-blur-md border border-white/10 min-w-[200px]">
                   {services.map((service) => (
-                    <DropdownMenuItem key={service.svPath} asChild>
+                    <DropdownMenuItem key={service.routeKey} asChild>
                       <Link 
-                        to={getPath(service.svPath, service.enPath)} 
+                        to={getRouteByKey(service.routeKey as keyof typeof getRouteByKey, language)} 
                         className={`w-full px-4 py-2 text-sm hover:bg-secondary/80 ${
-                          isActive(service.svPath, service.enPath) ? 'text-brand-teal' : 'text-foreground'
+                          isActive(service.routeKey as keyof typeof getRouteByKey) ? 'text-brand-teal' : 'text-foreground'
                         }`}
                       >
                         {service.isHTML ? (
@@ -142,33 +130,33 @@ const Nav: React.FC = () => {
             </div>
             
             <Link 
-              to={getPath('/om', '/about')} 
+              to={getRouteByKey('about', language)} 
               className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
-                isActive('/om', '/about') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
+                isActive('about') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
               {t('nav.about')}
             </Link>
             <Link 
-              to={getPath('/portfolio', '/portfolio')} 
+              to={getRouteByKey('portfolio', language)} 
               className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
-                isActive('/portfolio', '/portfolio') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
+                isActive('portfolio') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
               {t('nav.portfolio')}
             </Link>
             <Link 
-              to={getPath('/blogg', '/blog')} 
+              to={getRouteByKey('blog', language)} 
               className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
-                isActive('/blogg', '/blog') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
+                isActive('blog') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
               {language === 'sv' ? 'Blogg' : 'Blog'}
             </Link>
             <Link 
-              to={getPath('/kontakt', '/contact')} 
+              to={getRouteByKey('contact', language)} 
               className={`text-sm font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 ${
-                isActive('/kontakt', '/contact') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
+                isActive('contact') ? 'text-white after:bg-brand-teal after:scale-x-100' : 'text-gray-400 hover:text-white after:bg-brand-teal/70'
               }`}
             >
               {t('nav.contact')}
@@ -176,7 +164,7 @@ const Nav: React.FC = () => {
           </div>
           <LanguageSwitcher />
           <Button asChild className="bg-brand-teal text-black hover:bg-brand-teal/90 transition-all">
-            <Link to={getPath('/kontakt', '/contact')}>{t('nav.cta')}</Link>
+            <Link to={getRouteByKey('contact', language)}>{t('nav.cta')}</Link>
           </Button>
         </div>
 
@@ -196,8 +184,8 @@ const Nav: React.FC = () => {
               <SheetContent side="left" className="w-full bg-background border-r border-white/10 p-0">
                 <div className="container mx-auto px-4 py-16 flex flex-col items-center gap-8">
                   <Link 
-                    to={langBase || '/'}
-                    className={`text-lg font-medium py-2 ${location.pathname === (langBase || '/') ? 'text-brand-teal' : 'text-white'}`}
+                    to={getRouteByKey('home', language)}
+                    className={`text-lg font-medium py-2 ${location.pathname === (getRouteByKey('home', language)) ? 'text-brand-teal' : 'text-white'}`}
                   >
                     {t('nav.home')}
                   </Link>
@@ -208,10 +196,10 @@ const Nav: React.FC = () => {
                     <div className="flex flex-col items-center gap-3 pl-4">
                       {services.map((service) => (
                         <Link 
-                          key={service.svPath}
-                          to={getPath(service.svPath, service.enPath)}
+                          key={service.routeKey}
+                          to={getRouteByKey(service.routeKey as keyof typeof getRouteByKey, language)}
                           className={`text-base py-1 ${
-                            isActive(service.svPath, service.enPath) ? 'text-brand-teal' : 'text-gray-300'
+                            isActive(service.routeKey as keyof typeof getRouteByKey) ? 'text-brand-teal' : 'text-gray-300'
                           }`}
                         >
                           {service.isHTML ? (
@@ -225,31 +213,31 @@ const Nav: React.FC = () => {
                   </div>
                   
                   <Link 
-                    to={getPath('/om', '/about')}
-                    className={`text-lg font-medium py-2 ${isActive('/om', '/about') ? 'text-brand-teal' : 'text-white'}`}
+                    to={getRouteByKey('about', language)}
+                    className={`text-lg font-medium py-2 ${isActive('about') ? 'text-brand-teal' : 'text-white'}`}
                   >
                     {t('nav.about')}
                   </Link>
                   <Link 
-                    to={getPath('/portfolio', '/portfolio')}
-                    className={`text-lg font-medium py-2 ${isActive('/portfolio', '/portfolio') ? 'text-brand-teal' : 'text-white'}`}
+                    to={getRouteByKey('portfolio', language)}
+                    className={`text-lg font-medium py-2 ${isActive('portfolio') ? 'text-brand-teal' : 'text-white'}`}
                   >
                     {t('nav.portfolio')}
                   </Link>
                   <Link 
-                    to={getPath('/blogg', '/blog')}
-                    className={`text-lg font-medium py-2 ${isActive('/blogg', '/blog') ? 'text-brand-teal' : 'text-white'}`}
+                    to={getRouteByKey('blog', language)}
+                    className={`text-lg font-medium py-2 ${isActive('blog') ? 'text-brand-teal' : 'text-white'}`}
                   >
                     {language === 'sv' ? 'Blogg' : 'Blog'}
                   </Link>
                   <Link 
-                    to={getPath('/kontakt', '/contact')}
-                    className={`text-lg font-medium py-2 ${isActive('/kontakt', '/contact') ? 'text-brand-teal' : 'text-white'}`}
+                    to={getRouteByKey('contact', language)}
+                    className={`text-lg font-medium py-2 ${isActive('contact') ? 'text-brand-teal' : 'text-white'}`}
                   >
                     {t('nav.contact')}
                   </Link>
                   <Button asChild className="mt-4 w-full bg-brand-teal text-black hover:bg-brand-teal/90">
-                    <Link to={getPath('/kontakt', '/contact')}>{t('nav.cta')}</Link>
+                    <Link to={getRouteByKey('contact', language)}>{t('nav.cta')}</Link>
                   </Button>
                 </div>
               </SheetContent>

@@ -20,45 +20,56 @@ const useSafeRouter = () => {
   }
 };
 
+// Path mapping for language switching
+const getPathInLanguage = (currentPath: string, targetLanguage: 'sv' | 'en'): string => {
+  // Special case for root
+  if (currentPath === '/') {
+    return targetLanguage === 'en' ? '/en' : '/';
+  }
+  
+  // Handle switching from English to Swedish
+  if (currentPath.startsWith('/en') && targetLanguage === 'sv') {
+    // Remove /en prefix to get Swedish path
+    const swedishPath = currentPath.replace(/^\/en/, '');
+    // If the path is empty after removing /en, return root
+    return swedishPath || '/';
+  }
+  
+  // Handle switching from Swedish to English
+  if (!currentPath.startsWith('/en') && targetLanguage === 'en') {
+    // Add /en prefix to get English path
+    return `/en${currentPath}`;
+  }
+  
+  // Already on the correct language path
+  return currentPath;
+};
+
 const LanguageSwitcher: React.FC = () => {
   const { language, setLanguage } = useLanguage();
   const { location, navigate } = useSafeRouter();
 
   const handleLanguageChange = (newLanguage: 'sv' | 'en') => {
-    // If we don't have router context, just set the language and let the app reload
-    if (!location || !navigate) {
-      setLanguage(newLanguage);
-      return;
-    }
-
-    const currentPath = location.pathname;
-    
     // Don't do anything if we're already on the right language
     if (newLanguage === language) {
       return;
     }
     
-    // Handle navigation based on current path and target language
-    if (newLanguage === 'sv') {
-      // Switching to Swedish
-      if (currentPath.startsWith('/en')) {
-        // Remove '/en' prefix to get Swedish path
-        const swedishPath = currentPath.replace(/^\/en/, '');
-        // If after removing /en we get empty string, navigate to root
-        navigate(swedishPath || '/');
-      }
-      // Already on Swedish path, no navigation needed
-    } else {
-      // Switching to English
-      if (currentPath === '/') {
-        // From root to English root
-        navigate('/en');
-      } else if (!currentPath.startsWith('/en')) {
-        // Add '/en' prefix to get English path
-        navigate(`/en${currentPath}`);
-      }
-      // Already on English path, no navigation needed
+    // If we don't have router context, just set the language
+    if (!location || !navigate) {
+      setLanguage(newLanguage);
+      return;
     }
+
+    // Get target path in the requested language
+    const currentPath = location.pathname;
+    const newPath = getPathInLanguage(currentPath, newLanguage);
+    
+    // Navigate to the new path
+    navigate(newPath);
+    
+    // Set language will happen automatically via useEffect in LanguageContext
+    // because of the path change
   };
 
   return (

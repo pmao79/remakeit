@@ -18,7 +18,6 @@ import SeoOptimization from "./pages/services/SeoOptimization";
 import ConversionOptimization from "./pages/services/ConversionOptimization";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
-import SitemapXML from "./pages/SitemapXML";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -64,7 +63,6 @@ const App = () => (
               
               {/* Admin and utility routes */}
               <Route path="/admin/*" element={<Admin />} />
-              <Route path="/sitemap.xml" element={<SitemapXML />} />
               
               {/* 404 route */}
               <Route path="*" element={<NotFound />} />

@@ -1,39 +1,19 @@
 
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 
 const LanguageSwitcher: React.FC = () => {
-  const { language, setLanguage } = useLanguage();
-  const navigate = useNavigate();
+  const { language, changeLanguage } = useLanguage();
   const location = useLocation();
   
   const handleLanguageChange = (newLanguage: 'sv' | 'en') => {
     // Don't do anything if already on this language
     if (language === newLanguage) return;
     
-    // Change language in context
-    setLanguage(newLanguage);
-    
-    // Handle URL change
-    const currentPath = location.pathname;
-    
-    // If switching to English from Swedish root
-    if (newLanguage === 'en' && (currentPath === '/' || !currentPath.startsWith('/en'))) {
-      if (currentPath === '/') {
-        navigate('/en');
-      } else {
-        navigate(`/en${currentPath}`);
-      }
-    }
-    
-    // If switching to Swedish from English
-    if (newLanguage === 'sv' && currentPath.startsWith('/en')) {
-      // Remove /en prefix
-      const swedishPath = currentPath.replace('/en', '') || '/';
-      navigate(swedishPath);
-    }
+    // Use the new changeLanguage function that handles URL syncing
+    changeLanguage(newLanguage);
   };
 
   return (

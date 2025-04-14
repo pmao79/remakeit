@@ -39,7 +39,7 @@ const BlogPostSchema: React.FC<BlogPostSchemaProps> = ({ posts }) => {
           name: 'RemakeiT',
           logo: {
             '@type': 'ImageObject',
-            url: 'https://remakeit.com/logo.png'
+            url: 'https://www.remakeit.se/lovable-uploads/f8a50cb9-78e9-4aa1-a5e9-55894c5c8407.png'
           }
         },
         mainEntityOfPage: {

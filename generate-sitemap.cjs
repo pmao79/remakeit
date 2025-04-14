@@ -1,93 +1,61 @@
-
-// generate-sitemap.js
+// generate-sitemap.cjs
 const fs = require('fs');
-const path = require('path'); // Använd path-modulen för sökvägar
+const path = require('path');
 const { SitemapStream, streamToPromise } = require('sitemap');
 const { Readable } = require('stream');
 
 // --- Konfiguration ---
 const hostname = 'https://www.remakeit.se';
-// !! VIKTIGT: Specificera korrekt sökväg till din build output-mapp !!
-const buildOutputPath = path.resolve(__dirname, 'dist'); // Exempel: 'dist', kan vara 'build'
+// !! ANTAGANDE: Din build-mapp heter 'dist'. ÄNDRA OM DEN HETER NÅGOT ANNAT (t.ex. 'build') !!
+const buildOutputPath = path.resolve(__dirname, 'dist');
 const sitemapPath = path.join(buildOutputPath, 'sitemap.xml');
 // --------------------
 
 // --- Definiera Routes ---
-// Statiska sidor (lägg till ALLA som finns)
+// Statiska sidor (bas-sökvägar utan språkprefix)
 const staticRoutes = [
   '/', '/about', '/portfolio', '/contact', '/blog',
   '/services/web-design', '/services/web-redesign',
   '/services/seo-optimization', '/services/conversion-optimization'
 ];
 
-// Skapa både svenska och engelska versioner av statiska routes
-let links = [];
+// Array för att hålla sitemap-objekten
+let sitemapLinks = [];
+
+// Hantera statiska routes
 staticRoutes.forEach(route => {
-  const lastmod = new Date().toISOString(); // Använd dagens datum som exempel
-  // Svensk version
-  links.push({ 
-    url: route, 
-    changefreq: route === '/' ? 'daily' : 'weekly', 
-    priority: route === '/' ? 1.0 : 0.8, 
-    lastmod: lastmod 
+  const svUrlPath = route;
+  // Korrekt hantering för roten '/' -> '/en', annars '/en/...'
+  const enUrlPath = route === '/' ? '/en' : `/en${route}`;
+
+  // !! VIKTIGT: Fixa lastmod datum !!
+  // const lastmod = new Date().toISOString(); // ANVÄND INTE DETTA! Ger byggdatum/framtida datum.
+  // Ersätt med faktiskt ändringsdatum om möjligt, annars kanske ett fixerat datum eller ta bort lastmod helt.
+  // Exempel med fixerat datum (ändra till något rimligt):
+  const lastmod = '2025-04-10'; // Exempel - sätt ett relevant datum eller ta bort raden
+
+  const hreflangLinks = [
+    { lang: 'sv', url: `${hostname}${svUrlPath}` },
+    { lang: 'en', url: `${hostname}${enUrlPath}` }
+  ];
+
+  sitemapLinks.push({
+    url: svUrlPath, // Använd svenska som primär i <loc>
+    changefreq: route === '/' ? 'daily' : 'weekly',
+    priority: route === '/' ? 1.0 : 0.8,
+    lastmod: lastmod, // Använd fixat eller korrekt datum
+    links: hreflangLinks // Lägg till hreflang-länkarna HÄR
   });
-  
-  // Engelsk version
-  if (route === '/') {
-    links.push({ 
-      url: '/en', 
-      changefreq: 'daily', 
-      priority: 0.9, 
-      lastmod: lastmod, 
-      links: [
-        { lang: 'sv', url: `${hostname}/` }, 
-        { lang: 'en', url: `${hostname}/en` }
-      ] 
-    });
-    
-    // Uppdatera svenska roten med hreflang också
-    const rootIndex = links.findIndex(link => link.url === '/');
-    links[rootIndex].links = [
-      { lang: 'sv', url: `${hostname}/` }, 
-      { lang: 'en', url: `${hostname}/en` }
-    ];
-  } else {
-    const enUrl = `/en${route}`;
-    links.push({ 
-      url: enUrl, 
-      changefreq: 'weekly', 
-      priority: 0.7, 
-      lastmod: lastmod, 
-      links: [
-        { lang: 'sv', url: `${hostname}${route}` }, 
-        { lang: 'en', url: `${hostname}${enUrl}` }
-      ] 
-    });
-    
-    // Uppdatera svenska versionen med hreflang
-    const svIndex = links.findIndex(link => link.url === route);
-    links[svIndex].links = [
-      { lang: 'sv', url: `${hostname}${route}` }, 
-      { lang: 'en', url: `${hostname}${enUrl}` }
-    ];
-  }
+  // Lägg INTE till en separat post för enUrlPath här!
 });
 
 // --- Dynamiska Routes (Blogg etc.) ---
-// !! VIKTIGT: Denna del KRÄVER anpassad logik !!
-// TODO: Implementera logik här för att hämta alla publicerade blogg-slugs
-//       (och ev. andra dynamiska sidor) från er datakälla (Lovable API?).
-//       För varje slug, lägg till BÅDE svensk och engelsk URL i 'links'-arrayen
-//       med korrekta lastmod-datum och hreflang-länkar.
-
+// !! VIKTIGT: Denna del KRÄVER fortfarande anpassad logik !!
 const fetchBlogSlugs = async () => {
-  // Exempel på hur det KAN se ut (MÅSTE ANPASSAS):
-  // const response = await fetch('URL_TILL_LOVABLE_API_FÖR_SLUGS');
-  // const slugs = await response.json();
-  // return slugs; // T.ex. ['post-1', 'post-2']
-  console.warn("Dynamisk hämtning av blogg-slugs är inte implementerad i generate-sitemap.js");
-  
-  // För nu, returnerar vi hardkodade värden baserade på de som finns i sitemap.xml
+  // TODO: Implementera logik här för att hämta alla publicerade blogg-slugs
+  //       från er datakälla (Lovable API?).
+  console.warn("Dynamisk hämtning av blogg-slugs är inte implementerad i generate-sitemap.cjs");
+  // Returnerar hardkodade värden som exempel
   return [
     'why-seo-is-crucial-for-businesses',
     'modern-website-increases-sales',
@@ -101,52 +69,47 @@ const generate = async () => {
     const dynamicSlugs = await fetchBlogSlugs(); // Hämta slugs
 
     dynamicSlugs.forEach(slug => {
-      const svUrl = `/blog/${slug}`;
-      const enUrl = `/en/blog/${slug}`;
-      // TODO: Hämta korrekt lastmod för varje post om möjligt
-      const lastmod = new Date().toISOString();
-      
-      links.push({ 
-        url: svUrl, 
-        changefreq: 'monthly', 
-        priority: 0.6, 
-        lastmod, 
-        links: [
-          { lang: 'sv', url: `${hostname}${svUrl}` }, 
-          { lang: 'en', url: `${hostname}${enUrl}` }
-        ] 
+      const svUrlPath = `/blog/${slug}`;
+      const enUrlPath = `/en/blog/${slug}`;
+
+      // !! VIKTIGT: Fixa lastmod datum !!
+      // TODO: Hämta korrekt lastmod för varje post från datakällan.
+      // const lastmod = hämtat_datum_för_posten;
+      const lastmod = '2024-03-10'; // Exempel - använd faktiskt publicerings-/ändringsdatum
+
+      const hreflangLinks = [
+        { lang: 'sv', url: `${hostname}${svUrlPath}` },
+        { lang: 'en', url: `${hostname}${enUrlPath}` }
+      ];
+
+      sitemapLinks.push({
+        url: svUrlPath, // Använd svenska som primär i <loc>
+        changefreq: 'monthly',
+        priority: 0.6,
+        lastmod: lastmod, // Använd korrekt datum
+        links: hreflangLinks // Lägg till hreflang-länkarna HÄR
       });
-      
-      links.push({ 
-        url: enUrl, 
-        changefreq: 'monthly', 
-        priority: 0.5, 
-        lastmod, 
-        links: [
-          { lang: 'sv', url: `${hostname}${svUrl}` }, 
-          { lang: 'en', url: `${hostname}${enUrl}` }
-        ] 
-      });
+       // Lägg INTE till en separat post för enUrlPath här!
     });
 
+    // Skapa XML-strömmen
     const stream = new SitemapStream({ hostname });
-    const readableStream = Readable.from(links);
+    const readableStream = Readable.from(sitemapLinks); // Använd den korrekt byggda arrayen
     readableStream.pipe(stream);
 
     const data = await streamToPromise(stream);
 
-    // Skapa build-mappen om den inte finns (bra för lokal körning/test)
+    // Skapa build-mappen om den inte finns
     if (!fs.existsSync(buildOutputPath)){
-      fs.mkdirSync(buildOutputPath, { recursive: true });
+        fs.mkdirSync(buildOutputPath, { recursive: true });
     }
-    
     // Skriv till fil
     fs.writeFileSync(sitemapPath, data.toString());
-    console.log(`Sitemap successfully generated at ${sitemapPath}! (${links.length} URLs)`);
+    console.log(`Sitemap successfully generated at ${sitemapPath}! (${sitemapLinks.length} entries)`);
 
   } catch (error) {
     console.error('Error generating sitemap:', error);
-    process.exit(1); // Avsluta med felkod
+    process.exit(1);
   }
 };
 

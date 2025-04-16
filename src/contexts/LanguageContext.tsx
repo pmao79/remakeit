@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -201,7 +200,7 @@ const translations: Record<Language, Record<string, string>> = {
   }
 };
 
-// Funktion för att hämta språk från URL
+// Helper function to get language from pathname
 const getLanguageFromPathname = (pathname: string): Language => {
   return pathname.startsWith('/en') ? 'en' : 'sv';
 };
@@ -216,6 +215,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   const initialLanguage = getLanguageFromPathname(location.pathname);
   const [language, setInternalLanguage] = useState<Language>(initialLanguage);
 
+  // Effect to sync language with URL changes
   useEffect(() => {
     const langFromPath = getLanguageFromPathname(location.pathname);
     if (langFromPath !== language) {
@@ -223,11 +223,12 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     }
   }, [location.pathname, language]);
 
-  // Översättningsfunktion
+  // Translation function
   const t = (key: string): string => {
     return translations[language][key] || key;
   };
 
+  // Function to change language and update URL
   const changeLanguage = (newLang: Language) => {
     const currentPath = location.pathname;
     let newPath = currentPath;
@@ -239,17 +240,17 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       if (newPath === '') newPath = '/';
     }
 
-    if (newPath !== currentPath) { // Navigera bara om sökvägen faktiskt ändras
-      setInternalLanguage(newLang); // Uppdatera state direkt
-      navigate(newPath); // Utför navigering
+    if (newPath !== currentPath) {
+      setInternalLanguage(newLang);
+      navigate(newPath);
     } else if (language !== newLang) {
-      // Om sökvägen är densamma men språket behöver uppdateras (mindre vanligt fall)
       setInternalLanguage(newLang);
     }
   };
 
+  // Legacy setLanguage function (kept for backward compatibility)
   const setLanguage = (lang: Language) => {
-    console.warn("setLanguage called directly in LanguageProvider. Use changeLanguage for URL sync.");
+    console.warn("setLanguage is deprecated. Please use changeLanguage instead.");
     setInternalLanguage(lang);
   };
 

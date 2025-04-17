@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import emailjs from 'emailjs-com';
+import { supabase } from "@/integrations/supabase/client";
 
 interface ContactFormData {
   name: string;
@@ -43,37 +44,31 @@ export const useContactForm = () => {
     }
   };
 
-  // First attempt with Resend via Supabase Edge Function
-  const submitWithResend = async (formData: ContactFormData) => {
+  // Submit with Supabase Edge Function
+  const submitWithSupabase = async (formData: ContactFormData) => {
     try {
-      console.log('Attempting to submit with Resend via Supabase Edge Function');
+      console.log('Attempting to submit with Supabase Edge Function');
       
-      const response = await fetch('https://remakeit.supabase.co/functions/v1/handle-contact-form', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      const { data, error } = await supabase.functions.invoke('handle-contact-form', {
+        body: formData
       });
       
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        console.error('Resend submission failed:', errorData || response.statusText);
-        throw new Error(errorData?.error || 'Failed to send with Resend');
+      if (error) {
+        console.error('Supabase submission failed:', error);
+        throw new Error(error.message || 'Failed to send with Supabase');
       }
       
-      const result = await response.json();
-      console.log('Resend submission successful:', result);
+      console.log('Supabase submission successful:', data);
       
-      return { success: true, message: 'Form submitted successfully via Resend' };
+      return { success: true, message: 'Form submitted successfully via Supabase' };
     } catch (error) {
-      console.error('Error submitting with Resend:', error);
+      console.error('Error submitting with Supabase:', error);
       // Don't throw here - we'll fall back to EmailJS
       return { success: false, error };
     }
   };
 
-  // Fallback to EmailJS if Resend fails
+  // Fallback to EmailJS if Supabase fails
   const fallbackToEmailJS = async (formData: ContactFormData) => {
     console.log('Falling back to EmailJS');
     
@@ -204,17 +199,17 @@ export const useContactForm = () => {
         throw new Error('Failed to store lead data');
       }
       
-      // First attempt with Resend
-      const resendResult = await submitWithResend(formData);
+      // First attempt with Supabase Edge Function
+      const supabaseResult = await submitWithSupabase(formData);
       
-      // If Resend was successful, we're done
-      if (resendResult.success) {
+      // If Supabase was successful, we're done
+      if (supabaseResult.success) {
         toast.success('Your message has been sent! We will contact you soon.');
-        return resendResult;
+        return supabaseResult;
       }
       
-      // If Resend failed, fall back to EmailJS
-      console.log('Resend failed, falling back to EmailJS');
+      // If Supabase failed, fall back to EmailJS
+      console.log('Supabase failed, falling back to EmailJS');
       const emailJsResult = await fallbackToEmailJS(formData);
       
       // Handle the EmailJS result

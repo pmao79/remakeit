@@ -1,6 +1,8 @@
 // generate-sitemap.cjs
 const fs = require('fs');
 const path = require('path');
+const { SitemapStream, streamToPromise } = require('sitemap');
+const { Readable } = require('stream');
 // Importera din funktion för att hämta slugs (justera sökvägen om nödvändigt)
 // Om denna fil/funktion inte finns, behöver den skapas eller logiken läggas här.
 // const { fetchBlogSlugs } = require('./src/utils/WorkspaceBlogSlugs'); // ANTAGANDE om sökväg
@@ -9,7 +11,7 @@ const path = require('path');
 const hostname = 'https://www.remakeit.se';
 // !! Använd 'dist' som vi såg i loggarna !!
 const buildOutputPath = path.resolve(__dirname, 'dist');
-const sitemapPath = path.join(buildOutputPath, 'sitemap.json'); // Sparar som .json
+const sitemapPath = path.join(buildOutputPath, 'sitemap.xml');
 // --------------------
 
 // --- Definiera Routes ---
@@ -21,47 +23,46 @@ const staticRoutes = [
 ];
 
 // Array för att hålla sitemap-objekten
-let sitemapLinks = [];
+const sitemapLinks = [];
 
 // Hantera statiska routes (TILLBAKA NU!)
 staticRoutes.forEach(route => {
   const svUrlPath = route;
   const enUrlPath = route === '/' ? '/en' : `/en${route}`;
-  const lastmod = '2025-04-10'; // Exempel - använd faktiskt datum!
+  const lastmod = '2024-04-15'; // PLACEHOLDER - Replace with actual last modified date
   const hreflangLinks = [
     { lang: 'sv', url: `${hostname}${svUrlPath}` },
     { lang: 'en', url: `${hostname}${enUrlPath}` }
   ];
   sitemapLinks.push({
-    url: svUrlPath, // Använd svenska som primär URL för JSON-objektet
+    url: svUrlPath,
     changefreq: route === '/' ? 'daily' : 'weekly',
     priority: route === '/' ? 1.0 : 0.8,
     lastmod: lastmod,
-    links: hreflangLinks // Behåll hreflang-info även i JSON för ev. senare bruk
+    links: hreflangLinks
   });
 });
 
 // --- Dynamiska Routes (Blogg etc.) ---
-const fetchBlogSlugs = async () => {
-  // TODO: Implementera riktig hämtning av slugs här!
-  console.warn("Dynamisk hämtning av blogg-slugs är inte implementerad i generate-sitemap.cjs");
-  return [ // Hardkodade exempel
+const WorkspaceBlogSlugs = async () => {
+  console.warn('Dynamic blog slug fetching is not implemented. Using hardcoded values.');
+  return [
     'why-seo-is-crucial-for-businesses',
     'modern-website-increases-sales',
     '5-things-business-website-must-have'
   ];
-  // OBS: Om importen av fetchBlogSlugs från utils misslyckas, definiera funktionen här istället.
 };
 
 // --- Generera och Spara JSON ---
 const generate = async () => {
   try {
-    const dynamicSlugs = await fetchBlogSlugs();
+    const dynamicSlugs = await WorkspaceBlogSlugs();
 
+    // Handle dynamic blog routes
     dynamicSlugs.forEach(slug => {
       const svUrlPath = `/blog/${slug}`;
       const enUrlPath = `/en/blog/${slug}`;
-      const lastmod = '2024-03-10'; // Exempel - använd faktiskt datum!
+      const lastmod = '2024-04-01'; // PLACEHOLDER - Replace with actual last modified date
       const hreflangLinks = [
         { lang: 'sv', url: `${hostname}${svUrlPath}` },
         { lang: 'en', url: `${hostname}${enUrlPath}` }
@@ -75,31 +76,31 @@ const generate = async () => {
       });
     });
 
-    // Gör om arrayen till en läsbar JSON-sträng
-    const jsonDataString = JSON.stringify(sitemapLinks, null, 2);
+    // Create XML stream
+    const stream = new SitemapStream({ hostname });
+    const readableStream = Readable.from(sitemapLinks);
+    readableStream.pipe(stream);
 
-    // Logga för felsökning
-    console.log("--- Raw Links Array START ---");
-    console.log("Content that WILL be written to sitemap.json:");
-    console.log(jsonDataString);
-    console.log("--- Raw Links Array END ---");
+    // Generate XML
+    const data = await streamToPromise(stream);
+    const xmlString = data.toString();
 
     // Skapa build-mappen om den inte finns
     if (!fs.existsSync(buildOutputPath)){
         fs.mkdirSync(buildOutputPath, { recursive: true });
     }
 
-    // Försök skriva JSON till fil med felhantering
+    // Försök skriva XML till fil med felhantering
     try {
-        fs.writeFileSync(sitemapPath, jsonDataString); // Skriver JSON-strängen
-        console.log(`Sitemap JSON successfully generated and WRITTEN to ${sitemapPath}! (${sitemapLinks.length} entries)`);
+        fs.writeFileSync(sitemapPath, xmlString); // Skriver XML-strängen
+        console.log(`Sitemap successfully generated and WRITTEN to ${sitemapPath}! (${sitemapLinks.length} entries)`);
     } catch (writeError) {
-        console.error(`!!! FAILED TO WRITE SITEMAP JSON FILE at ${sitemapPath} !!!`, writeError);
+        console.error(`!!! FAILED TO WRITE SITEMAP XML FILE at ${sitemapPath} !!!`, writeError);
         process.exit(1);
     }
 
   } catch (error) {
-    console.error('Error during sitemap JSON generation:', error);
+    console.error('Error during sitemap generation:', error);
     process.exit(1);
   }
 };

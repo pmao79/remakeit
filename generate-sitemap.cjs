@@ -81,21 +81,26 @@ const generate = async () => {
     const readableStream = Readable.from(sitemapLinks);
     readableStream.pipe(stream);
 
-    // Generate XML
+    // Generate XML with explicit UTF-8 encoding
     const data = await streamToPromise(stream);
-    const xmlString = data.toString();
+    const xmlString = data.toString('utf8');
 
-    // Skapa build-mappen om den inte finns
+    // Ensure build directory exists
     if (!fs.existsSync(buildOutputPath)){
         fs.mkdirSync(buildOutputPath, { recursive: true });
     }
 
-    // Försök skriva XML till fil med felhantering
+    // Write XML file with verification
     try {
-        fs.writeFileSync(sitemapPath, xmlString); // Skriver XML-strängen
-        console.log(`Sitemap successfully generated and WRITTEN to ${sitemapPath}! (${sitemapLinks.length} entries)`);
+        fs.writeFileSync(sitemapPath, xmlString, { encoding: 'utf8' });
+        const writtenContent = fs.readFileSync(sitemapPath, 'utf8');
+        if (writtenContent !== xmlString) {
+            throw new Error('Verification failed: Written file content does not match generated XML string');
+        }
+        console.log('File content successfully verified after write.');
+        console.log(`Sitemap successfully generated and written to ${sitemapPath}! (${sitemapLinks.length} entries)`);
     } catch (writeError) {
-        console.error(`!!! FAILED TO WRITE SITEMAP XML FILE at ${sitemapPath} !!!`, writeError);
+        console.error(`Failed to write or verify sitemap file at ${sitemapPath}:`, writeError);
         process.exit(1);
     }
 

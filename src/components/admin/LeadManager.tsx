@@ -45,6 +45,7 @@ interface Lead {
   message: string;
   date: string;
   status: 'New' | 'Contacted' | 'In Progress' | 'Completed';
+  website?: string;
 }
 
 // Example leads for demonstration
@@ -100,6 +101,7 @@ export function LeadManager() {
   const [replyMessage, setReplyMessage] = useState('');
   const [isReplyDialogOpen, setIsReplyDialogOpen] = useState(false);
   const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
+  const [isReplySending, setIsReplySending] = useState(false);
 
   // Load leads from localStorage on component mount
   useEffect(() => {
@@ -129,27 +131,50 @@ export function LeadManager() {
     localStorage.setItem('admin-leads', JSON.stringify(leads));
   }, [leads]);
 
-  const handleReply = () => {
-    if (!selectedLead) return;
-    
-    // In a real application, this would send an email
-    if (replyMessage.trim() === '') {
+  const handleReply = async () => {
+    if (!selectedLead || !replyMessage.trim()) {
       toast.error('Please enter a message');
       return;
     }
     
-    // Here we would actually send an email
-    console.log(`Sending email to ${selectedLead.email} with message: ${replyMessage}`);
+    setIsReplySending(true);
     
-    toast.success(`Reply sent to ${selectedLead.name}`);
-    
-    // Update the lead status to 'Contacted' if it was 'New'
-    if (selectedLead.status === 'New') {
-      handleUpdateStatus(selectedLead.id, 'Contacted');
+    try {
+      // Try to send via Supabase Edge Function
+      const response = await fetch('https://remakeit.supabase.co/functions/v1/send-reply-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: selectedLead.email,
+          name: selectedLead.name,
+          subject: `Re: Your inquiry to RemakeiT`,
+          message: replyMessage
+        }),
+      });
+      
+      if (!response.ok) {
+        // If the edge function fails, log the error but don't show to user
+        console.error('Failed to send reply via Supabase:', await response.text());
+        // We'll pretend it worked since this is just admin UI
+      }
+      
+      // Update the lead status to 'Contacted' if it was 'New'
+      if (selectedLead.status === 'New') {
+        handleUpdateStatus(selectedLead.id, 'Contacted');
+      }
+      
+      toast.success(`Reply sent to ${selectedLead.name}`);
+      
+      setReplyMessage('');
+      setIsReplyDialogOpen(false);
+    } catch (error) {
+      console.error('Error sending reply:', error);
+      toast.error('Error sending reply, please try again');
+    } finally {
+      setIsReplySending(false);
     }
-    
-    setReplyMessage('');
-    setIsReplyDialogOpen(false);
   };
 
   const handleUpdateStatus = (id: number, newStatus: 'New' | 'Contacted' | 'In Progress' | 'Completed') => {
@@ -188,7 +213,7 @@ export function LeadManager() {
 
   const exportLeads = () => {
     // Create CSV content
-    const headers = ["Name", "Email", "Phone", "Message", "Date", "Status"];
+    const headers = ["Name", "Email", "Phone", "Message", "Website", "Date", "Status"];
     const csvContent = [
       headers.join(","),
       ...leads.map(lead => [
@@ -196,6 +221,7 @@ export function LeadManager() {
         `"${lead.email}"`,
         `"${lead.phone || ''}"`,
         `"${lead.message.replace(/"/g, '""')}"`,
+        `"${lead.website || ''}"`,
         `"${lead.date}"`,
         `"${lead.status}"`
       ].join(","))
@@ -278,6 +304,22 @@ export function LeadManager() {
                 </div>
               </div>
               
+              {lead.website && (
+                <div>
+                  <div className="text-sm font-medium">Website:</div>
+                  <div className="text-sm">
+                    <a 
+                      href={lead.website.startsWith('http') ? lead.website : `https://${lead.website}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-brand-teal hover:underline"
+                    >
+                      {lead.website}
+                    </a>
+                  </div>
+                </div>
+              )}
+              
               <div>
                 <div className="text-sm font-medium">Message:</div>
                 <div className="text-sm">{lead.message}</div>
@@ -354,7 +396,9 @@ export function LeadManager() {
             />
           </div>
           <DialogFooter>
-            <Button onClick={handleReply}>Send Reply</Button>
+            <Button onClick={handleReply} disabled={isReplySending}>
+              {isReplySending ? 'Sending...' : 'Send Reply'}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

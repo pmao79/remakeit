@@ -43,6 +43,67 @@ export const useContactForm = () => {
     }
   };
 
+  // First attempt with Resend via Supabase Edge Function
+  const submitWithResend = async (formData: ContactFormData) => {
+    try {
+      console.log('Attempting to submit with Resend via Supabase Edge Function');
+      
+      const response = await fetch('https://remakeit.supabase.co/functions/v1/handle-contact-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        console.error('Resend submission failed:', errorData || response.statusText);
+        throw new Error(errorData?.error || 'Failed to send with Resend');
+      }
+      
+      const result = await response.json();
+      console.log('Resend submission successful:', result);
+      
+      return { success: true, message: 'Form submitted successfully via Resend' };
+    } catch (error) {
+      console.error('Error submitting with Resend:', error);
+      // Don't throw here - we'll fall back to EmailJS
+      return { success: false, error };
+    }
+  };
+
+  // Fallback to EmailJS if Resend fails
+  const fallbackToEmailJS = async (formData: ContactFormData) => {
+    console.log('Falling back to EmailJS');
+    
+    try {
+      // Initialize EmailJS with public key
+      emailjs.init("kMds9Y1Lf0Eln0I8J");
+      
+      // Send auto-response email to customer
+      const customerEmailSent = await sendAutoResponseEmail(formData);
+      
+      // Send admin notification email
+      const adminEmailSent = await sendAdminNotificationEmail(formData);
+      
+      if (!customerEmailSent && !adminEmailSent) {
+        throw new Error('Both customer and admin emails failed to send');
+      }
+      
+      return { 
+        success: true, 
+        message: 'Form submitted successfully via EmailJS fallback',
+        customerEmailSent,
+        adminEmailSent
+      };
+    } catch (error) {
+      console.error('EmailJS fallback also failed:', error);
+      return { success: false, error };
+    }
+  };
+
+  // Original EmailJS functions kept as fallback
   const sendAutoResponseEmail = async (formData: ContactFormData) => {
     console.log('Attempting to send auto-response email to:', formData.email);
     
@@ -56,8 +117,8 @@ export const useContactForm = () => {
         to_name: formData.name,
         message: "Thank you for contacting RemakeiT! We've received your message and will get back to you as soon as possible.",
         reply_to: "info@remakeit.se",
-        to_email: formData.email, // This is what was missing - EmailJS needs to_email
-        email: formData.email, // Adding this as a backup in case the template expects 'email' instead
+        to_email: formData.email,
+        email: formData.email,
         subject: "Thank you for contacting RemakeiT"
       };
       
@@ -102,8 +163,8 @@ export const useContactForm = () => {
       
       // EmailJS parameters for admin notification
       const adminTemplateParams = {
-        to_email: "info@remakeit.se", // Primary admin email
-        cc_email: "marcus@remakeit.se", // CC to Marcus
+        to_email: "info@remakeit.se",
+        cc_email: "marcus@remakeit.se",
         from_name: "RemakeiT Website",
         subject: `New Contact Form: ${formData.name}`,
         message: messageForAdmin,
@@ -119,7 +180,7 @@ export const useContactForm = () => {
       // Send admin notification email
       const response = await emailjs.send(
         "service_5zvrov8", 
-        "template_x5kxu6e", // Admin notification template
+        "template_x5kxu6e",
         adminTemplateParams
       );
       
@@ -143,28 +204,33 @@ export const useContactForm = () => {
         throw new Error('Failed to store lead data');
       }
       
-      // Send auto-response email to customer and admin notification
-      const customerEmailSent = await sendAutoResponseEmail(formData);
-      const adminEmailSent = await sendAdminNotificationEmail(formData);
+      // First attempt with Resend
+      const resendResult = await submitWithResend(formData);
       
-      // Handle different scenarios based on email sending results
-      if (!customerEmailSent && !adminEmailSent) {
-        console.warn('Both customer and admin emails failed to send, but lead was stored');
-        toast.warning('Your message was received but we had trouble sending confirmation emails. We will still contact you soon.');
-      } else if (!customerEmailSent) {
-        console.warn('Customer auto-response email could not be sent, but lead was stored and admin was notified');
-        toast.warning('Your message was received but we had trouble sending a confirmation email. We will still contact you soon.');
-      } else if (!adminEmailSent) {
-        console.warn('Admin notification email could not be sent, but lead was stored and customer was notified');
-        // Don't show this warning to customer, just log it for debugging
+      // If Resend was successful, we're done
+      if (resendResult.success) {
         toast.success('Your message has been sent! We will contact you soon.');
-      } else {
-        // Both emails sent successfully
-        toast.success('Your message has been sent! We will contact you soon.');
+        return resendResult;
       }
       
-      // Return success regardless of email status, since the lead was stored
-      return { success: true, message: 'Form submitted successfully' };
+      // If Resend failed, fall back to EmailJS
+      console.log('Resend failed, falling back to EmailJS');
+      const emailJsResult = await fallbackToEmailJS(formData);
+      
+      // Handle the EmailJS result
+      if (emailJsResult.success) {
+        if (!emailJsResult.customerEmailSent) {
+          console.warn('Customer auto-response email could not be sent, but lead was stored');
+          toast.warning('Your message was received but we had trouble sending a confirmation email. We will still contact you soon.');
+        } else {
+          toast.success('Your message has been sent! We will contact you soon.');
+        }
+        return emailJsResult;
+      }
+      
+      // Both methods failed
+      throw new Error('All submission methods failed');
+      
     } catch (error) {
       console.error('Error submitting contact form:', error);
       
